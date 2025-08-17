@@ -650,6 +650,52 @@
             border-color: #8B5E3C;
         }
 
+        /* Form Photo Gallery */
+        .form-photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .form-photo-placeholder {
+            aspect-ratio: 1;
+            border: 2px dashed #C69C6D;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            color: #8B5E3C;
+            font-size: 14px;
+        }
+
+        .form-photo-placeholder:hover {
+            background: rgba(139, 94, 60, 0.1);
+            border-color: #8B5E3C;
+            transform: translateY(-2px);
+        }
+
+        .form-photo-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .form-photo-placeholder.has-image {
+            border-style: solid;
+            border-color: #8B5E3C;
+        }
+
+        .form-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 13px;
+        }
+
         .form-group small {
             color: #666;
             font-size: 0.9rem;
@@ -1221,7 +1267,28 @@
                     <div class="form-group">
                         <label for="dateDescription">Beschreibung:</label>
                         <textarea id="dateDescription" rows="3" placeholder="Was macht dieses Date besonders?"></textarea>
-        </div>
+                    </div>
+                    
+                    <!-- Photo Upload Section -->
+                    <div class="form-group">
+                        <label>Fotos hinzufügen:</label>
+                        <div class="form-photo-gallery" id="formPhotoGallery">
+                            <div class="form-photo-placeholder" onclick="addFormPhoto(1)">
+                                <i class="fas fa-camera"></i>
+                                <span>Foto 1</span>
+                            </div>
+                            <div class="form-photo-placeholder" onclick="addFormPhoto(2)">
+                                <i class="fas fa-camera"></i>
+                                <span>Foto 2</span>
+                            </div>
+                            <div class="form-photo-placeholder" onclick="addFormPhoto(3)">
+                                <i class="fas fa-camera"></i>
+                                <span>Foto 3</span>
+                            </div>
+                        </div>
+                        <input type="file" id="formPhotoUpload" accept="image/*" style="display: none;" onchange="handleFormPhotoUpload()">
+                    </div>
+                    
                     <button class="comment-btn" onclick="createNewDate()">
                         <i class="fas fa-heart"></i> Date erstellen
                     </button>
@@ -1270,6 +1337,8 @@
         // INTELLIGENT ADDRESS SUGGESTION SYSTEM WITH MAP
         let searchTimeout;
         let currentSuggestions = [];
+        let formPhotos = {}; // Store photos for the form
+        let currentFormPhotoSlot = null;
 
         // Search for addresses using OpenStreetMap Nominatim API
         async function searchAddresses(query) {
@@ -2441,6 +2510,14 @@
             dateCounter++;
             const newDateId = 'date' + dateCounter;
             
+            // Prepare photos array from form
+            const photosArray = [];
+            for (let i = 1; i <= 3; i++) {
+                if (formPhotos[i]) {
+                    photosArray[i - 1] = formPhotos[i];
+                }
+            }
+
             // Add to dates object
             dates[newDateId] = {
                 title: title,
@@ -2449,7 +2526,7 @@
                 location: location,
                 description: description,
                 comments: [],
-                photos: []
+                photos: photosArray
             };
 
             // Save to localStorage
@@ -2467,6 +2544,16 @@
             document.getElementById('dateTime').value = '';
             document.getElementById('dateLocation').value = '';
             document.getElementById('dateDescription').value = '';
+            
+            // Clear form photos
+            formPhotos = {};
+            document.querySelectorAll('.form-photo-placeholder').forEach((placeholder, index) => {
+                placeholder.classList.remove('has-image');
+                placeholder.innerHTML = `
+                    <i class="fas fa-camera"></i>
+                    <span>Foto ${index + 1}</span>
+                `;
+            });
 
             hideNewDateForm();
             
@@ -2500,6 +2587,45 @@
                 loadTimelinePhotos(dateId);
                 console.log(`📸 Loading photos for new date: ${dateId}`);
             }, 100);
+        }
+
+        // FORM PHOTO UPLOAD FUNCTIONS
+        function addFormPhoto(slot) {
+            currentFormPhotoSlot = slot;
+            document.getElementById('formPhotoUpload').click();
+        }
+
+        async function handleFormPhotoUpload() {
+            const fileInput = document.getElementById('formPhotoUpload');
+            const file = fileInput.files[0];
+            
+            if (!file) return;
+            
+            console.log(`📸 Form photo upload for slot ${currentFormPhotoSlot}:`, file.name);
+            
+            try {
+                // Compress the image
+                const compressedDataUrl = await compressImage(file, 600, 400, 0.8);
+                
+                // Store in formPhotos object
+                formPhotos[currentFormPhotoSlot] = compressedDataUrl;
+                
+                // Update the placeholder
+                const placeholder = document.querySelector(`.form-photo-placeholder:nth-child(${currentFormPhotoSlot})`);
+                if (placeholder) {
+                    placeholder.classList.add('has-image');
+                    placeholder.innerHTML = `<img src="${compressedDataUrl}" alt="Foto ${currentFormPhotoSlot}">`;
+                }
+                
+                console.log(`✅ Form photo ${currentFormPhotoSlot} compressed and stored`);
+                
+            } catch (error) {
+                console.error('❌ Form photo upload error:', error);
+                alert('Fehler beim Hochladen des Fotos. Bitte versuchen Sie es erneut.');
+            }
+            
+            // Reset file input
+            fileInput.value = '';
         }
 
         // ENHANCED MAP SYSTEM FOR ALL DATES
