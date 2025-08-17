@@ -3108,7 +3108,7 @@
             if (!dates[dateId].comments) dates[dateId].comments = [];
             dates[dateId].comments.push(comment);
 
-            // Save to GitHub and localStorage
+            // Save to GitHub and localStorage (syntax fix)
             await saveDates(true);
 
             // Clear input
