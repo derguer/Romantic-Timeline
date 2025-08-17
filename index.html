@@ -400,16 +400,17 @@
 
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
             margin-bottom: 30px;
         }
 
         .photo-placeholder {
             aspect-ratio: 1;
             background: linear-gradient(135deg, #ffeaa7, #fab1a0);
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
@@ -419,6 +420,9 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            max-width: 150px;
+            max-height: 150px;
+            border: 2px dashed rgba(255,255,255,0.3);
         }
 
         .photo-placeholder:hover {
@@ -427,8 +431,13 @@
         }
 
         .photo-placeholder i {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .photo-placeholder p {
+            font-size: 0.8rem;
+            margin: 0;
         }
 
         .photo-placeholder.has-image {
@@ -1071,15 +1080,15 @@
 
     <!-- Tab Container - nur in Timeline sichtbar -->
     <div class="tab-container" id="timeline-tab-container" style="display: none;">
-        <!-- Tab Navigation -->
+            <!-- Tab Navigation -->
         <nav class="tab-nav">
             <button class="tab-btn active available" onclick="showTab(event, 'date1')">
                 <i class="fas fa-heart"></i> Erstes Date
-            </button>
+                </button>
             <button class="tab-btn available" onclick="showTab(event, 'newdate')">
                 <i class="fas fa-plus"></i> Neues Date
-            </button>
-        </nav>
+                </button>
+            </nav>
 
         <!-- Tab Contents -->
         <div id="date1" class="tab-content active">
@@ -1090,7 +1099,7 @@
                         <h2>Unser erstes Date</h2>
                         <div class="date-time">Datum eingeben</div>
                         <div class="location"><i class="fas fa-map-marker-alt"></i> Ort eingeben</div>
-                    </div>
+                </div>
                 </div>
 
                 <!-- Foto-Sektion für Timeline -->
@@ -1101,7 +1110,7 @@
                         <div class="photo-placeholder" onclick="addPhoto('photoGallery1')">
                             <i class="fas fa-camera"></i>
                             <p>Foto hinzufügen</p>
-                        </div>
+                    </div>
                     </div>
                 </div>
 
@@ -1112,7 +1121,7 @@
                         <button class="comment-btn" onclick="addComment('date1')">
                             <i class="fas fa-heart"></i> Absenden
                         </button>
-                    </div>
+                </div>
                     <div class="comments-list" id="comments-date1">
                         <!-- Comments werden hier vom JavaScript geladen -->
                     </div>
@@ -1127,7 +1136,7 @@
                     <div class="date-info">
                         <h2>Neues Date hinzufügen</h2>
                         <div class="date-time">Erstelle eine neue Erinnerung</div>
-                    </div>
+                </div>
                 </div>
 
                 <div class="new-date-form" id="newDateForm">
@@ -1153,7 +1162,7 @@
                     <div class="form-group">
                         <label for="dateDescription">Beschreibung:</label>
                         <textarea id="dateDescription" rows="3" placeholder="Was macht dieses Date besonders?"></textarea>
-                    </div>
+        </div>
                     <button class="comment-btn" onclick="createNewDate()">
                         <i class="fas fa-heart"></i> Date erstellen
                     </button>
@@ -1165,7 +1174,7 @@
                     <p style="color: #666; margin-bottom: 30px;">Klicke hier, um ein neues unvergessliches Date hinzuzufügen!</p>
                     <button class="comment-btn" onclick="showNewDateForm()">
                         <i class="fas fa-plus"></i> Neues Date erstellen
-                    </button>
+            </button>
                 </div>
             </div>
         </div>
@@ -1464,7 +1473,7 @@
                                 <button onclick="removePhoto(this)" class="remove-btn">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                            </div>
+        </div>
                         `;
                         
                         // Vor dem Platzhalter einfügen
@@ -3635,4 +3644,4 @@
     </div>
 
 </body>
-</html> 
+</html>
