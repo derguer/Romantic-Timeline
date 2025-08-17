@@ -301,7 +301,7 @@
 
         .tab-btn.active {
             background: linear-gradient(135deg, #8B5E3C, #C69C6D);
-            box-shadow: 0 5px 15px rgba(196, 69, 105, 0.4);
+            box-shadow: 0 5px 15px rgba(139, 94, 60, 0.4);
             transform: translateY(-2px);
         }
 
@@ -559,7 +559,7 @@
 
         .comment-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+            box-shadow: 0 8px 25px rgba(139, 94, 60, 0.4);
         }
 
         .comments-list {
@@ -731,14 +731,14 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+            box-shadow: 0 8px 25px rgba(139, 94, 60, 0.4);
             transition: all 0.3s ease;
             z-index: 100;
         }
 
         .add-date-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(196, 69, 105, 0.6);
+            box-shadow: 0 12px 35px rgba(139, 94, 60, 0.6);
         }
 
         /* Responsive Design */
@@ -1336,12 +1336,12 @@
                 // Format address nicely
                 const parts = suggestion.display_name.split(',').slice(0, 3);
                 item.innerHTML = `
-                    <div style="font-weight: 500; color: #e91e63;">${parts[0]}</div>
+                    <div style="font-weight: 500; color: #8B5E3C;">${parts[0]}</div>
                     <div style="font-size: 12px; color: #666; margin-top: 2px;">${parts.slice(1).join(', ')}</div>
                 `;
 
                 item.addEventListener('mouseenter', () => {
-                    item.style.background = '#fff0f3';
+                    item.style.background = '#f5f1ed';
                 });
                 
                 item.addEventListener('mouseleave', () => {
