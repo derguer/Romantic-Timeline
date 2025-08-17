@@ -3192,9 +3192,89 @@
             console.log('🔥 SUPER AGGRESSIVE PHOTO LOADING COMPLETE');
         }
 
+        // Function to reset first date completely
+        function resetFirstDate() {
+            console.log('🔄 Resetting first date...');
+            
+            // Reset data
+            dates.date1 = {
+                title: 'Unser erstes Date',
+                date: '',
+                time: '',
+                location: '📍 Noch kein Ort gesetzt',
+                description: '',
+                comments: [],
+                photos: []
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+            
+            // Reset UI elements
+            const dateCardHeader = document.querySelector('#date1 h2');
+            if (dateCardHeader) {
+                dateCardHeader.textContent = 'Unser erstes Date';
+            }
+            
+            const dateTimeElement = document.querySelector('#date1 .date-time');
+            if (dateTimeElement) {
+                dateTimeElement.textContent = '📅 Noch kein Datum gesetzt';
+            }
+            
+            const locationElement = document.querySelector('#date1 .location');
+            if (locationElement) {
+                locationElement.innerHTML = '<i class="fas fa-map-marker-alt"></i> 📍 Noch kein Ort gesetzt';
+            }
+            
+            // Reset tab button
+            const firstDateTab = document.querySelector('[onclick*="date1"]');
+            if (firstDateTab) {
+                firstDateTab.innerHTML = '<i class="fas fa-heart"></i> Unser erstes Date';
+            }
+            
+            // Remove any existing edit containers
+            const existingContainer = document.querySelector('#date1 .edit-container');
+            if (existingContainer) {
+                existingContainer.remove();
+            }
+            
+            // Remove any maps
+            const existingMaps = document.querySelectorAll('#date1 .mini-map-container');
+            existingMaps.forEach(map => map.remove());
+            
+            // Clear photos
+            const photoGallery = document.querySelector('#date1 .photo-gallery');
+            if (photoGallery) {
+                photoGallery.innerHTML = `
+                    <div class="photo-placeholder" data-date="date1" data-photo="1">
+                        <i class="fas fa-camera"></i>
+                        <span>Foto hinzufügen</span>
+                    </div>
+                    <div class="photo-placeholder" data-date="date1" data-photo="2">
+                        <i class="fas fa-camera"></i>
+                        <span>Foto hinzufügen</span>
+                    </div>
+                    <div class="photo-placeholder" data-date="date1" data-photo="3">
+                        <i class="fas fa-camera"></i>
+                        <span>Foto hinzufügen</span>
+                    </div>
+                `;
+            }
+            
+            console.log('✅ First date reset complete!');
+            
+            // Re-add edit buttons
+            setTimeout(() => {
+                addFirstDateEditButtons();
+            }, 100);
+        }
+
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 DOM CONTENT LOADED - Initialisiere Foto-System');
+            
+            // RESET FIRST DATE - User requested
+            resetFirstDate();
             
             // Clean up old placeholder texts from localStorage
             const storedDates = JSON.parse(localStorage.getItem('couplesDates') || '{}');
