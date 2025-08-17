@@ -1311,7 +1311,7 @@
                         <input type="file" id="formPhotoUpload" accept="image/*" style="display: none;" onchange="handleFormPhotoUpload()">
                     </div>
                     
-                    <button class="comment-btn" onclick="createNewDate()">
+                    <button class="comment-btn" onclick="createNewDate()" id="createDateButton">
                         <i class="fas fa-heart"></i> Date erstellen
                     </button>
                 </div>
@@ -2678,8 +2678,12 @@
             if (tabId !== 'newdate') {
                 hideNewDateForm();
             } else {
-                // Reset form to "new date" mode when opening
-                resetNewDateForm();
+                // Reset form to "new date" mode when opening (with delay for DOM)
+                setTimeout(() => {
+                    if (typeof resetNewDateForm === 'function') {
+                        resetNewDateForm();
+                    }
+                }, 100);
             }
         }
 
@@ -2772,48 +2776,71 @@
             createHeartEffect();
         }
 
-        // Reset form to "new date" mode
+        // Reset form to "new date" mode (safe version)
         function resetNewDateForm() {
-            document.getElementById('dateTitle').value = '';
-            document.getElementById('dateDate').value = '';
-            document.getElementById('dateTime').value = '';
-            document.getElementById('dateLocation').value = '';
-            document.getElementById('dateDescription').value = '';
+            try {
+                // Clear form fields safely
+                const titleInput = document.getElementById('dateTitle');
+                const dateInput = document.getElementById('dateDate');
+                const timeInput = document.getElementById('dateTime');
+                const locationInput = document.getElementById('dateLocation');
+                const descriptionInput = document.getElementById('dateDescription');
+                
+                if (titleInput) titleInput.value = '';
+                if (dateInput) dateInput.value = '';
+                if (timeInput) timeInput.value = '';
+                if (locationInput) locationInput.value = '';
+                if (descriptionInput) descriptionInput.value = '';
 
-            const formTitle = document.querySelector('#newdate h2');
-            if (formTitle) {
-                formTitle.textContent = 'Neues Date hinzufügen';
+                const formTitle = document.querySelector('#newdate h2');
+                if (formTitle) {
+                    formTitle.textContent = 'Neues Date hinzufügen';
+                }
+
+                const submitBtn = document.querySelector('#newdate .comment-btn');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
+                    submitBtn.onclick = function() { createNewDate(); };
+                }
+
+                // Clear form photos safely
+                if (typeof formPhotos !== 'undefined') {
+                    formPhotos = {};
+                }
+                
+                document.querySelectorAll('.form-photo-placeholder').forEach((placeholder, index) => {
+                    if (placeholder) {
+                        placeholder.classList.remove('has-image');
+                        placeholder.innerHTML = `
+                            <i class="fas fa-camera"></i>
+                            <span>Foto ${index + 1}</span>
+                        `;
+                    }
+                });
+                
+                console.log('✅ Form reset to new date mode');
+            } catch (error) {
+                console.error('❌ Error in resetNewDateForm:', error);
             }
-
-            const submitBtn = document.querySelector('#newdate .comment-btn');
-            if (submitBtn) {
-                submitBtn.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
-                submitBtn.onclick = () => createNewDate();
-            }
-
-            // Clear form photos
-            formPhotos = {};
-            document.querySelectorAll('.form-photo-placeholder').forEach((placeholder, index) => {
-                placeholder.classList.remove('has-image');
-                placeholder.innerHTML = `
-                    <i class="fas fa-camera"></i>
-                    <span>Foto ${index + 1}</span>
-                `;
-            });
         }
 
-        // Create new date with weather integration
+        // Create new date with weather integration (safe version)
         async function createNewDate() {
-            const title = document.getElementById('dateTitle').value;
-            const date = document.getElementById('dateDate').value;
-            const time = document.getElementById('dateTime').value;
-            const location = document.getElementById('dateLocation').value;
-            const description = document.getElementById('dateDescription').value;
+            try {
+                console.log('🔄 Creating new date...');
+                
+                const title = document.getElementById('dateTitle')?.value || '';
+                const date = document.getElementById('dateDate')?.value || '';
+                const time = document.getElementById('dateTime')?.value || '';
+                const location = document.getElementById('dateLocation')?.value || '';
+                const description = document.getElementById('dateDescription')?.value || '';
 
-            if (!title || !date) {
-                alert('Bitte fülle mindestens Titel und Datum aus! 💕');
-                return;
-            }
+                console.log('📝 Form data:', { title, date, time, location, description });
+
+                if (!title || !date) {
+                    alert('Bitte fülle mindestens Titel und Datum aus! 💕');
+                    return;
+                }
 
             // Check location validity
             const hint = document.getElementById('locationHint');
@@ -2886,6 +2913,12 @@
             
             // Update timeline
             updateTimeline();
+            
+            console.log('✅ New date created successfully!');
+            } catch (error) {
+                console.error('❌ Error creating new date:', error);
+                alert('Fehler beim Erstellen des Dates. Bitte versuche es erneut.');
+            }
         }
 
         // Create new tab
