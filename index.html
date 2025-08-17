@@ -2905,18 +2905,31 @@
         async function updateFirstDateInfo(newTitle, newDate) {
             if (newTitle) {
                 dates.date1.title = newTitle;
+                console.log(`🏷️ Updating title to: ${newTitle}`);
                 
                 // Update tab button text
                 const firstDateTab = document.querySelector('[onclick*="date1"]');
                 if (firstDateTab) {
                     firstDateTab.innerHTML = `<i class="fas fa-heart"></i> ${newTitle}`;
+                    console.log('✅ Updated tab button text');
                 }
                 
                 // Update date card header
                 const dateCardHeader = document.querySelector('#date1 h2');
                 if (dateCardHeader) {
                     dateCardHeader.textContent = newTitle;
+                    console.log('✅ Updated date card header');
                 }
+                
+                // Force a visual refresh by triggering a reflow
+                setTimeout(() => {
+                    const element = document.querySelector('#date1');
+                    if (element) {
+                        element.style.display = 'none';
+                        element.offsetHeight; // Trigger reflow
+                        element.style.display = 'block';
+                    }
+                }, 100);
             }
             
             if (newDate) {
@@ -2986,11 +2999,15 @@
                         transition: all 0.3s ease;
                     `;
                     
-                    titleBtn.addEventListener('click', () => {
+                    titleBtn.addEventListener('click', async () => {
                         const newTitle = prompt('Geben Sie einen Namen für Ihr erstes Date ein:', currentTitle);
                         if (newTitle && newTitle.trim()) {
-                            updateFirstDateInfo(newTitle.trim(), null);
-                            titleBtn.remove();
+                            await updateFirstDateInfo(newTitle.trim(), null);
+                            // Remove the entire edit container since title is now set
+                            const editContainer = titleBtn.closest('.edit-container');
+                            if (editContainer) {
+                                editContainer.remove();
+                            }
                         }
                     });
                     
@@ -3011,11 +3028,20 @@
                         transition: all 0.3s ease;
                     `;
                     
-                    dateBtn.addEventListener('click', () => {
+                    dateBtn.addEventListener('click', async () => {
                         const newDate = prompt('Geben Sie das Datum ein (YYYY-MM-DD):', '');
                         if (newDate && newDate.trim()) {
-                            updateFirstDateInfo(null, newDate.trim());
-                            dateBtn.remove();
+                            await updateFirstDateInfo(null, newDate.trim());
+                            // Remove the entire edit container if both title and date are now set
+                            const currentTitle = dates.date1?.title;
+                            if (currentTitle && currentTitle !== 'Unser erstes Date') {
+                                const editContainer = dateBtn.closest('.edit-container');
+                                if (editContainer) {
+                                    editContainer.remove();
+                                }
+                            } else {
+                                dateBtn.remove();
+                            }
                         }
                     });
                     
