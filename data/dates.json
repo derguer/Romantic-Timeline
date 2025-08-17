@@ -1,0 +1,16 @@
+{
+  "date1": {
+    "title": "Unser erstes Date",
+    "date": "",
+    "time": "",
+    "location": "📍 Noch kein Ort gesetzt",
+    "description": "",
+    "comments": [],
+    "photos": []
+  },
+  "metadata": {
+    "lastUpdate": "",
+    "version": "1.0",
+    "dateCounter": 1
+  }
+}
