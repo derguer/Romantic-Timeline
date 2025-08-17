@@ -1452,6 +1452,50 @@
         let dateCounter = 1;
         let currentPhotoTarget = null;
 
+        // Sektion wechseln (moved up for immediate availability)
+        function showSection(section) {
+            // Tabs aktualisieren
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Sektionen anzeigen/verstecken
+            document.getElementById('timeline-section').style.display = section === 'timeline' ? 'block' : 'none';
+            document.getElementById('timeline-tab-container').style.display = section === 'timeline' ? 'block' : 'none';
+            document.getElementById('gallery-section').style.display = section === 'gallery' ? 'block' : 'none';
+            
+            // Timeline-spezifische Funktionen nur bei Timeline-Tab aktivieren
+            if (section === 'timeline') {
+                console.log('📅 Timeline-Tab aktiviert - Initialisiere Timeline-System');
+                
+                // Timeline-System initialisieren
+                initializeEverything();
+                
+                // Edit-Buttons hinzufügen
+                setTimeout(() => {
+                    addFirstDateEditButtons();
+                }, 300);
+                
+                // Location-Button für Timeline hinzufügen
+                setTimeout(() => {
+                    addLocationUpdateButton();
+                }, 200);
+
+                // Lade Wetter für alle Dates
+                Object.keys(dates).forEach(dateId => {
+                    const dateData = dates[dateId];
+                    if (dateData && dateData.date && dateData.location && dateData.location !== '📍 Noch kein Ort gesetzt') {
+                        loadWeatherForDate(dateId, dateData.date, dateData.location);
+                    }
+                });
+            } else if (section === 'gallery') {
+                console.log('🖼️ Galerie-Tab aktiviert');
+                // Galerie initialisieren falls nötig
+                initGallery();
+            }
+        }
+
         // Central save function (localStorage + GitHub)
         async function saveDates(showSuccess = false) {
             try {
@@ -3046,7 +3090,7 @@
         }
 
         // Add comment functionality
-        function addComment(dateId) {
+        async function addComment(dateId) {
             const input = document.querySelector(`#${dateId} .comment-input`);
             const commentsList = document.getElementById(`comments-${dateId}`);
             
@@ -4087,47 +4131,6 @@
             const lightbox = document.getElementById('image-lightbox');
             lightbox.classList.remove('active');
             document.body.style.overflow = 'auto';
-        }
-
-        // Sektion wechseln
-        function showSection(section) {
-            // Tabs aktualisieren
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Sektionen anzeigen/verstecken
-            document.getElementById('timeline-section').style.display = section === 'timeline' ? 'block' : 'none';
-            document.getElementById('timeline-tab-container').style.display = section === 'timeline' ? 'block' : 'none';
-            document.getElementById('gallery-section').style.display = section === 'gallery' ? 'block' : 'none';
-            
-            // Timeline-spezifische Funktionen nur bei Timeline-Tab aktivieren
-            if (section === 'timeline') {
-                console.log('🗺️ Timeline aktiviert - lade ALLE Timeline-Funktionen');
-                
-                // Erst die komplette Timeline initialisieren
-                initializeEverything();
-                
-                // Dann Location/Wetter-Funktionen
-                setupSmartLocationInput();
-                
-                // Location-Button für Timeline hinzufügen
-                setTimeout(() => {
-                    addLocationUpdateButton();
-                }, 200);
-                
-                // Edit-Buttons hinzufügen
-                setTimeout(() => {
-                    addFirstDateEditButtons();
-                }, 300);
-            }
-            
-            // Galerie initialisieren wenn zum ersten Mal geöffnet
-            if (section === 'gallery' && allImages.length === 0) {
-                console.log('📸 Galerie aktiviert - lade nur Bilder (keine Location/Wetter)');
-                initGallery();
-            }
         }
 
         // Tastatur-Navigation für Lightbox
