@@ -2950,15 +2950,16 @@
             const dateHeader = date1Card.querySelector('.date-header');
             if (!dateHeader) return;
             
-            // Check if edit buttons already exist to prevent duplicates
-            if (dateHeader.querySelector('.edit-container')) {
-                console.log('⚠️ Edit buttons already exist, skipping...');
-                return;
-            }
-            
             // Check if first date has title/date
             const currentTitle = dates.date1?.title;
             const currentDate = dates.date1?.date;
+            
+            // Remove any existing edit containers to prevent duplicates
+            const existingContainer = dateHeader.querySelector('.edit-container');
+            if (existingContainer) {
+                existingContainer.remove();
+                console.log('🧹 Removed existing edit container to prevent duplicates');
+            }
             
             if (!currentTitle || currentTitle === 'Unser erstes Date' || !currentDate || currentDate === '') {
                 // Add edit button for title and date
@@ -3260,6 +3261,13 @@
             const currentLocation = dates.date1?.location;
             if (currentLocation && currentLocation !== '📍 Noch kein Ort gesetzt') {
                 return; // Already has a location
+            }
+            
+            // Remove any existing location edit button to prevent duplicates
+            const existingBtn = locationElement.querySelector('button');
+            if (existingBtn) {
+                existingBtn.remove();
+                console.log('🧹 Removed existing location button to prevent duplicates');
             }
             
             // Add a small edit button
