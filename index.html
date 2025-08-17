@@ -3541,9 +3541,9 @@
             console.log('🔥 SUPER AGGRESSIVE PHOTO LOADING COMPLETE');
         }
 
-        // Function to reset first date completely
+        // Function to reset first date completely (fixed syntax)
         async function resetFirstDate() {
-            console.log('🔄 Resetting first date...');
+            console.log('🔄 Resetting first date - syntax fixed...');
             
             // Reset data
             dates.date1 = {
@@ -3556,8 +3556,12 @@
                 photos: []
             };
             
-            // Save to GitHub and localStorage
-            await saveDates(true);
+            // Save data to storage
+            try {
+                await saveDates(true);
+            } catch (error) {
+                console.error('Save error:', error);
+            }
             
             // Reset UI elements
             const dateCardHeader = document.querySelector('#date1 h2');
