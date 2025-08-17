@@ -1436,38 +1436,58 @@
             }
         }
 
-        // Initialize data (try GitHub first, fallback to localStorage)
+        // Initialize data (prioritize localStorage, then GitHub)
         async function initializeData() {
             console.log('🔄 Initializing data...');
             
-            // Try to load from GitHub
-            const gitHubSuccess = await loadFromGitHub();
+            // First check localStorage for recent data
+            const localData = JSON.parse(localStorage.getItem('couplesDates') || '{}');
+            const lastSave = localStorage.getItem('lastSyncTime') || 0;
+            const timeSinceLastSave = Date.now() - parseInt(lastSave);
             
-            if (!gitHubSuccess) {
-                // Fallback to localStorage
-                console.log('📱 Falling back to localStorage...');
-                const localData = JSON.parse(localStorage.getItem('couplesDates') || '{}');
+            // If we have recent local data (less than 5 minutes old), use it
+            if (Object.keys(localData).length > 0 && timeSinceLastSave < 300000) {
+                console.log('📱 Using recent localStorage data');
+                dates = localData;
+            } else {
+                // Try to load from GitHub
+                console.log('📡 Trying to load from GitHub...');
+                const gitHubSuccess = await loadFromGitHub();
                 
-                if (Object.keys(localData).length === 0) {
-                    // Initialize with first date if nothing exists
-                    dates = {
-                        'date1': {
-                            title: 'Unser erstes Date',
-                            date: '',
-                            time: '',
-                            location: '📍 Noch kein Ort gesetzt',
-                            description: '',
-                            comments: [],
-                            photos: []
-                        }
-                    };
-                    localStorage.setItem('couplesDates', JSON.stringify(dates));
-                } else {
-                    dates = localData;
+                if (!gitHubSuccess) {
+                    // Fallback to localStorage
+                    console.log('📱 GitHub failed, falling back to localStorage...');
+                    
+                    if (Object.keys(localData).length === 0) {
+                        // Initialize with first date if nothing exists
+                        dates = {
+                            'date1': {
+                                title: 'Unser erstes Date',
+                                date: '',
+                                time: '',
+                                location: '📍 Noch kein Ort gesetzt',
+                                description: '',
+                                comments: [],
+                                photos: []
+                            }
+                        };
+                        localStorage.setItem('couplesDates', JSON.stringify(dates));
+                    } else {
+                        dates = localData;
+                    }
                 }
             }
             
+            // Update dateCounter based on loaded data
+            const dateIds = Object.keys(dates).filter(id => id.startsWith('date'));
+            if (dateIds.length > 0) {
+                const maxId = Math.max(...dateIds.map(id => parseInt(id.replace('date', ''))));
+                dateCounter = maxId;
+                console.log(`📊 Updated dateCounter to: ${dateCounter}`);
+            }
+            
             console.log('✅ Data initialization complete');
+            console.log('📊 Loaded dates:', Object.keys(dates));
             return dates;
         }
 
@@ -3799,13 +3819,16 @@
             // Initialize data from GitHub
             await initializeData();
             
-            // Setup automatic sync every 30 seconds
+            // Setup automatic sync every 30 seconds (disabled for now to prevent overwrites)
+            // TODO: Implement proper merge logic before enabling auto-sync
+            /*
             setInterval(async () => {
                 if (isOnline) {
                     console.log('🔄 Auto-sync check...');
                     await loadFromGitHub();
                 }
             }, 30000);
+            */
             
             // Monitor online status
             window.addEventListener('online', () => {
