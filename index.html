@@ -356,9 +356,31 @@
         .date-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 30px;
             flex-wrap: wrap;
             gap: 20px;
+        }
+
+        .date-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-date-btn {
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-date-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 94, 60, 0.3);
         }
 
         .date-icon {
@@ -2655,6 +2677,9 @@
             // Hide new date form when switching tabs
             if (tabId !== 'newdate') {
                 hideNewDateForm();
+            } else {
+                // Reset form to "new date" mode when opening
+                resetNewDateForm();
             }
         }
 
@@ -2668,6 +2693,113 @@
         function hideNewDateForm() {
             document.getElementById('newDatePrompt').style.display = 'block';
             document.getElementById('newDateForm').classList.remove('active');
+        }
+
+        // Edit existing date
+        function editDate(dateId) {
+            const dateData = dates[dateId];
+            if (!dateData) return;
+
+            // Pre-fill form with existing data
+            document.getElementById('dateTitle').value = dateData.title || '';
+            document.getElementById('dateDate').value = dateData.date || '';
+            document.getElementById('dateTime').value = dateData.time || '';
+            document.getElementById('dateLocation').value = dateData.location === '📍 Noch kein Ort gesetzt' ? '' : (dateData.location || '');
+            document.getElementById('dateDescription').value = dateData.description || '';
+
+            // Change form title and button
+            const formTitle = document.querySelector('#newdate h2');
+            if (formTitle) {
+                formTitle.textContent = `"${dateData.title}" bearbeiten`;
+            }
+
+            const submitBtn = document.querySelector('#newdate .comment-btn');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
+                submitBtn.onclick = () => updateExistingDate(dateId);
+            }
+
+            // Show form
+            showTab({currentTarget: document.querySelector('[onclick*="newdate"]')}, 'newdate');
+        }
+
+        // Update existing date
+        async function updateExistingDate(dateId) {
+            const title = document.getElementById('dateTitle').value;
+            const date = document.getElementById('dateDate').value;
+            const time = document.getElementById('dateTime').value;
+            const location = document.getElementById('dateLocation').value;
+            const description = document.getElementById('dateDescription').value;
+
+            if (!title || !date) {
+                alert('Bitte fülle mindestens Titel und Datum aus! 💕');
+                return;
+            }
+
+            // Update existing date
+            dates[dateId] = {
+                ...dates[dateId],
+                title: title,
+                date: date,
+                time: time,
+                location: location || '📍 Noch kein Ort gesetzt',
+                description: description
+            };
+
+            // Save to GitHub and localStorage
+            await saveDates(true);
+
+            // Update the tab content
+            const tabContent = document.getElementById(dateId);
+            if (tabContent) {
+                const updatedContent = createDateContent(dateId, dates[dateId]);
+                tabContent.innerHTML = updatedContent.innerHTML;
+            }
+
+            // Update tab button text
+            const tabBtn = document.querySelector(`[onclick*="${dateId}"]`);
+            if (tabBtn) {
+                tabBtn.innerHTML = `<i class="fas fa-heart"></i> ${title}`;
+            }
+
+            // Reset form
+            resetNewDateForm();
+
+            // Switch back to the edited date
+            showTab({currentTarget: tabBtn}, dateId);
+
+            // Show success
+            createHeartEffect();
+        }
+
+        // Reset form to "new date" mode
+        function resetNewDateForm() {
+            document.getElementById('dateTitle').value = '';
+            document.getElementById('dateDate').value = '';
+            document.getElementById('dateTime').value = '';
+            document.getElementById('dateLocation').value = '';
+            document.getElementById('dateDescription').value = '';
+
+            const formTitle = document.querySelector('#newdate h2');
+            if (formTitle) {
+                formTitle.textContent = 'Neues Date hinzufügen';
+            }
+
+            const submitBtn = document.querySelector('#newdate .comment-btn');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
+                submitBtn.onclick = () => createNewDate();
+            }
+
+            // Clear form photos
+            formPhotos = {};
+            document.querySelectorAll('.form-photo-placeholder').forEach((placeholder, index) => {
+                placeholder.classList.remove('has-image');
+                placeholder.innerHTML = `
+                    <i class="fas fa-camera"></i>
+                    <span>Foto ${index + 1}</span>
+                `;
+            });
         }
 
         // Create new date with weather integration
@@ -3043,6 +3175,11 @@
                             <h2>${dateData.title}</h2>
                             <div class="date-time">${dateTimeDisplay}</div>
                             <div class="location"><i class="fas fa-map-marker-alt"></i> ${locationText}</div>
+                        </div>
+                        <div class="date-actions">
+                            <button class="edit-date-btn" onclick="editDate('${dateId}')" title="Date bearbeiten">
+                                <i class="fas fa-edit"></i>
+                            </button>
                         </div>
                     </div>
 
