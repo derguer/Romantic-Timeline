@@ -400,17 +400,16 @@
 
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
         }
 
         .photo-placeholder {
             aspect-ratio: 1;
             background: linear-gradient(135deg, #ffeaa7, #fab1a0);
-            border-radius: 12px;
+            border-radius: 15px;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
@@ -420,9 +419,6 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            max-width: 170px;
-            max-height: 170px;
-            border: 2px dashed rgba(255,255,255,0.3);
         }
 
         .photo-item {
@@ -486,13 +482,8 @@
         }
 
         .photo-placeholder i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-
-        .photo-placeholder p {
-            font-size: 0.8rem;
-            margin: 0;
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
         .photo-placeholder.has-image {
@@ -1160,12 +1151,25 @@
                 <!-- Foto-Sektion für Timeline -->
                 <div class="photo-section">
                     <h3>Unsere schönsten Momente</h3>
-                    <div class="photo-gallery" id="photoGallery1">
-                        <!-- Hier können manuell Fotos hinzugefügt werden -->
-                        <div class="photo-placeholder" onclick="addPhoto('photoGallery1')">
-                            <i class="fas fa-camera"></i>
-                            <p>Foto hinzufügen</p>
+                    <div class="photo-gallery">
+                        <div class="photo-placeholder" data-date="date1" data-photo="0">
+                            <div class="upload-text">
+                                <i class="fas fa-plus"></i>
+                                <div>Foto hinzufügen</div>
                     </div>
+                        </div>
+                        <div class="photo-placeholder" data-date="date1" data-photo="1">
+                            <div class="upload-text">
+                                <i class="fas fa-plus"></i>
+                                <div>Foto hinzufügen</div>
+                            </div>
+                        </div>
+                        <div class="photo-placeholder" data-date="date1" data-photo="2">
+                            <div class="upload-text">
+                                <i class="fas fa-plus"></i>
+                                <div>Foto hinzufügen</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2133,7 +2137,7 @@
             }
         }
 
-        // Handle file selection - WITH AUTOMATIC COMPRESSION AND LOCATION EXTRACTION
+        // Handle file selection - WITH AUTOMATIC COMPRESSION (aus Kopie übernommen)
         document.getElementById('photoUpload').addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file || !currentPhotoTarget) return;
@@ -3122,7 +3126,7 @@
             console.log('✅ INITIALIZATION COMPLETE - NOW LOADING PHOTOS');
         }
 
-        // SUPER AGGRESSIVE PHOTO LOADING
+        // SUPER AGGRESSIVE PHOTO LOADING (aus Kopie übernommen)
         function superAggressivePhotoLoad() {
             console.log('🔥 SUPER AGGRESSIVE PHOTO LOADING STARTED');
             
@@ -3134,32 +3138,68 @@
                     console.log(`🎯 Processing ${dateId} with ${ultraFreshData[dateId].photos.length} photos`);
                     
                     ultraFreshData[dateId].photos.forEach((photoData, index) => {
-                        if (photoData && photoData.startsWith('data:image/')) {
-                            console.log(`📸 Loading photo ${index} for ${dateId}`);
+                        if (photoData && typeof photoData === 'string' && photoData.startsWith('data:image')) {
+                            // Find the correct placeholder
+                            const placeholder = document.querySelector(`[data-date="${dateId}"][data-photo="${index}"]`);
                             
-                            // Multiple attempts to find and load photo
-                            let attempts = 0;
-                            const maxAttempts = 10;
-                            
-                            function attemptPhotoLoad() {
-                                attempts++;
-                                const placeholder = document.querySelector(`[data-date="${dateId}"][data-photo="${index}"]`);
+                            if (placeholder && !placeholder.classList.contains('has-image')) {
+                                console.log(`📸 Loading photo ${index} for ${dateId}`);
                                 
-                                if (placeholder && !placeholder.classList.contains('has-image')) {
-                                    placeholder.classList.add('has-image');
-                                    placeholder.innerHTML = `<img src="${photoData}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
-                                    console.log(`✅ SUCCESS: Photo ${index} loaded for ${dateId} on attempt ${attempts}`);
-                                } else if (attempts < maxAttempts) {
-                                    setTimeout(attemptPhotoLoad, 200 * attempts);
-                                }
+                                placeholder.classList.add('has-image');
+                                placeholder.innerHTML = `<img src="${photoData}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                                
+                                console.log(`✅ Photo ${index} loaded for ${dateId}`);
                             }
-                            
-                            attemptPhotoLoad();
                         }
                     });
                 }
             });
+            
+            console.log('🔥 SUPER AGGRESSIVE PHOTO LOADING COMPLETE');
         }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM CONTENT LOADED - Initialisiere Foto-System');
+            
+            // Photo placeholder interaction (EINMALIG beim Start)
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.photo-placeholder') && e.target.closest('#timeline-section')) {
+                    handlePhotoUpload(e.target.closest('.photo-placeholder'));
+                }
+            });
+            
+            console.log('🌊 STARTING PHOTO LOADING WAVES');
+            
+            // Wave 1: Immediate
+            setTimeout(() => {
+                console.log('🌊 WAVE 1: Immediate photo loading');
+                superAggressivePhotoLoad();
+            }, 100);
+            
+            // Wave 2: After DOM is fully settled
+            setTimeout(() => {
+                console.log('🌊 WAVE 2: DOM settled photo loading');
+                superAggressivePhotoLoad();
+            }, 500);
+            
+            // Wave 3: Just to be absolutely sure
+            setTimeout(() => {
+                console.log('🌊 WAVE 3: Final assurance photo loading');
+                superAggressivePhotoLoad();
+            }, 1500);
+            
+            // Wave 4: The nuclear option
+            setTimeout(() => {
+                console.log('🌊 WAVE 4: Nuclear option photo loading');
+                superAggressivePhotoLoad();
+            }, 3000);
+            
+            // Initialisiere die Galerie sofort (da sie standardmäßig sichtbar ist)
+            initGallery();
+        });
+        
+
 
         // Function to update date1 location and add map
         async function updateFirstDateLocation(newLocation) {
