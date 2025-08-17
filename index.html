@@ -3906,17 +3906,8 @@
             
             try {
                 // Versuche alle Bilder aus JSON zu laden
-                console.log('🔄 Lade all_gallery_images.json...');
-                const response = await fetch('data/all_gallery_images.json');
-                console.log('📡 Response Status:', response.status, response.statusText);
-                
-                if (response.ok) {
-                    const allImages = await response.json();
-                    console.log(`✅ ${allImages.length} Bilder aus all_gallery_images.json geladen`);
-                    if (allImages.length > 0) {
-                        return allImages;
-                    }
-                }
+                console.log('🔄 Skipping all_gallery_images.json - file not available');
+                // Skip JSON loading and use fallback
             } catch (error) {
                 console.error('❌ Fehler beim Laden der JSON:', error);
             }
@@ -4155,13 +4146,19 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
-        document.getElementById('image-lightbox').addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
+        // Initialize touch events when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightboxElement = document.getElementById('image-lightbox');
+            if (lightboxElement) {
+                lightboxElement.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
 
-        document.getElementById('image-lightbox').addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
+                lightboxElement.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                });
+            }
         });
 
         function handleSwipe() {
