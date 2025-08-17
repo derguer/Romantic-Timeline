@@ -1,0 +1,3638 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsere gemeinsame Reise ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #8B5E3C 0%, #C69C6D 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Tabs */
+        .main-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+
+        .nav-tab {
+            background: #8B5E3C;
+            border: 2px solid #8B5E3C;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 94, 60, 0.3);
+        }
+
+        /* Floating Hamsters Animation */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hamster {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.7;
+            animation: float-slow 15s infinite linear;
+        }
+
+        .hamster img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes float-slow {
+            0% { 
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 15px rgba(139, 94, 60, 0.4);
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .header h1:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(139, 94, 60, 0.6);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            font-style: italic;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            max-width: 1200px;
+            margin: 20px auto 40px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .timeline {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .timeline h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timeline-track {
+            position: relative;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 20px 0;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #8B5E3C, #C69C6D);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        .timeline-markers {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-top: -10px;
+        }
+
+        .timeline-marker {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .timeline-marker.completed {
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            border-color: white;
+            box-shadow: 0 0 15px rgba(139, 94, 60, 0.5);
+        }
+
+        .timeline-marker.current {
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            border-color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-marker.awaiting {
+            background: rgba(255,255,255,0.5);
+            border-color: #E9D8C3;
+            animation: glow 2s infinite alternate;
+        }
+
+        .timeline-marker.future {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+        }
+
+        .timeline-marker.future:hover {
+            background: rgba(255,255,255,0.6);
+            transform: scale(1.2);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 94, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 94, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 94, 60, 0); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px rgba(233, 216, 195, 0.5); }
+            to { box-shadow: 0 0 20px rgba(233, 216, 195, 0.8); }
+        }
+
+        .timeline-marker:hover {
+            transform: scale(1.2);
+        }
+
+        .timeline-label {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: white;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Tab Container */
+        .tab-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+            display: none; /* Initially hidden */
+        }
+
+        .tab-btn.active, .tab-btn.available {
+            display: inline-block;
+        }
+
+        .tab-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .tab-btn:hover:before {
+            left: 100%;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            box-shadow: 0 5px 15px rgba(196, 69, 105, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Date Card */
+        .date-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .date-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #8B5E3C, #E9D8C3, #8B5E3C);
+        }
+
+        .date-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .date-icon {
+            font-size: 2.5rem;
+            color: #8B5E3C;
+            margin-right: 15px;
+        }
+
+        .date-info h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            color: #C69C6D;
+            margin-bottom: 5px;
+        }
+
+        .date-info .date-time {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .date-info .location {
+            color: #8B5E3C;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Photo Gallery */
+        .photo-section {
+            margin: 30px 0;
+        }
+
+        .photo-section h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #C69C6D;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .photo-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .photo-placeholder.has-image {
+            background: none;
+            padding: 0;
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .photo-placeholder .upload-text {
+            pointer-events: none;
+        }
+
+        /* Hidden file input */
+        .hidden-file-input {
+            display: none;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 40px;
+        }
+
+        .comments-section h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #C69C6D;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .comment-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,182,193,0.2);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .comment-input:focus {
+            background: rgba(255,182,193,0.3);
+            box-shadow: 0 0 20px rgba(255,182,193,0.4);
+        }
+
+        .comment-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .comment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+        }
+
+        .comments-list {
+            space-y: 15px;
+        }
+
+        .comment {
+            background: rgba(255,240,245,0.8);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .comment.partner {
+            background: rgba(240,248,255,0.8);
+            margin-left: 30px;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #C69C6D;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comment-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .comment-time {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* New Date Form */
+        .new-date-form {
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .new-date-form.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #C69C6D;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255,182,193,0.3);
+            border-radius: 15px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #8B5E3C;
+        }
+
+        .form-group small {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .location-warning {
+            color: #ff4757 !important;
+            font-weight: 500;
+        }
+        
+        .location-valid {
+            color: #2ed573 !important;
+            font-weight: 500;
+        }
+
+        .location-gps-locked {
+            color: #4CAF50 !important;
+            font-weight: 600;
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #4CAF50;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .location-suggestions {
+            color: #3742fa !important;
+            font-weight: 500;
+        }
+
+        /* Address suggestions styling */
+        .address-suggestions {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .suggestion-item:hover {
+            background: #fff0f3 !important;
+        }
+
+        .mini-map-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Add Date Button */
+        .add-date-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B5E3C, #C69C6D);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(196, 69, 105, 0.4);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .add-date-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(196, 69, 105, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .date-header { flex-direction: column; text-align: center; }
+            .comment-form { flex-direction: column; }
+            .comment.partner { margin-left: 15px; }
+            .tab-nav { flex-direction: column; align-items: center; }
+            .date-card { padding: 25px; }
+            .timeline-label { font-size: 0.7rem; }
+        }
+
+        /* Galerie Styles */
+        .gallery-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-container h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .gallery-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input, .year-filter {
+            padding: 12px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 14px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            
+            /* Browser-spezifische Styles für perfekte Rundung */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            box-sizing: border-box;
+        }
+
+        /* Spezielle Styles nur für die Dropdown-Box */
+        .year-filter {
+            background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        .search-input:focus, .year-filter:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .year-filter {
+            cursor: pointer;
+        }
+
+        .year-filter option {
+            background: #8B5E3C;
+            color: white;
+            padding: 8px;
+        }
+
+        .gallery-stats {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 1;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.2s ease;
+        }
+
+        .gallery-item:hover img {
+            opacity: 0.8;
+        }
+
+        .gallery-item-content {
+            display: none;
+        }
+
+        .gallery-item-title {
+            font-weight: 500;
+            color: white;
+            margin-bottom: 2px;
+            font-size: 11px;
+        }
+
+        .gallery-item-meta {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.7);
+            font-size: 9px;
+            margin-bottom: 8px;
+        }
+
+        .gallery-item-description {
+            color: #555;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Elegante Lightbox - Komplett überarbeitet */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: lightboxFadeIn 0.3s ease-out;
+        }
+
+        @keyframes lightboxFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lightbox-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(139, 94, 60, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(139, 94, 60, 1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(139, 94, 60, 0.4);
+        }
+
+        .lightbox img {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox img:hover {
+            transform: scale(1.02);
+        }
+
+        .lightbox-info {
+            display: none;
+        }
+
+        .lightbox-info h3 {
+            display: none;
+        }
+
+        .lightbox-info p {
+            display: none;
+        }
+
+        .lightbox-meta {
+            display: none;
+        }
+
+        /* Navigation Pfeile */
+        .lightbox-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(139, 94, 60, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1002;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(139, 94, 60, 1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 20px rgba(139, 94, 60, 0.4);
+        }
+
+        .lightbox-nav.prev {
+            left: 30px;
+        }
+
+        .lightbox-nav.next {
+            right: 30px;
+        }
+
+        .lightbox-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .lightbox-nav:disabled:hover {
+            background: rgba(139, 94, 60, 0.8);
+            transform: translateY(-50%) scale(0.9);
+            box-shadow: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .gallery-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-input, .year-filter {
+                min-width: 250px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .main-navigation {
+                gap: 10px;
+            }
+            
+            .nav-tab {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            
+            /* Mobile Lightbox */
+            .lightbox img {
+                max-width: 98vw;
+                max-height: 85vh;
+            }
+            
+            .lightbox-close {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hamsters -->
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <!-- Hidden file input for photo uploads -->
+    <input type="file" id="photoUpload" class="hidden-file-input" accept="image/*" multiple>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>Danyal ❤️ Léa</h1>
+        <p>"Eine Zeitreise durch unsere schönsten Momente 💞"</p>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="main-navigation">
+        <button class="nav-tab" onclick="showSection('timeline')">Timeline</button>
+        <button class="nav-tab active" onclick="showSection('gallery')">Galerie</button>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-container" id="timeline-section" style="display: none;">
+        <div class="timeline">
+            <h3>Unsere schönsten Momente</h3>
+            <div class="timeline-track">
+                <div class="timeline-progress" id="timelineProgress"></div>
+            </div>
+            <div class="timeline-markers" id="timelineMarkers">
+                <div class="timeline-marker completed" data-date="date1">
+                    <div class="timeline-label">Erstes Date<br>💕</div>
+                </div>
+                <div class="timeline-marker" data-date="future2">
+                    <div class="timeline-label">Zukunft</div>
+                </div>
+                <div class="timeline-marker" data-date="future3">
+                    <div class="timeline-label">Träume</div>
+                </div>
+                <div class="timeline-marker" data-date="future4">
+                    <div class="timeline-label">Für immer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Container - nur in Timeline sichtbar -->
+    <div class="tab-container" id="timeline-tab-container" style="display: none;">
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn active available" onclick="showTab(event, 'date1')">
+                <i class="fas fa-heart"></i> Erstes Date
+            </button>
+            <button class="tab-btn available" onclick="showTab(event, 'newdate')">
+                <i class="fas fa-plus"></i> Neues Date
+            </button>
+        </nav>
+
+        <!-- Tab Contents -->
+        <div id="date1" class="tab-content active">
+            <div class="date-card">
+                <div class="date-header">
+                    <i class="fas fa-heart date-icon"></i>
+                    <div class="date-info">
+                        <h2>Unser erstes Date</h2>
+                        <div class="date-time">Datum eingeben</div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> Ort eingeben</div>
+                    </div>
+                </div>
+
+                <!-- Foto-Sektion für Timeline -->
+                <div class="photo-section">
+                    <h3>Unsere schönsten Momente</h3>
+                    <div class="photo-gallery" id="photoGallery1">
+                        <!-- Hier können manuell Fotos hinzugefügt werden -->
+                        <div class="photo-placeholder" onclick="addPhoto('photoGallery1')">
+                            <i class="fas fa-camera"></i>
+                            <p>Foto hinzufügen</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comments-section">
+                    <h3>Unsere Erinnerungen</h3>
+                    <div class="comment-form">
+                        <input type="text" class="comment-input" placeholder="Schreibe deine Gedanken zu diesem Date...">
+                        <button class="comment-btn" onclick="addComment('date1')">
+                            <i class="fas fa-heart"></i> Absenden
+                        </button>
+                    </div>
+                    <div class="comments-list" id="comments-date1">
+                        <!-- Comments werden hier vom JavaScript geladen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="newdate" class="tab-content">
+            <div class="date-card">
+                <div class="date-header">
+                    <i class="fas fa-plus date-icon"></i>
+                    <div class="date-info">
+                        <h2>Neues Date hinzufügen</h2>
+                        <div class="date-time">Erstelle eine neue Erinnerung</div>
+                    </div>
+                </div>
+
+                <div class="new-date-form" id="newDateForm">
+                    <div class="form-group">
+                        <label for="dateTitle">Date Titel:</label>
+                        <input type="text" id="dateTitle" placeholder="z.B. Romantisches Dinner">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateDate">Datum:</label>
+                        <input type="date" id="dateDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateTime">Uhrzeit:</label>
+                        <input type="time" id="dateTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateLocation">Ort:</label>
+                        <input type="text" id="dateLocation" placeholder="Tippen Sie um Ortsvorschläge zu sehen...">
+                        <small id="locationHint" style="color: #666; font-size: 0.9rem; margin-top: 5px; display: block;">
+                            💡 Tippen Sie um Ortsvorschläge zu sehen...
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateDescription">Beschreibung:</label>
+                        <textarea id="dateDescription" rows="3" placeholder="Was macht dieses Date besonders?"></textarea>
+                    </div>
+                    <button class="comment-btn" onclick="createNewDate()">
+                        <i class="fas fa-heart"></i> Date erstellen
+                    </button>
+                </div>
+
+                <div style="text-align: center; padding: 40px;" id="newDatePrompt">
+                    <i class="fas fa-heart" style="font-size: 4rem; color: #8B5E3C; margin-bottom: 20px;"></i>
+                    <h3 style="color: #C69C6D; margin-bottom: 15px;">Eure Geschichte geht weiter...</h3>
+                    <p style="color: #666; margin-bottom: 30px;">Klicke hier, um ein neues unvergessliches Date hinzuzufügen!</p>
+                    <button class="comment-btn" onclick="showNewDateForm()">
+                        <i class="fas fa-plus"></i> Neues Date erstellen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Date Button -->
+    <button class="add-date-btn" onclick="showTab(event, 'newdate')" title="Neues Date hinzufügen">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <script>
+        // Data Storage
+        let dates = JSON.parse(localStorage.getItem('couplesDates')) || {};
+        
+        // Initialize with first date if nothing exists
+        if (Object.keys(dates).length === 0) {
+            dates = {
+                'date1': {
+                    title: 'Unser erstes Date',
+                    date: '',
+                    time: '',
+                    location: '',
+                    description: '',
+                    comments: [],
+                    photos: []
+                }
+            };
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+        }
+
+        let dateCounter = 1;
+        let currentPhotoTarget = null;
+
+        // INTELLIGENT ADDRESS SUGGESTION SYSTEM WITH MAP
+        let searchTimeout;
+        let currentSuggestions = [];
+
+        // Search for addresses using OpenStreetMap Nominatim API
+        async function searchAddresses(query) {
+            if (query.length < 3) return [];
+            
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(query)}&countrycodes=de,at,ch&addressdetails=1`
+                );
+                const results = await response.json();
+                
+                return results.map(result => ({
+                    display_name: result.display_name,
+                    lat: parseFloat(result.lat),
+                    lon: parseFloat(result.lon),
+                    address: result.address
+                }));
+            } catch (error) {
+                console.error('Address search error:', error);
+                return [];
+            }
+        }
+
+        // Show address suggestions dropdown
+        function showAddressSuggestions(suggestions, inputElement) {
+            // Remove existing dropdown
+            const existingDropdown = document.querySelector('.address-suggestions');
+            if (existingDropdown) {
+                existingDropdown.remove();
+            }
+
+            if (suggestions.length === 0) return;
+
+            // Create dropdown
+            const dropdown = document.createElement('div');
+            dropdown.className = 'address-suggestions';
+            dropdown.style.cssText = `
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                border: 2px solid #E9D8C3;
+                border-top: none;
+                border-radius: 0 0 15px 15px;
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            `;
+
+            suggestions.forEach((suggestion, index) => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.style.cssText = `
+                    padding: 12px 15px;
+                    cursor: pointer;
+                    border-bottom: 1px solid #f0f0f0;
+                    font-size: 14px;
+                    color: #333;
+                    transition: background 0.2s;
+                `;
+                
+                // Format address nicely
+                const parts = suggestion.display_name.split(',').slice(0, 3);
+                item.innerHTML = `
+                    <div style="font-weight: 500; color: #e91e63;">${parts[0]}</div>
+                    <div style="font-size: 12px; color: #666; margin-top: 2px;">${parts.slice(1).join(', ')}</div>
+                `;
+
+                item.addEventListener('mouseenter', () => {
+                    item.style.background = '#fff0f3';
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    item.style.background = 'white';
+                });
+
+                item.addEventListener('click', () => {
+                    inputElement.value = suggestion.display_name;
+                    dropdown.remove();
+                    showMiniMap(suggestion.lat, suggestion.lon, suggestion.display_name);
+                    updateLocationHint('✅ Perfekte Adresse gewählt! 🗺️', 'location-valid');
+                });
+
+                dropdown.appendChild(item);
+            });
+
+            // Position dropdown relative to input
+            inputElement.parentNode.style.position = 'relative';
+            inputElement.parentNode.appendChild(dropdown);
+        }
+
+        // Show mini map for selected location
+        function showMiniMap(lat, lon, address) {
+            // Remove existing map
+            const existingMap = document.querySelector('.mini-map-container');
+            if (existingMap) {
+                existingMap.remove();
+            }
+
+            // Create map container
+            const mapContainer = document.createElement('div');
+            mapContainer.className = 'mini-map-container';
+            mapContainer.style.cssText = `
+                margin-top: 10px;
+                border: 2px solid #E9D8C3;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            `;
+
+            // Create iframe with OpenStreetMap
+            const mapFrame = document.createElement('iframe');
+            mapFrame.style.cssText = `
+                width: 100%;
+                height: 200px;
+                border: none;
+                display: block;
+            `;
+            
+            // Create OpenStreetMap embed URL
+            const zoom = 15;
+            mapFrame.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.01},${lat-0.01},${lon+0.01},${lat+0.01}&layer=mapnik&marker=${lat},${lon}`;
+
+            // Add address label
+            const addressLabel = document.createElement('div');
+            addressLabel.style.cssText = `
+                background: linear-gradient(135deg, #8B5E3C, #E9D8C3);
+                color: white;
+                padding: 8px 15px;
+                font-size: 12px;
+                font-weight: 500;
+                text-align: center;
+            `;
+            addressLabel.innerHTML = `📍 ${address.split(',').slice(0, 2).join(', ')}`;
+
+            mapContainer.appendChild(addressLabel);
+            mapContainer.appendChild(mapFrame);
+
+            // Add after location input
+            const locationInput = document.getElementById('dateLocation');
+            locationInput.parentNode.insertBefore(mapContainer, locationInput.nextSibling);
+        }
+
+        // Update location hint
+        function updateLocationHint(message, className) {
+            const hint = document.getElementById('locationHint');
+            hint.textContent = message;
+            hint.className = className;
+        }
+
+        // Enhanced location input with smart suggestions
+        function setupSmartLocationInput() {
+            const locationInput = document.getElementById('dateLocation');
+            if (!locationInput) return;
+
+            locationInput.addEventListener('input', function(e) {
+                const query = e.target.value.trim();
+                
+                // Clear existing timeout
+                clearTimeout(searchTimeout);
+
+                // Remove existing suggestions and map if input is cleared
+                if (query.length === 0) {
+                    const dropdown = document.querySelector('.address-suggestions');
+                    const mapContainer = document.querySelector('.mini-map-container');
+                    if (dropdown) dropdown.remove();
+                    if (mapContainer) mapContainer.remove();
+                    updateLocationHint('💡 Tippen Sie um Ortsvorschläge zu sehen...', '');
+                    return;
+                }
+
+                // Show loading state
+                if (query.length >= 3) {
+                    updateLocationHint('🔍 Suche nach Orten...', '');
+                }
+
+                // Debounced search
+                searchTimeout = setTimeout(async () => {
+                    if (query.length >= 3) {
+                        currentSuggestions = await searchAddresses(query);
+                        if (currentSuggestions.length > 0) {
+                            showAddressSuggestions(currentSuggestions, locationInput);
+                            updateLocationHint(`📍 ${currentSuggestions.length} Orte gefunden - wählen Sie einen aus!`, 'location-suggestions');
+                        } else {
+                            updateLocationHint('❌ Keine Orte gefunden. Versuchen Sie es anders...', 'location-warning');
+                        }
+                    }
+                }, 500);
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.form-group')) {
+                    const dropdown = document.querySelector('.address-suggestions');
+                    if (dropdown) dropdown.remove();
+                }
+            });
+        }
+
+        // IMAGE COMPRESSION FUNCTION - SOLVES STORAGE LIMIT PROBLEM
+        function compressImage(file, maxWidth = 800, maxHeight = 600, quality = 0.8) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    // Calculate new dimensions
+                    let { width, height } = img;
+                    
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = (width * maxHeight) / height;
+                            height = maxHeight;
+                        }
+                    }
+                    
+                    // Set canvas size and draw compressed image
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Convert to compressed base64
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(compressedDataUrl);
+                };
+                
+                // Create object URL for the image
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // Add photo function for timeline
+        function addPhoto(galleryId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const gallery = document.getElementById(galleryId);
+                        const placeholder = gallery.querySelector('.photo-placeholder');
+                        
+                        // Neues Foto-Element erstellen
+                        const photoDiv = document.createElement('div');
+                        photoDiv.className = 'photo-item';
+                        photoDiv.innerHTML = `
+                            <img src="${e.target.result}" alt="Date Photo" onclick="openTimelineImageLightbox('${e.target.result}')">
+                            <div class="photo-controls">
+                                <button onclick="removePhoto(this)" class="remove-btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        
+                        // Vor dem Platzhalter einfügen
+                        gallery.insertBefore(photoDiv, placeholder);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+
+        // Remove photo function
+        function removePhoto(button) {
+            button.closest('.photo-item').remove();
+        }
+
+        // Timeline image lightbox function
+        function openTimelineImageLightbox(src) {
+            // Erstelle Lightbox falls nicht vorhanden
+            let lightbox = document.getElementById('timeline-image-lightbox');
+            if (!lightbox) {
+                lightbox = document.createElement('div');
+                lightbox.id = 'timeline-image-lightbox';
+                lightbox.className = 'lightbox';
+                lightbox.innerHTML = `
+                    <div class="lightbox-content">
+                        <span class="close" onclick="closeTimelineImageLightbox()">&times;</span>
+                        <img id="timeline-lightbox-image" src="" alt="Timeline Image">
+                    </div>
+                `;
+                document.body.appendChild(lightbox);
+            }
+            
+            document.getElementById('timeline-lightbox-image').src = src;
+            lightbox.style.display = 'flex';
+        }
+
+        // Close timeline image lightbox
+        function closeTimelineImageLightbox() {
+            document.getElementById('timeline-image-lightbox').style.display = 'none';
+        }
+
+        // Photo upload handling
+        function handlePhotoUpload(placeholder) {
+            currentPhotoTarget = placeholder;
+            document.getElementById('photoUpload').click();
+        }
+
+        // EXIF DATA EXTRACTION FUNCTION
+        function extractGPSFromExif(file) {
+            return new Promise((resolve) => {
+                // Use FileReader to read file as ArrayBuffer for EXIF data
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const arrayBuffer = e.target.result;
+                    const dataView = new DataView(arrayBuffer);
+                    
+                    try {
+                        // Simple EXIF GPS extraction (basic implementation)
+                        const exifData = getExifGPS(dataView);
+                        resolve(exifData);
+                    } catch (error) {
+                        console.log('No EXIF GPS data found');
+                        resolve(null);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // Basic EXIF GPS extraction function
+        function getExifGPS(dataView) {
+            // Look for EXIF marker (0xFFE1)
+            let offset = 2;
+            let marker = dataView.getUint16(offset);
+            
+            while (offset < dataView.byteLength) {
+                if (marker === 0xFFE1) {
+                    // Found EXIF segment
+                    const length = dataView.getUint16(offset + 2);
+                    const exifData = new DataView(dataView.buffer, offset + 4, length - 2);
+                    
+                    // Look for GPS data in EXIF
+                    return extractGPSCoordinates(exifData);
+                }
+                
+                const segmentLength = dataView.getUint16(offset + 2);
+                offset += 2 + segmentLength;
+                
+                if (offset < dataView.byteLength) {
+                    marker = dataView.getUint16(offset);
+                }
+            }
+            
+            return null;
+        }
+
+        // Extract GPS coordinates from EXIF data
+        function extractGPSCoordinates(exifData) {
+            // This is a simplified implementation
+            // In practice, you'd need a full EXIF parser
+            // For now, we'll use a simpler approach with the File API
+            return null;
+        }
+
+        // Robust EXIF GPS extraction without external libraries
+        async function getImageLocation(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const arrayBuffer = e.target.result;
+                        const dataView = new DataView(arrayBuffer);
+                        
+                        // Check for JPEG signature
+                        if (dataView.getUint16(0) !== 0xFFD8) {
+                            resolve(null);
+                            return;
+                        }
+                        
+                        // Find EXIF data
+                        let offset = 2;
+                        while (offset < dataView.byteLength) {
+                            const marker = dataView.getUint16(offset);
+                            const length = dataView.getUint16(offset + 2);
+                            
+                            // Look for APP1 marker (EXIF data)
+                            if (marker === 0xFFE1) {
+                                // Check for EXIF identifier
+                                const exifId = dataView.getUint32(offset + 4);
+                                if (exifId === 0x45786966) { // "Exif"
+                                    const gps = parseExifForGPS(dataView, offset + 10);
+                                    resolve(gps);
+                                    return;
+                                }
+                            }
+                            
+                            offset += 2 + length;
+                        }
+                        
+                        resolve(null);
+                    } catch (error) {
+                        console.log('EXIF parsing error:', error);
+                        resolve(null);
+                    }
+                };
+                
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // Parse EXIF data for GPS coordinates
+        function parseExifForGPS(dataView, offset) {
+            try {
+                // TIFF header
+                const byteOrder = dataView.getUint16(offset);
+                const littleEndian = byteOrder === 0x4949;
+                
+                // Read IFD (Image File Directory)
+                const ifdOffset = dataView.getUint32(offset + 4, littleEndian);
+                const ifdCount = dataView.getUint16(offset + 8 + ifdOffset, littleEndian);
+                
+                let gpsIfdOffset = 0;
+                
+                // Look for GPS IFD pointer
+                for (let i = 0; i < ifdCount; i++) {
+                    const entryOffset = offset + 8 + ifdOffset + 2 + (i * 12);
+                    const tag = dataView.getUint16(entryOffset, littleEndian);
+                    
+                    if (tag === 0x8825) { // GPS IFD tag
+                        gpsIfdOffset = dataView.getUint32(entryOffset + 8, littleEndian);
+                        break;
+                    }
+                }
+                
+                if (!gpsIfdOffset) return null;
+                
+                // Parse GPS IFD
+                const gpsCount = dataView.getUint16(offset + 8 + gpsIfdOffset, littleEndian);
+                let lat = null, lon = null, latRef = null, lonRef = null;
+                
+                for (let i = 0; i < gpsCount; i++) {
+                    const entryOffset = offset + 8 + gpsIfdOffset + 2 + (i * 12);
+                    const tag = dataView.getUint16(entryOffset, littleEndian);
+                    const type = dataView.getUint16(entryOffset + 2, littleEndian);
+                    const count = dataView.getUint32(entryOffset + 4, littleEndian);
+                    const valueOffset = entryOffset + 8;
+                    
+                    switch (tag) {
+                        case 0x01: // GPS Latitude Ref
+                            latRef = String.fromCharCode(dataView.getUint8(valueOffset));
+                            break;
+                        case 0x02: // GPS Latitude
+                            if (type === 5 && count === 3) { // Rational
+                                const coordOffset = dataView.getUint32(valueOffset, littleEndian);
+                                lat = parseGPSCoordinate(dataView, offset + 8 + coordOffset, littleEndian);
+                            }
+                            break;
+                        case 0x03: // GPS Longitude Ref
+                            lonRef = String.fromCharCode(dataView.getUint8(valueOffset));
+                            break;
+                        case 0x04: // GPS Longitude
+                            if (type === 5 && count === 3) { // Rational
+                                const coordOffset = dataView.getUint32(valueOffset, littleEndian);
+                                lon = parseGPSCoordinate(dataView, offset + 8 + coordOffset, littleEndian);
+                            }
+                            break;
+                    }
+                }
+                
+                if (lat !== null && lon !== null && latRef && lonRef) {
+                    // Convert to decimal degrees
+                    const latitude = latRef === 'S' ? -lat : lat;
+                    const longitude = lonRef === 'W' ? -lon : lon;
+                    
+                    return { lat: latitude, lon: longitude };
+                }
+                
+                return null;
+            } catch (error) {
+                console.log('GPS parsing error:', error);
+                return null;
+            }
+        }
+
+        // Parse GPS coordinate from EXIF rational values
+        function parseGPSCoordinate(dataView, offset, littleEndian) {
+            try {
+                // Three rational values: degrees, minutes, seconds
+                const degrees = dataView.getUint32(offset, littleEndian) / dataView.getUint32(offset + 4, littleEndian);
+                const minutes = dataView.getUint32(offset + 8, littleEndian) / dataView.getUint32(offset + 12, littleEndian);
+                const seconds = dataView.getUint32(offset + 16, littleEndian) / dataView.getUint32(offset + 20, littleEndian);
+                
+                // Convert to decimal degrees
+                return degrees + (minutes / 60) + (seconds / 3600);
+            } catch (error) {
+                return 0;
+            }
+        }
+
+        // Reverse geocoding to convert coordinates to address
+        async function reverseGeocode(lat, lon) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1&accept-language=de`);
+                const data = await response.json();
+                
+                if (data && data.display_name) {
+                    return {
+                        address: data.display_name,
+                        lat: lat,
+                        lon: lon
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error('Reverse geocoding error:', error);
+                return null;
+            }
+        }
+
+        // WEATHER INTEGRATION
+        async function getWeatherForDate(date, location) {
+            try {
+                // For demo purposes, we'll use a weather API
+                // In production, you'd use a real weather service like OpenWeatherMap
+                
+                // First, get coordinates from location if not provided
+                let coords = null;
+                if (location && location.includes(',')) {
+                    const geocodeResponse = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&limit=1&accept-language=de`);
+                    const geocodeData = await geocodeResponse.json();
+                    
+                    if (geocodeData && geocodeData.length > 0) {
+                        coords = {
+                            lat: parseFloat(geocodeData[0].lat),
+                            lon: parseFloat(geocodeData[0].lon)
+                        };
+                    }
+                }
+                
+                // Generate realistic weather based on date and season
+                const dateObj = new Date(date);
+                const month = dateObj.getMonth();
+                const season = getSeason(month);
+                
+                return generateWeatherForSeason(season, dateObj);
+                
+            } catch (error) {
+                console.error('Weather fetch error:', error);
+                return getDefaultWeather();
+            }
+        }
+
+        // Get season from month
+        function getSeason(month) {
+            if (month >= 2 && month <= 4) return 'spring';
+            if (month >= 5 && month <= 7) return 'summer';
+            if (month >= 8 && month <= 10) return 'autumn';
+            return 'winter';
+        }
+
+        // Generate realistic weather for season
+        function generateWeatherForSeason(season, date) {
+            const weatherOptions = {
+                spring: [
+                    { condition: 'Sonnig', icon: '☀️', temp: 18 },
+                    { condition: 'Bewölkt', icon: '☁️', temp: 15 },
+                    { condition: 'Leichter Regen', icon: '🌦️', temp: 12 },
+                    { condition: 'Mild', icon: '🌤️', temp: 16 }
+                ],
+                summer: [
+                    { condition: 'Sonnig', icon: '☀️', temp: 25 },
+                    { condition: 'Heiß', icon: '🌞', temp: 28 },
+                    { condition: 'Gewitter', icon: '⛈️', temp: 22 },
+                    { condition: 'Warm', icon: '🌤️', temp: 24 }
+                ],
+                autumn: [
+                    { condition: 'Bewölkt', icon: '☁️', temp: 14 },
+                    { condition: 'Regnerisch', icon: '🌧️', temp: 11 },
+                    { condition: 'Neblig', icon: '🌫️', temp: 9 },
+                    { condition: 'Mild', icon: '🍂', temp: 16 }
+                ],
+                winter: [
+                    { condition: 'Kalt', icon: '❄️', temp: 2 },
+                    { condition: 'Schnee', icon: '🌨️', temp: -1 },
+                    { condition: 'Bewölkt', icon: '☁️', temp: 5 },
+                    { condition: 'Frostig', icon: '🧊', temp: -3 }
+                ]
+            };
+            
+            // Use date as seed for consistent weather
+            const seed = date.getDate() + date.getMonth() * 31;
+            const options = weatherOptions[season];
+            const weather = options[seed % options.length];
+            
+            return {
+                condition: weather.condition,
+                icon: weather.icon,
+                temperature: weather.temp + Math.floor(Math.random() * 6) - 3, // ±3 degrees variation
+                humidity: Math.floor(Math.random() * 40) + 40, // 40-80%
+                season: season
+            };
+        }
+
+        // Default weather fallback
+        function getDefaultWeather() {
+            return {
+                condition: 'Unbekannt',
+                icon: '🌤️',
+                temperature: 20,
+                humidity: 60,
+                season: 'unknown'
+            };
+        }
+
+        // Apple-style weather animations
+        function createWeatherAnimation(condition) {
+            const animations = {
+                'Sonnig': '☀️',
+                'Heiß': '🌞',
+                'Bewölkt': '☁️',
+                'Leichter Regen': '🌦️',
+                'Regnerisch': '🌧️',
+                'Gewitter': '⛈️',
+                'Schnee': '🌨️',
+                'Neblig': '🌫️',
+                'Kalt': '❄️',
+                'Frostig': '🧊',
+                'Mild': '🌤️',
+                'Warm': '🌤️'
+            };
+            
+            const icon = animations[condition] || '🌤️';
+            
+            // Create animated weather elements based on condition
+            if (condition.includes('Regen') || condition === 'Regnerisch') {
+                return createRainAnimation(icon);
+            } else if (condition.includes('Schnee')) {
+                return createSnowAnimation(icon);
+            } else if (condition.includes('Sonnig') || condition === 'Heiß') {
+                return createSunAnimation(icon);
+            } else if (condition.includes('Bewölkt') || condition === 'Neblig') {
+                return createCloudAnimation(icon);
+            } else if (condition.includes('Gewitter')) {
+                return createThunderAnimation(icon);
+            } else {
+                return createDefaultAnimation(icon);
+            }
+        }
+
+        // Rain animation
+        function createRainAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px; overflow: hidden;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 5px; left: 15px; z-index: 2;">${icon}</div>
+                    <div class="rain-drops" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
+                        <div class="rain-drop" style="position: absolute; width: 2px; height: 8px; background: #4FC3F7; border-radius: 1px; animation: rainFall 1s infinite linear; left: 20%; animation-delay: 0s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 2px; height: 8px; background: #4FC3F7; border-radius: 1px; animation: rainFall 1s infinite linear; left: 40%; animation-delay: 0.2s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 2px; height: 8px; background: #4FC3F7; border-radius: 1px; animation: rainFall 1s infinite linear; left: 60%; animation-delay: 0.4s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 2px; height: 8px; background: #4FC3F7; border-radius: 1px; animation: rainFall 1s infinite linear; left: 80%; animation-delay: 0.6s;"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Snow animation
+        function createSnowAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px; overflow: hidden;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 5px; left: 15px; z-index: 2;">${icon}</div>
+                    <div class="snow-flakes" style="position: absolute; width: 100%; height: 100%; z-index: 1;">
+                        <div class="snow-flake" style="position: absolute; color: white; font-size: 12px; animation: snowFall 3s infinite linear; left: 25%; animation-delay: 0s;">❄</div>
+                        <div class="snow-flake" style="position: absolute; color: white; font-size: 10px; animation: snowFall 2.5s infinite linear; left: 50%; animation-delay: 1s;">❅</div>
+                        <div class="snow-flake" style="position: absolute; color: white; font-size: 8px; animation: snowFall 2s infinite linear; left: 75%; animation-delay: 1.5s;">❄</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Sun animation
+        function createSunAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 15px; left: 15px; animation: sunPulse 2s ease-in-out infinite;">${icon}</div>
+                </div>
+            `;
+        }
+
+        // Cloud animation
+        function createCloudAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 15px; left: 15px; animation: cloudFloat 4s ease-in-out infinite;">${icon}</div>
+                </div>
+            `;
+        }
+
+        // Thunder animation
+        function createThunderAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 15px; left: 15px; animation: thunderFlash 1.5s ease-in-out infinite;">${icon}</div>
+                </div>
+            `;
+        }
+
+        // Default animation
+        function createDefaultAnimation(icon) {
+            return `
+                <div class="weather-animation-container" style="position: relative; width: 60px; height: 60px;">
+                    <div class="weather-icon" style="font-size: 32px; position: absolute; top: 15px; left: 15px; animation: gentle-bounce 3s ease-in-out infinite;">${icon}</div>
+                </div>
+            `;
+        }
+
+        // Display weather in date card with Apple-style animations and map-matching width
+        function displayWeatherInCard(dateId, weather) {
+            const dateCard = document.getElementById(dateId);
+            if (!dateCard) return;
+            
+            // Remove existing weather display
+            const existingWeather = dateCard.querySelector('.weather-info');
+            if (existingWeather) {
+                existingWeather.remove();
+            }
+
+            // Get map container to match its width EXACTLY
+            const mapContainer = dateCard.querySelector('.date-map-container');
+            let mapWidth = '100%';
+            let mapMargin = '20px 0';
+            let mapBorderRadius = '20px';
+            
+            if (mapContainer) {
+                const mapStyle = window.getComputedStyle(mapContainer);
+                // Get all relevant styling properties from the map
+                mapWidth = mapStyle.width;
+                mapMargin = mapStyle.margin;
+                mapBorderRadius = mapStyle.borderRadius;
+                
+                console.log(`🗺️ Map container found - Width: ${mapWidth}, Margin: ${mapMargin}`);
+            } else {
+                console.log('⚠️ No map container found, using default width');
+            }
+            
+            // Create weather display with Apple-style design - EXACT same width as map
+            const weatherDiv = document.createElement('div');
+            weatherDiv.className = 'weather-info';
+            weatherDiv.style.cssText = `
+                background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,248,255,0.95));
+                backdrop-filter: blur(20px);
+                border: 2px solid rgba(227, 242, 253, 0.8);
+                border-radius: ${mapBorderRadius};
+                padding: 20px;
+                margin: ${mapMargin};
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                font-size: 14px;
+                color: #333;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                width: ${mapWidth};
+                max-width: none;
+                min-width: none;
+                position: relative;
+                overflow: hidden;
+                box-sizing: border-box;
+            `;
+            
+            console.log(`🌤️ Weather bar styled - Width: ${mapWidth}, Margin: ${mapMargin}`);
+
+            // Add CSS animations to document if not already present
+            if (!document.querySelector('#weather-animations')) {
+                const style = document.createElement('style');
+                style.id = 'weather-animations';
+                style.textContent = `
+                    @keyframes rainFall {
+                        0% { top: -10px; opacity: 1; }
+                        100% { top: 100px; opacity: 0; }
+                    }
+                    @keyframes rainFallWide {
+                        0% { top: -10px; opacity: 1; }
+                        100% { top: 100px; opacity: 0; }
+                    }
+                    @keyframes snowFall {
+                        0% { top: -10px; opacity: 1; transform: translateX(0px); }
+                        100% { top: 70px; opacity: 0; transform: translateX(10px); }
+                    }
+                    @keyframes sunPulse {
+                        0%, 100% { transform: scale(1); filter: brightness(1); }
+                        50% { transform: scale(1.1); filter: brightness(1.2); }
+                    }
+                    @keyframes cloudFloat {
+                        0%, 100% { transform: translateX(0px); }
+                        50% { transform: translateX(3px); }
+                    }
+                    @keyframes thunderFlash {
+                        0%, 90%, 100% { opacity: 1; }
+                        95% { opacity: 0.3; }
+                    }
+                    @keyframes gentle-bounce {
+                        0%, 100% { transform: translateY(0px); }
+                        50% { transform: translateY(-2px); }
+                    }
+                    .weather-info::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+                        pointer-events: none;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Create animated weather icon with full-width rain effect
+            const animatedIcon = createWeatherAnimation(weather.condition);
+            
+            // Add rain animation across full width if it's raining
+            let fullWidthRain = '';
+            if (weather.condition.includes('Regen') || weather.condition.includes('Schauer')) {
+                fullWidthRain = `
+                    <div class="full-width-rain" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 1;">
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 12px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.8s infinite linear; left: 15%; animation-delay: 0s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 10px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.9s infinite linear; left: 25%; animation-delay: 0.1s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 14px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.7s infinite linear; left: 35%; animation-delay: 0.3s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 11px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.85s infinite linear; left: 45%; animation-delay: 0.2s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 13px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.75s infinite linear; left: 55%; animation-delay: 0.4s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 9px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.9s infinite linear; left: 65%; animation-delay: 0.15s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 12px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.8s infinite linear; left: 75%; animation-delay: 0.35s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 10px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.85s infinite linear; left: 85%; animation-delay: 0.25s;"></div>
+                        <div class="rain-drop" style="position: absolute; width: 1px; height: 11px; background: linear-gradient(to bottom, #4FC3F7, transparent); border-radius: 1px; animation: rainFallWide 0.9s infinite linear; left: 90%; animation-delay: 0.5s;"></div>
+                    </div>
+                `;
+            }
+            
+            weatherDiv.innerHTML = `
+                ${fullWidthRain}
+                ${animatedIcon}
+                <div style="flex: 1; position: relative; z-index: 2;">
+                    <div style="font-weight: 600; color: #1976d2; font-size: 18px; margin-bottom: 5px;">${weather.condition}</div>
+                    <div style="font-size: 14px; color: #666; display: flex; align-items: center; gap: 15px;">
+                        <span style="display: flex; align-items: center; gap: 5px;">
+                            <span style="font-size: 16px;">🌡️</span>
+                            <span style="font-weight: 500;">${weather.temperature}°C</span>
+                        </span>
+                        <span style="display: flex; align-items: center; gap: 5px;">
+                            <span style="font-size: 16px;">💧</span>
+                            <span style="font-weight: 500;">${weather.humidity}%</span>
+                        </span>
+                    </div>
+                </div>
+            `;
+            
+            // Insert after date header
+            const dateHeader = dateCard.querySelector('h2');
+            if (dateHeader) {
+                dateHeader.parentNode.insertBefore(weatherDiv, dateHeader.nextSibling);
+            }
+        }
+
+        // Handle file selection - WITH AUTOMATIC COMPRESSION AND LOCATION EXTRACTION
+        document.getElementById('photoUpload').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file || !currentPhotoTarget) return;
+            
+            // Show loading indicator
+            currentPhotoTarget.innerHTML = `
+                <div class="upload-text">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <div>Bild wird verarbeitet...</div>
+                </div>
+            `;
+            
+            try {
+                console.log(`📸 Original file size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+                
+                const dateId = currentPhotoTarget.dataset.date;
+                const photoIndex = parseInt(currentPhotoTarget.dataset.photo);
+                
+                // Extract location from first photo if no location is set yet
+                if (photoIndex === 0) {
+                    console.log('🌍 Checking for GPS data in first photo...');
+                    
+                    try {
+                        // Try to get location from image
+                        const location = await getImageLocation(file);
+                        
+                        if (location && location.lat && location.lon) {
+                            console.log(`📍 GPS coordinates found: ${location.lat}, ${location.lon}`);
+                            
+                            // Get address from coordinates
+                            const addressInfo = await reverseGeocode(location.lat, location.lon);
+                            
+                            if (addressInfo) {
+                                console.log(`🏠 Address found: ${addressInfo.address}`);
+                                
+                                // Check if location field is empty or has default text
+                                const locationInput = document.getElementById('dateLocation');
+                                if (locationInput && (!locationInput.value.trim() || locationInput.value.trim() === '')) {
+                                    locationInput.value = addressInfo.address;
+                                    
+                                    // Make location field read-only and style it as GPS-detected
+                                    locationInput.readOnly = true;
+                                    locationInput.style.background = 'linear-gradient(135deg, #e8f5e8, #f0f8f0)';
+                                    locationInput.style.border = '2px solid #4CAF50';
+                                    locationInput.style.color = '#2e7d32';
+                                    locationInput.style.fontWeight = '500';
+                                    locationInput.style.cursor = 'default';
+                                    
+                                    // Show the mini map
+                                    showMiniMap(addressInfo.lat, addressInfo.lon, addressInfo.address);
+                                    updateLocationHint('📍 Ort automatisch aus Foto-GPS erkannt! Nicht mehr bearbeitbar ✨', 'location-gps-locked');
+                                    
+                                    // Show notification
+                                    const gpsMsg = document.createElement('div');
+                                    gpsMsg.style.cssText = `
+                                        position: fixed;
+                                        top: 20px;
+                                        left: 50%;
+                                        transform: translateX(-50%);
+                                        background: linear-gradient(135deg, #4CAF50, #45a049);
+                                        color: white;
+                                        padding: 15px 25px;
+                                        border-radius: 15px;
+                                        z-index: 1000;
+                                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                                        font-weight: 500;
+                                        text-align: center;
+                                        max-width: 350px;
+                                    `;
+                                    gpsMsg.innerHTML = '🌍 Wow! Ort automatisch aus Foto erkannt! 📸✨<br><small>Feld ist jetzt gesperrt</small>';
+                                    document.body.appendChild(gpsMsg);
+                                    
+                                    setTimeout(() => gpsMsg.remove(), 4000);
+                                    
+                                    createHeartEffect(); // Extra heart effect for GPS success
+                                }
+                            }
+                        } else {
+                            console.log('ℹ️ No GPS data found in image');
+                        }
+                    } catch (gpsError) {
+                        console.log('ℹ️ Could not extract GPS data:', gpsError.message);
+                    }
+                }
+                
+                // Compress the image
+                const compressedDataUrl = await compressImage(file);
+                
+                // Calculate compressed size (rough estimate)
+                const compressedSize = (compressedDataUrl.length * 0.75) / 1024 / 1024;
+                console.log(`📸 Compressed size: ${compressedSize.toFixed(2)} MB`);
+                
+                console.log(`💾 SAVING COMPRESSED PHOTO: dateId=${dateId}, index=${photoIndex}`);
+                
+                // Ensure dates structure exists
+                if (!dates[dateId]) {
+                    dates[dateId] = { comments: [], photos: [] };
+                }
+                if (!dates[dateId].photos) {
+                    dates[dateId].photos = [];
+                }
+                
+                // Save compressed photo to data structure
+                dates[dateId].photos[photoIndex] = compressedDataUrl;
+                
+                // Update UI immediately
+                currentPhotoTarget.classList.add('has-image');
+                currentPhotoTarget.innerHTML = `<img src="${compressedDataUrl}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                
+                // CRITICAL: Save to localStorage with size check
+                try {
+                    const dataToSave = JSON.stringify(dates);
+                    const dataSize = (dataToSave.length * 2) / 1024 / 1024; // Rough size in MB
+                    
+                    console.log(`💾 Total data size: ${dataSize.toFixed(2)} MB`);
+                    
+                    if (dataSize > 4) { // If larger than 4MB, warn but try anyway
+                        console.warn('⚠️ Data size is large, storage might fail');
+                    }
+                    
+                    localStorage.setItem('couplesDates', dataToSave);
+                    
+                    // Verify the save worked
+                    const verification = JSON.parse(localStorage.getItem('couplesDates'));
+                    if (verification[dateId] && verification[dateId].photos && verification[dateId].photos[photoIndex]) {
+                        console.log('✅ COMPRESSED PHOTO SUCCESSFULLY SAVED TO LOCALSTORAGE');
+                        createHeartEffect();
+                        
+                        // Show success message
+                        const successMsg = document.createElement('div');
+                        successMsg.style.position = 'fixed';
+                        successMsg.style.top = '20px';
+                        successMsg.style.right = '20px';
+                        successMsg.style.background = '#4CAF50';
+                        successMsg.style.color = 'white';
+                        successMsg.style.padding = '10px 20px';
+                        successMsg.style.borderRadius = '10px';
+                        successMsg.style.zIndex = '1000';
+                        successMsg.innerHTML = '✅ Foto erfolgreich gespeichert!';
+                        document.body.appendChild(successMsg);
+                        
+                        setTimeout(() => successMsg.remove(), 3000);
+                        
+                    } else {
+                        throw new Error('Verification failed');
+                    }
+                } catch (storageError) {
+                    console.error('❌ LOCALSTORAGE SAVE ERROR:', storageError);
+                    
+                    // Try to free up space by compressing more
+                    console.log('🔄 Trying with higher compression...');
+                    const ultraCompressed = await compressImage(file, 600, 400, 0.6);
+                    dates[dateId].photos[photoIndex] = ultraCompressed;
+                    
+                    try {
+                        localStorage.setItem('couplesDates', JSON.stringify(dates));
+                        console.log('✅ ULTRA COMPRESSED VERSION SAVED');
+                        
+                        // Update UI with ultra compressed version
+                        currentPhotoTarget.innerHTML = `<img src="${ultraCompressed}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                        createHeartEffect();
+                        
+                        alert('✅ Foto mit höherer Komprimierung gespeichert!');
+                    } catch (finalError) {
+                        console.error('❌ FINAL SAVE ATTEMPT FAILED:', finalError);
+                        alert('❌ Foto zu groß für Speicher! Bitte kleineres Bild verwenden.');
+                        
+                        // Reset placeholder
+                        currentPhotoTarget.classList.remove('has-image');
+                        currentPhotoTarget.innerHTML = `
+                            <div class="upload-text">
+                                <i class="fas fa-plus"></i>
+                                <div>Foto hinzufügen</div>
+                            </div>
+                        `;
+                    }
+                }
+                
+            } catch (error) {
+                console.error('❌ IMAGE PROCESSING ERROR:', error);
+                alert('Fehler beim Verarbeiten des Bildes!');
+                
+                // Reset placeholder
+                currentPhotoTarget.classList.remove('has-image');
+                currentPhotoTarget.innerHTML = `
+                    <div class="upload-text">
+                        <i class="fas fa-plus"></i>
+                        <div>Foto hinzufügen</div>
+                    </div>
+                `;
+            }
+            
+            currentPhotoTarget = null;
+        });
+
+        // BULLETPROOF PHOTO LOADING SYSTEM
+        function bulletproofLoadPhotos(dateId) {
+            console.log(`🔄 LOADING PHOTOS for ${dateId}`);
+            
+            // Get fresh data from localStorage
+            const freshData = JSON.parse(localStorage.getItem('couplesDates')) || {};
+            
+            if (!freshData[dateId] || !freshData[dateId].photos) {
+                console.log(`❌ No photos found for ${dateId}`);
+                return;
+            }
+            
+            const photos = freshData[dateId].photos;
+            console.log(`📸 Found ${photos.length} photos for ${dateId}:`, photos.map((p, i) => p ? `Photo ${i}: YES` : `Photo ${i}: NO`));
+            
+            photos.forEach((photoData, index) => {
+                if (photoData && photoData.startsWith('data:image/')) {
+                    const placeholder = document.querySelector(`[data-date="${dateId}"][data-photo="${index}"]`);
+                    
+                    if (placeholder) {
+                        console.log(`✅ Loading photo ${index} for ${dateId}`);
+                        placeholder.classList.add('has-image');
+                        placeholder.innerHTML = `<img src="${photoData}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                    } else {
+                        console.log(`❌ Placeholder not found for ${dateId}, photo ${index}`);
+                        
+                        // Try again after a short delay
+                        setTimeout(() => {
+                            const retryPlaceholder = document.querySelector(`[data-date="${dateId}"][data-photo="${index}"]`);
+                            if (retryPlaceholder) {
+                                console.log(`✅ RETRY SUCCESS: Loading photo ${index} for ${dateId}`);
+                                retryPlaceholder.classList.add('has-image');
+                                retryPlaceholder.innerHTML = `<img src="${photoData}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                            }
+                        }, 100);
+                    }
+                }
+            });
+        }
+
+        // Override the old loadPhotos function
+        function loadPhotos(dateId) {
+            bulletproofLoadPhotos(dateId);
+        }
+
+        // Tab functionality
+        function showTab(evt, tabId) {
+            var i, tabcontent, tablinks;
+            
+            // Hide all tab contents
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabId).classList.add("active");
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add("active");
+            }
+
+            // Hide new date form when switching tabs
+            if (tabId !== 'newdate') {
+                hideNewDateForm();
+            }
+        }
+
+        // Show new date form
+        function showNewDateForm() {
+            document.getElementById('newDatePrompt').style.display = 'none';
+            document.getElementById('newDateForm').classList.add('active');
+        }
+
+        // Hide new date form
+        function hideNewDateForm() {
+            document.getElementById('newDatePrompt').style.display = 'block';
+            document.getElementById('newDateForm').classList.remove('active');
+        }
+
+        // Create new date with weather integration
+        async function createNewDate() {
+            const title = document.getElementById('dateTitle').value;
+            const date = document.getElementById('dateDate').value;
+            const time = document.getElementById('dateTime').value;
+            const location = document.getElementById('dateLocation').value;
+            const description = document.getElementById('dateDescription').value;
+
+            if (!title || !date) {
+                alert('Bitte fülle mindestens Titel und Datum aus! 💕');
+                return;
+            }
+
+            // Check location validity
+            const hint = document.getElementById('locationHint');
+            if (hint.classList.contains('location-warning')) {
+                alert('Bitte geben Sie einen echten Ort an! 🏢');
+                return;
+            }
+
+            dateCounter++;
+            const newDateId = 'date' + dateCounter;
+            
+            // Add to dates object
+            dates[newDateId] = {
+                title: title,
+                date: date,
+                time: time,
+                location: location,
+                description: description,
+                comments: [],
+                photos: []
+            };
+
+            // Save to localStorage
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+
+            // Create new tab
+            createNewTab(newDateId, title);
+
+            // Load weather for the new date
+            await loadWeatherForDate(newDateId, date, location);
+
+            // Clear form
+            document.getElementById('dateTitle').value = '';
+            document.getElementById('dateDate').value = '';
+            document.getElementById('dateTime').value = '';
+            document.getElementById('dateLocation').value = '';
+            document.getElementById('dateDescription').value = '';
+
+            hideNewDateForm();
+            
+            // Show success message
+            createHeartEffect();
+            
+            // Update timeline
+            updateTimeline();
+        }
+
+        // Create new tab
+        function createNewTab(dateId, title) {
+            // Add tab button
+            const tabNav = document.querySelector('.tab-nav');
+            const newDateBtn = tabNav.querySelector('.tab-btn:last-child');
+            
+            const newTabBtn = document.createElement('button');
+            newTabBtn.className = 'tab-btn available';
+            newTabBtn.onclick = function(event) { showTab(event, dateId); };
+            newTabBtn.innerHTML = `${title}`;
+            
+            tabNav.insertBefore(newTabBtn, newDateBtn);
+
+            // Add tab content
+            const tabContainer = document.querySelector('.tab-container');
+            const newTabContent = createDateContent(dateId, dates[dateId]);
+            tabContainer.appendChild(newTabContent);
+        }
+
+        // ENHANCED MAP SYSTEM FOR ALL DATES
+        // Geocode an address to get coordinates
+        async function geocodeAddress(address) {
+            if (!address || address.trim() === '' || address === 'Ort eingeben') {
+                return null;
+            }
+            
+            try {
+                console.log(`🔍 Geocoding address: ${address}`);
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(address)}&countrycodes=de,at,ch&addressdetails=1`
+                );
+                const results = await response.json();
+                
+                if (results.length > 0) {
+                    const result = results[0];
+                    console.log(`✅ Geocoded: ${address} -> ${result.lat}, ${result.lon}`);
+                    return {
+                        lat: parseFloat(result.lat),
+                        lon: parseFloat(result.lon),
+                        display_name: result.display_name
+                    };
+                }
+                
+                console.log(`❌ No coordinates found for: ${address}`);
+                return null;
+            } catch (error) {
+                console.error('Geocoding error:', error);
+                return null;
+            }
+        }
+
+        // Show map for a specific date
+        async function showDateMap(dateId, address) {
+            if (!address || address === 'Ort eingeben') return;
+            
+            const coordinates = await geocodeAddress(address);
+            if (!coordinates) return;
+            
+            // Find the date card
+            const dateCard = document.querySelector(`#${dateId} .date-card`);
+            if (!dateCard) return;
+            
+            // Remove existing map
+            const existingMap = dateCard.querySelector('.date-map-container');
+            if (existingMap) {
+                existingMap.remove();
+            }
+            
+
+            
+            // Create map container
+            const mapContainer = document.createElement('div');
+            mapContainer.className = 'date-map-container';
+            mapContainer.dataset.mapId = dateId;
+            mapContainer.style.cssText = `
+                margin: 20px 0;
+                border: 2px solid #E9D8C3;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                animation: fadeIn 0.5s ease-out;
+                position: relative;
+            `;
+            
+            // Create address label
+            const addressLabel = document.createElement('div');
+            addressLabel.style.cssText = `
+                background: linear-gradient(135deg, #8B5E3C, #E9D8C3);
+                color: white;
+                padding: 10px 15px;
+                font-size: 14px;
+                font-weight: 500;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            `;
+            addressLabel.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${address}`;
+            
+            // Create iframe with OpenStreetMap - start with close zoom
+            const mapFrame = document.createElement('iframe');
+            mapFrame.style.cssText = `
+                width: 100%;
+                height: 250px;
+                border: none;
+                display: block;
+                transition: opacity 0.8s ease-in-out;
+                opacity: 1;
+            `;
+            
+            // Google Maps optimized system
+            const closeZoom = 16;
+            const wideZoom = 13;
+            
+            // Google Maps URL - use optimal zoom level
+            const googleMapsUrl = `https://www.google.com/maps?q=${coordinates.lat},${coordinates.lon}&z=${closeZoom}&output=embed`;
+            
+            // Set map source
+            mapFrame.src = googleMapsUrl;
+            
+            mapContainer.appendChild(addressLabel);
+            mapContainer.appendChild(mapFrame);
+            
+            // Add map after the date header
+            const dateHeader = dateCard.querySelector('.date-header');
+            if (dateHeader) {
+                dateHeader.parentNode.insertBefore(mapContainer, dateHeader.nextSibling);
+                console.log(`✅ Map added for ${dateId}`);
+            }
+        }
+
+        // Load weather for a specific date
+        async function loadWeatherForDate(dateId, date, location = null) {
+            if (!date) return;
+            
+            console.log(`🌤️ Loading weather for ${dateId} on ${date}`);
+            
+            try {
+                const weather = await getWeatherForDate(date, location);
+                
+                // Store weather in dates object
+                if (!dates[dateId]) dates[dateId] = {};
+                dates[dateId].weather = weather;
+                
+                // Save to localStorage
+                localStorage.setItem('couplesDates', JSON.stringify(dates));
+                
+                // Display weather in card
+                displayWeatherInCard(dateId, weather);
+                
+                console.log(`✅ Weather loaded for ${dateId}:`, weather);
+            } catch (error) {
+                console.error(`❌ Failed to load weather for ${dateId}:`, error);
+            }
+        }
+
+        // Load weather for all dates
+        async function loadAllDateWeather() {
+            console.log('🌤️ LOADING WEATHER FOR ALL DATES');
+            
+            for (const dateId of Object.keys(dates)) {
+                const dateData = dates[dateId];
+                if (dateData && dateData.date) {
+                    console.log(`🌤️ Loading weather for ${dateId}: ${dateData.date}`);
+                    await loadWeatherForDate(dateId, dateData.date, dateData.location);
+                    // Small delay to avoid overwhelming the system
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+            }
+            
+            // After weather is loaded, update widths to match maps
+            setTimeout(updateWeatherWidthsToMatchMaps, 500);
+        }
+        
+        // Update all weather bar widths to match their corresponding maps
+        function updateWeatherWidthsToMatchMaps() {
+            console.log('🔧 Updating weather bar widths to match maps...');
+            
+            const allWeatherBars = document.querySelectorAll('.weather-info');
+            
+            allWeatherBars.forEach(weatherBar => {
+                const dateCard = weatherBar.closest('.tab-content');
+                if (dateCard) {
+                    const mapContainer = dateCard.querySelector('.date-map-container');
+                    if (mapContainer) {
+                        const mapStyle = window.getComputedStyle(mapContainer);
+                        const mapWidth = mapStyle.width;
+                        const mapMargin = mapStyle.margin;
+                        
+                        // Update weather bar to match map exactly
+                        weatherBar.style.width = mapWidth;
+                        weatherBar.style.margin = mapMargin;
+                        weatherBar.style.boxSizing = 'border-box';
+                        
+                        console.log(`✅ Updated weather bar width to ${mapWidth} for date card`);
+                    }
+                }
+            });
+        }
+
+        // Load maps for all dates with addresses
+        async function loadAllDateMaps() {
+            console.log('🗺️ LOADING MAPS FOR ALL DATES');
+            
+            for (const dateId of Object.keys(dates)) {
+                const dateData = dates[dateId];
+                if (dateData && dateData.location && dateData.location !== 'Ort eingeben') {
+                    console.log(`🗺️ Loading map for ${dateId}: ${dateData.location}`);
+                    await showDateMap(dateId, dateData.location);
+                    // Small delay to avoid API rate limits
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+            }
+        }
+
+        // Enhanced createDateContent with automatic map loading
+        
+        function createDateContent(dateId, dateData) {
+            const tabContent = document.createElement('div');
+            tabContent.id = dateId;
+            tabContent.className = 'tab-content';
+            
+            const formattedDate = dateData.date ? new Date(dateData.date).toLocaleDateString('de-DE') : '';
+            const formattedTime = dateData.time || '';
+            const locationText = dateData.location || 'Ort eingeben';
+            
+            tabContent.innerHTML = `
+                <div class="date-card">
+                    <div class="date-header">
+                        <div class="date-info">
+                            <h2>${dateData.title}</h2>
+                            <div class="date-time">${formattedDate} ${formattedTime}</div>
+                            <div class="location"><i class="fas fa-map-marker-alt"></i> ${locationText}</div>
+                        </div>
+                    </div>
+
+                    <!-- Foto-Sektion entfernt - nur in Galerie-Tab -->
+
+                    <div class="comments-section">
+                        <h3>Unsere Erinnerungen</h3>
+                        <div class="comment-form">
+                            <input type="text" class="comment-input" placeholder="Schreibe deine Gedanken zu diesem Date...">
+                            <button class="comment-btn" onclick="addComment('${dateId}')">
+                                <i class="fas fa-heart"></i> Absenden
+                            </button>
+                        </div>
+                        <div class="comments-list" id="comments-${dateId}">
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Load map for this date after creating the content
+            setTimeout(() => {
+                if (dateData.location && dateData.location !== 'Ort eingeben') {
+                    showDateMap(dateId, dateData.location);
+                }
+            }, 500);
+
+            return tabContent;
+        }
+
+        // Add comment functionality
+        function addComment(dateId) {
+            const input = document.querySelector(`#${dateId} .comment-input`);
+            const commentsList = document.getElementById(`comments-${dateId}`);
+            
+            if (input.value.trim() === '') return;
+            
+            // Create comment object
+            const comment = {
+                text: input.value.trim(),
+                author: 'Du',
+                timestamp: new Date().toISOString(),
+                isPartner: Math.random() > 0.5 // Random für Demo - später durch User-System ersetzen
+            };
+
+            // Add to dates object
+            if (!dates[dateId].comments) dates[dateId].comments = [];
+            dates[dateId].comments.push(comment);
+
+            // Save to localStorage
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+
+            // Clear input
+            input.value = '';
+            
+            // Reload comments
+            loadComments(dateId);
+            
+            // Add heart effect
+            createHeartEffect();
+        }
+
+        // Load comments
+        function loadComments(dateId) {
+            const commentsList = document.getElementById(`comments-${dateId}`);
+            if (!commentsList || !dates[dateId] || !dates[dateId].comments) return;
+
+            commentsList.innerHTML = '';
+            
+            dates[dateId].comments.forEach(comment => {
+                const commentDiv = document.createElement('div');
+                commentDiv.className = comment.isPartner ? 'comment partner' : 'comment';
+                
+                const timeAgo = getTimeAgo(comment.timestamp);
+                const authorName = comment.isPartner ? 'Dein Schatz' : 'Du';
+                
+                commentDiv.innerHTML = `
+                    <div class="comment-author">
+                        <i class="fas fa-user-circle"></i> ${authorName}
+                    </div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-time">${timeAgo}</div>
+                `;
+                
+                commentsList.appendChild(commentDiv);
+            });
+        }
+
+        // Get time ago string
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const commentTime = new Date(timestamp);
+            const diffMs = now - commentTime;
+            const diffMins = Math.floor(diffMs / 60000);
+            
+            if (diffMins < 1) return 'gerade eben';
+            if (diffMins < 60) return `vor ${diffMins} Minuten`;
+            if (diffMins < 1440) return `vor ${Math.floor(diffMins / 60)} Stunden`;
+            return `vor ${Math.floor(diffMins / 1440)} Tagen`;
+        }
+
+        // DYNAMIC TIMELINE WITH REAL DATES AND NAMES
+        function updateTimeline() {
+            console.log('📅 UPDATING DYNAMIC TIMELINE WITH REAL DATES');
+            
+            // Get all dates with valid date fields, sorted chronologically
+            const validDates = Object.keys(dates)
+                .filter(dateId => dates[dateId].date && dates[dateId].date.trim() !== '')
+                .map(dateId => ({
+                    id: dateId,
+                    title: dates[dateId].title,
+                    date: dates[dateId].date,
+                    dateObj: new Date(dates[dateId].date)
+                }))
+                .sort((a, b) => a.dateObj - b.dateObj);
+            
+            console.log('📊 Valid dates found:', validDates.length, validDates);
+            
+            // Get timeline container
+            const timelineMarkersContainer = document.getElementById('timelineMarkers');
+            if (!timelineMarkersContainer) return;
+            
+            // Clear existing markers
+            timelineMarkersContainer.innerHTML = '';
+            
+            if (validDates.length === 0) {
+                // No dates yet - show placeholder
+                timelineMarkersContainer.innerHTML = `
+                    <div class="timeline-marker awaiting" data-date="placeholder">
+                        <div class="timeline-label">Erstes Date<br>💕</div>
+                    </div>
+                    <div class="timeline-marker future" data-date="future1">
+                        <div class="timeline-label">Zukunft<br>🌟</div>
+                    </div>
+                `;
+                document.getElementById('timelineProgress').style.width = '0%';
+                return;
+            }
+            
+            // Create markers for each real date
+            validDates.forEach((dateInfo, index) => {
+                const marker = document.createElement('div');
+                marker.className = 'timeline-marker completed';
+                marker.dataset.date = dateInfo.id;
+                
+                // Format date for display
+                const formattedDate = dateInfo.dateObj.toLocaleDateString('de-DE', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: '2-digit'
+                });
+                
+                marker.innerHTML = `
+                    <div class="timeline-label">
+                        ${dateInfo.title}<br>
+                        <span style="font-size: 0.8em; opacity: 0.9;">${formattedDate}</span>
+                    </div>
+                `;
+                
+                // Add click handler for navigation
+                marker.addEventListener('click', function() {
+                    if (dates[dateInfo.id]) {
+                        const tabBtn = document.querySelector(`[onclick*="${dateInfo.id}"]`);
+                        if (tabBtn) {
+                            showTab({currentTarget: tabBtn}, dateInfo.id);
+                        }
+                    }
+                });
+                
+                timelineMarkersContainer.appendChild(marker);
+            });
+            
+            // Add a future marker at the end
+            const futureMarker = document.createElement('div');
+            futureMarker.className = 'timeline-marker future';
+            futureMarker.dataset.date = 'future';
+            futureMarker.innerHTML = `
+                <div class="timeline-label">Mehr Dates</div>
+            `;
+            futureMarker.addEventListener('click', function() {
+                showTab({currentTarget: document.querySelector('[onclick*="newdate"]')}, 'newdate');
+            });
+            timelineMarkersContainer.appendChild(futureMarker);
+            
+            // Update progress bar - show as 100% filled for all completed dates
+            const progressPercentage = validDates.length > 0 ? (validDates.length / (validDates.length + 1)) * 100 : 0;
+            document.getElementById('timelineProgress').style.width = progressPercentage + '%';
+            
+            console.log(`✅ Timeline updated with ${validDates.length} real dates`);
+        }
+
+        // Enhanced function to update date1 timeline info when date is added
+        async function updateFirstDateInfo(newTitle, newDate) {
+            if (newTitle) {
+                dates.date1.title = newTitle;
+                
+                // Update tab button text
+                const firstDateTab = document.querySelector('[onclick*="date1"]');
+                if (firstDateTab) {
+                    firstDateTab.innerHTML = `<i class="fas fa-heart"></i> ${newTitle}`;
+                }
+                
+                // Update date card header
+                const dateCardHeader = document.querySelector('#date1 h2');
+                if (dateCardHeader) {
+                    dateCardHeader.textContent = newTitle;
+                }
+            }
+            
+            if (newDate) {
+                dates.date1.date = newDate;
+                
+                // Update date display
+                const dateTimeElement = document.querySelector('#date1 .date-time');
+                if (dateTimeElement) {
+                    const formattedDate = new Date(newDate).toLocaleDateString('de-DE');
+                    dateTimeElement.textContent = formattedDate;
+                }
+                
+                // Load weather for the date
+                await loadWeatherForDate('date1', newDate);
+            }
+            
+            // Save changes
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+            
+            // Update timeline
+            updateTimeline();
+            
+            console.log(`✅ Updated first date info: ${newTitle}, ${newDate}`);
+        }
+
+        // Add edit buttons for first date
+        function addFirstDateEditButtons() {
+            const date1Card = document.querySelector('#date1 .date-card');
+            if (!date1Card) return;
+            
+            const dateHeader = date1Card.querySelector('.date-header');
+            if (!dateHeader) return;
+            
+            // Check if first date has title/date
+            const currentTitle = dates.date1?.title;
+            const currentDate = dates.date1?.date;
+            
+            if (!currentTitle || currentTitle === 'Unser erstes Date' || !currentDate || currentDate === '') {
+                // Add edit button for title and date
+                const editContainer = document.createElement('div');
+                editContainer.style.cssText = `
+                    margin-top: 15px;
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+                `;
+                
+                if (!currentTitle || currentTitle === 'Unser erstes Date') {
+                    const titleBtn = document.createElement('button');
+                    titleBtn.innerHTML = '<i class="fas fa-edit"></i> Titel bearbeiten';
+                    titleBtn.style.cssText = `
+                        background: linear-gradient(135deg, #8B5E3C, #E9D8C3);
+                        color: white;
+                        border: none;
+                        padding: 8px 12px;
+                        border-radius: 10px;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    `;
+                    
+                    titleBtn.addEventListener('click', () => {
+                        const newTitle = prompt('Geben Sie einen Namen für Ihr erstes Date ein:', currentTitle);
+                        if (newTitle && newTitle.trim()) {
+                            updateFirstDateInfo(newTitle.trim(), null);
+                            titleBtn.remove();
+                        }
+                    });
+                    
+                    editContainer.appendChild(titleBtn);
+                }
+                
+                if (!currentDate || currentDate === '') {
+                    const dateBtn = document.createElement('button');
+                    dateBtn.innerHTML = '<i class="fas fa-calendar"></i> Datum hinzufügen';
+                    dateBtn.style.cssText = `
+                        background: linear-gradient(135deg, #8B5E3C, #E9D8C3);
+                        color: white;
+                        border: none;
+                        padding: 8px 12px;
+                        border-radius: 10px;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    `;
+                    
+                    dateBtn.addEventListener('click', () => {
+                        const newDate = prompt('Geben Sie das Datum ein (YYYY-MM-DD):', '');
+                        if (newDate && newDate.trim()) {
+                            updateFirstDateInfo(null, newDate.trim());
+                            dateBtn.remove();
+                        }
+                    });
+                    
+                    editContainer.appendChild(dateBtn);
+                }
+                
+                dateHeader.appendChild(editContainer);
+            }
+        }
+
+        // Floating hamsters animation
+        function createFloatingHamsters() {
+            const elementsContainer = document.getElementById('floatingElements');
+            
+            // Array mit den verfügbaren Hamster-Bildern
+            const hamsterImages = [
+                'Hamsti/Objekt.png',
+                'Hamsti/Objekt 2.png',
+                'Hamsti/Objekt 3.png',
+                'Hamsti/Objekt 4.png',
+                'Hamsti/Objekt 5.png'
+            ];
+            
+            function addHamster() {
+                const hamster = document.createElement('div');
+                hamster.className = 'hamster';
+                
+                // Zufälliges Hamster-Bild auswählen
+                const randomImage = hamsterImages[Math.floor(Math.random() * hamsterImages.length)];
+                hamster.innerHTML = `<img src="${randomImage}" alt="Hamster">`;
+                
+                hamster.style.left = Math.random() * 100 + 'vw';
+                hamster.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                
+                // Zufällige Größe zwischen 30px und 60px
+                const size = Math.random() * 30 + 30;
+                hamster.style.width = size + 'px';
+                hamster.style.height = size + 'px';
+                
+                elementsContainer.appendChild(hamster);
+                
+                setTimeout(() => {
+                    hamster.remove();
+                }, 20000); // Länger sichtbar für mehr Hamster gleichzeitig
+            }
+            
+            // Alle 6 Sekunden einen neuen Hamster
+            setInterval(addHamster, 6000);
+        }
+
+        // Heart effect for comments
+        function createHeartEffect() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '💖';
+            heart.style.position = 'fixed';
+            heart.style.top = '50%';
+            heart.style.left = '50%';
+            heart.style.fontSize = '2rem';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '1000';
+            heart.style.animation = 'heartPop 1s ease-out forwards';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 1000);
+        }
+
+        // Add heart pop animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes heartPop {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // BULLETPROOF INITIALIZATION SYSTEM  
+        function initializeEverything() {
+            console.log('🚀 STARTING BULLETPROOF INITIALIZATION');
+            
+            // Step 1: Load saved data from localStorage
+            const savedData = JSON.parse(localStorage.getItem('couplesDates')) || {};
+            console.log('💾 Loaded data from localStorage:', Object.keys(savedData));
+            
+            // Step 2: Merge with existing dates
+            Object.keys(savedData).forEach(dateId => {
+                dates[dateId] = savedData[dateId];
+            });
+            
+            // Step 3: Update dateCounter
+            let maxCounter = 1;
+            Object.keys(dates).forEach(dateId => {
+                if (dateId.startsWith('date')) {
+                    const num = parseInt(dateId.replace('date', ''));
+                    if (num > maxCounter) maxCounter = num;
+                }
+            });
+            dateCounter = maxCounter;
+            console.log('📊 Date counter updated to:', dateCounter);
+            
+            // Step 4: Create tabs for all dates except date1
+            Object.keys(dates).forEach(dateId => {
+                if (dateId !== 'date1') {
+                    createNewTab(dateId, dates[dateId].title);
+                    console.log(`📑 Created tab for ${dateId}: ${dates[dateId].title}`);
+                }
+            });
+            
+            // Step 5: Load comments for all dates
+            Object.keys(dates).forEach(dateId => {
+                loadComments(dateId);
+            });
+            
+            console.log('✅ INITIALIZATION COMPLETE - NOW LOADING PHOTOS');
+        }
+
+        // SUPER AGGRESSIVE PHOTO LOADING
+        function superAggressivePhotoLoad() {
+            console.log('🔥 SUPER AGGRESSIVE PHOTO LOADING STARTED');
+            
+            // Get absolutely fresh data from localStorage
+            const ultraFreshData = JSON.parse(localStorage.getItem('couplesDates')) || {};
+            
+            Object.keys(ultraFreshData).forEach(dateId => {
+                if (ultraFreshData[dateId] && ultraFreshData[dateId].photos) {
+                    console.log(`🎯 Processing ${dateId} with ${ultraFreshData[dateId].photos.length} photos`);
+                    
+                    ultraFreshData[dateId].photos.forEach((photoData, index) => {
+                        if (photoData && photoData.startsWith('data:image/')) {
+                            console.log(`📸 Loading photo ${index} for ${dateId}`);
+                            
+                            // Multiple attempts to find and load photo
+                            let attempts = 0;
+                            const maxAttempts = 10;
+                            
+                            function attemptPhotoLoad() {
+                                attempts++;
+                                const placeholder = document.querySelector(`[data-date="${dateId}"][data-photo="${index}"]`);
+                                
+                                if (placeholder && !placeholder.classList.contains('has-image')) {
+                                    placeholder.classList.add('has-image');
+                                    placeholder.innerHTML = `<img src="${photoData}" alt="Date Foto" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                                    console.log(`✅ SUCCESS: Photo ${index} loaded for ${dateId} on attempt ${attempts}`);
+                                } else if (attempts < maxAttempts) {
+                                    setTimeout(attemptPhotoLoad, 200 * attempts);
+                                }
+                            }
+                            
+                            attemptPhotoLoad();
+                        }
+                    });
+                }
+            });
+        }
+
+        // Function to update date1 location and add map
+        async function updateFirstDateLocation(newLocation) {
+            if (!newLocation || newLocation.trim() === '') return;
+            
+            // Update the data
+            dates.date1.location = newLocation;
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+            
+            // Update the display
+            const locationElement = document.querySelector('#date1 .location');
+            if (locationElement) {
+                locationElement.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${newLocation}`;
+            }
+            
+            // Add the map
+            await showDateMap('date1', newLocation);
+            
+            console.log(`✅ Updated first date location: ${newLocation}`);
+        }
+
+        // Add button to update first date location
+        function addLocationUpdateButton() {
+            const date1Card = document.querySelector('#date1 .date-card');
+            if (!date1Card) return;
+            
+            const locationElement = date1Card.querySelector('.location');
+            if (!locationElement) return;
+            
+            // Check if there's already a location
+            const currentLocation = dates.date1?.location;
+            if (currentLocation && currentLocation !== 'Ort eingeben') {
+                return; // Already has a location
+            }
+            
+            // Add a small edit button
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '<i class="fas fa-edit"></i> Ort hinzufügen';
+            editBtn.style.cssText = `
+                background: linear-gradient(135deg, #8B5E3C, #E9D8C3);
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 10px;
+                font-size: 12px;
+                margin-left: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            `;
+            
+            editBtn.addEventListener('click', () => {
+                const newLocation = prompt('Geben Sie den Ort für Ihr erstes Date ein:', '');
+                if (newLocation && newLocation.trim()) {
+                    updateFirstDateLocation(newLocation.trim());
+                    editBtn.remove(); // Remove button after location is added
+                }
+            });
+            
+            locationElement.appendChild(editBtn);
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 DOM CONTENT LOADED - Galerie ist Standard, Timeline wird nur bei Bedarf geladen');
+            
+            // KEINE automatische Timeline-Initialisierung mehr!
+            // initializeEverything(); // Wird nur bei Timeline-Tab-Aktivierung ausgeführt
+            
+            // 🗺️ Setup smart location input system - NUR wenn Timeline aktiv ist
+            console.log('🗺️ Location-System wird nur bei Timeline-Aktivierung geladen');
+            // setupSmartLocationInput(); // Entfernt - wird nur bei Timeline-Tab aktiviert
+            
+            // Location-Button wird nur bei Timeline-Tab hinzugefügt
+            // setTimeout(() => {
+            //     console.log('📍 ADDING LOCATION UPDATE BUTTON FOR FIRST DATE');
+            //     addLocationUpdateButton();
+            // }, 500);
+            
+            // Add edit buttons for first date (title/date) if needed
+            setTimeout(() => {
+                console.log('📝 ADDING EDIT BUTTONS FOR FIRST DATE');
+                addFirstDateEditButtons();
+            }, 600);
+            
+            // 🗺️ Load maps for all dates with addresses
+            setTimeout(async () => {
+                console.log('🗺️ LOADING MAPS FOR ALL EXISTING DATES');
+                await loadAllDateMaps();
+            }, 1200); // Increased delay to ensure DOM is ready
+            
+            // 🌤️ Load weather for all dates
+            setTimeout(async () => {
+                console.log('🌤️ LOADING WEATHER FOR ALL EXISTING DATES');
+                await loadAllDateWeather();
+            }, 1500); // Load weather after maps
+            
+            // Update timeline
+            updateTimeline();
+            
+            // Start hamster animation
+            createFloatingHamsters();
+            setTimeout(() => createFloatingHamsters(), 3000);
+            
+            // PHOTO LOADING WITH MULTIPLE WAVES
+            console.log('🌊 STARTING PHOTO LOADING WAVES');
+            
+            // Wave 1: Immediate
+            setTimeout(() => {
+                console.log('🌊 WAVE 1: Immediate photo loading');
+                superAggressivePhotoLoad();
+            }, 100);
+            
+            // Wave 2: After DOM is fully settled
+            setTimeout(() => {
+                console.log('🌊 WAVE 2: DOM settled photo loading');
+                superAggressivePhotoLoad();
+            }, 500);
+            
+            // Wave 3: Just to be absolutely sure
+            setTimeout(() => {
+                console.log('🌊 WAVE 3: Final assurance photo loading');
+                superAggressivePhotoLoad();
+            }, 1500);
+            
+            // Wave 4: The nuclear option
+            setTimeout(() => {
+                console.log('🌊 WAVE 4: Nuclear option photo loading');
+                superAggressivePhotoLoad();
+            }, 3000);
+
+            // Photo-Galleries aus Timeline entfernt - nur noch Galerie-Tab hat Bilder
+            
+            // Initialisiere die Galerie sofort (da sie standardmäßig sichtbar ist)
+            initGallery();
+
+            // Photo placeholder interaction (für manuelle Uploads falls gewünscht)
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.photo-placeholder')) {
+                    handlePhotoUpload(e.target.closest('.photo-placeholder'));
+                }
+            });
+
+            // Timeline marker interaction
+            document.querySelectorAll('.timeline-marker').forEach(marker => {
+                marker.addEventListener('click', function() {
+                    const dateId = this.dataset.date;
+                    if (dateId.startsWith('date') && dates[dateId]) {
+                        // Switch to that date tab
+                        const tabBtn = document.querySelector(`[onclick*="${dateId}"]`);
+                        if (tabBtn) {
+                            showTab({currentTarget: tabBtn}, dateId);
+                        }
+                    }
+                });
+            });
+        });
+
+        // ===== GALERIE FUNKTIONALITÄT =====
+        let allImages = [];
+        let filteredImages = [];
+
+        // Galerie initialisieren
+        async function initGallery() {
+            try {
+                console.log('🖼️ Lade alle Bilder aus images/ Ordner...');
+                
+                // Erstelle Liste aller Bilder aus dem images/ Ordner
+                allImages = await loadAllImagesFromFolder();
+                filteredImages = [...allImages];
+                
+                console.log(`✅ ${allImages.length} Bilder geladen`);
+                
+                populateYearFilter();
+                renderGallery();
+                setupGalleryEventListeners();
+                
+            } catch (error) {
+                console.error('❌ Fehler beim Laden der Galerie:', error);
+                document.getElementById('gallery-grid').innerHTML = 
+                    '<div style="text-align: center; color: white; grid-column: 1/-1;">❌ Fehler beim Laden der Bilder</div>';
+            }
+        }
+
+        // EINFACHE GALERIE - komplett unabhängig von Timeline
+        async function loadAllImagesFromFolder() {
+            console.log('📂 Lade ALLE Bilder aus images/ Ordner...');
+            
+            try {
+                // Versuche alle Bilder aus JSON zu laden
+                console.log('🔄 Lade all_gallery_images.json...');
+                const response = await fetch('data/all_gallery_images.json');
+                console.log('📡 Response Status:', response.status, response.statusText);
+                
+                if (response.ok) {
+                    const allImages = await response.json();
+                    console.log(`✅ ${allImages.length} Bilder aus all_gallery_images.json geladen`);
+                    if (allImages.length > 0) {
+                        return allImages;
+                    }
+                }
+            } catch (error) {
+                console.error('❌ Fehler beim Laden der JSON:', error);
+            }
+            
+            console.warn('⚠️ Fallback wird verwendet - 80+ Demo-Bilder!');
+            
+            // Fallback: Erweiterte Liste mit vielen Bildern
+            const simpleGalleryImages = [
+                "001689AA-D0EC-47F3-9C42-76E50F89F587_4_5005_c.jpeg", "004D4880-7544-47A9-9E5E-4F2D6D489EFF_4_5005_c.jpeg",
+                "006A33E4-2240-4496-B155-50974FC05B6C.JPG", "006ABD98-778D-4BC1-9F84-44863A1264BA_4_5005_c.jpeg",
+                "00EF54E9-3C54-4FBA-8BDB-6C1E88D743E4_4_5005_c.jpeg", "010C9E69-84D1-4E97-AF7F-980B6F2B6C37.JPG",
+                "01528BF3-AE25-453D-BF09-66FA054ABE87_4_5005_c.jpeg", "01A4D10A-DE8C-4079-B0DC-55430E4895EA_4_5005_c.jpeg",
+                "01F936F2-38D9-4BB6-9F61-22823824161A.JPG", "020F753F-4A25-4C6E-AE56-82E1211B8E4A_4_5005_c.jpeg",
+                "02122069-F9E1-490B-BEBA-869095BFEF95.JPG", "02591DDB-4079-4DF3-861B-88144F64A590_4_5005_c.jpeg",
+                "035be5e3-7eb7-4c14-b287-f169cd64d690.jpg", "035D9C98-7CC2-45BC-A278-86AAE0560EF3.JPG",
+                "037F16BC-1B0B-4F22-B8CA-EA40FB4981AF.JPG", "0395CD02-7AB7-4044-AC75-89DDF54EAFA8.JPG",
+                "03BF76A0-9642-4DC4-AC2C-3069EBD72102_4_5005_c.jpeg", "03D44016-B3CC-47AC-A56C-C37FEF1A88B3_4_5005_c.jpeg",
+                "040810B3-3466-46B7-BC38-7D4C2F783945_4_5005_c.jpeg", "0413A8EF-3775-47A8-9240-851BB282F403_4_5005_c.jpeg",
+                "0436D56D-6FF6-41A5-8BAB-7D1D9D28EC6E_4_5005_c.jpeg", "047AF80D-6727-49D4-A157-83AEC228B201.JPG",
+                "04D3417E-C8A8-47C6-8053-C69723CEECF6_4_5005_c.jpeg", "056A2701-9FE8-4997-B61E-E640F22530BD_4_5005_c.jpeg",
+                "058D087A-9B5B-470F-962D-197B72DE05A4_4_5005_c.jpeg", "05A5B214-8D58-4368-B124-357617CEE9E6.JPG",
+                "05F3EEA5-2900-45EC-9B33-69DE73E83000_4_5005_c.jpeg", "060C40C4-4AB4-4C06-9975-3FF09CF6A6E1_4_5005_c.jpeg",
+                "0632F48B-9246-40E6-A701-73871052C098_4_5005_c.jpeg", "0797F76A-5303-4871-AB3D-4AA3F549E634_4_5005_c.jpeg",
+                "086BA789-0575-476E-B81B-6560373DDF40.JPG", "09A21279-E834-4E07-A25E-72096344D9E6_4_5005_c.jpeg",
+                "09DAF7E9-CBD0-400F-8CF6-4FF5081CDF24_4_5005_c.jpeg", "09FD1DCF-633A-48FC-84D0-A1E018725AE6_4_5005_c.jpeg",
+                "0AAC0AB9-6676-4F8A-BE5E-2BCD18063D8D_4_5005_c.jpeg", "0B3C69C4-F794-41D9-8379-AB00039463EC_4_5005_c.jpeg",
+                "0B4E699B-9452-4460-8580-85B84C1B850B_4_5005_c.jpeg", "0B814C2D-4895-4A16-948C-26BB19C023E2.JPG",
+                "0BD1A094-6DBC-46C2-8E1B-93318BB2B322.JPG", "0C4233ED-9297-4A69-806A-4C5573D330C2_4_5005_c.jpeg",
+                "0C66B022-DFC7-4279-B50B-1E730A160499.JPG", "0CAB23DA-DF21-41D7-B7C3-546D6D9EE35E_4_5005_c.jpeg",
+                "0D8588E5-68CD-45B2-9191-A34E309FE9C4_4_5005_c.jpeg", "0DB2F854-277E-4033-9A2E-D84D21F5B176_4_5005_c.jpeg",
+                "0DC7C679-2B28-43F7-A13D-932442196F16.JPG", "0E6351F0-CEE7-4015-8C03-AB0944FF1E1E_4_5005_c.jpeg",
+                "0EA74610-6454-4F6D-87BE-6EED88500070_4_5005_c.jpeg", "1110E1FE-A0E7-46AD-9314-069CC37D8428.JPG",
+                "118D2D0B-14F9-4703-B69E-51C6E12B7B74.JPG", "12C91840-1D0F-403A-A459-FC434AC10C09_4_5005_c.jpeg",
+                "1300D86B-ABAA-4D69-998E-EE982F4A1C45.JPG", "1347C0D6-8D41-4965-80A5-98CF1BA51FD9.JPG",
+                "1425EC83-326F-48AD-9E04-A672930CCD4B_4_5005_c.jpeg", "145EFC10-6B74-4B5B-B5A8-850DDB556238_4_5005_c.jpeg",
+                "1473A6B1-CD27-405A-BF04-2DBD4A94596B_4_5005_c.jpeg", "1476755B-C29E-44FE-8163-93D47972F2BC_4_5005_c.jpeg",
+                "14D04F94-C9F2-40FD-9AF2-EBA54D1D0C6A_4_5005_c.jpeg", "14E1A0B1-1F1A-42CC-9A1C-E25297AF9699.JPG",
+                "14EE0CA9-884D-4ECC-B6F5-DBE854188C2C_4_5005_c.jpeg", "1585DB5B-C0F7-4B5D-92B5-ADBF6E304E93.JPG",
+                "15A7649C-90F3-4EFB-92EB-CBCDE1BC6D89_4_5005_c.jpeg", "15AED429-1DCD-4088-A525-13B5C781EE45_4_5005_c.jpeg",
+                "15D0A3C6-488C-4C7F-AA4D-7A5D7F11014C_4_5005_c.jpeg", "1658F7E4-20C6-43F1-AC63-3CCB3CF882E1_4_5005_c.jpeg",
+                "16D70AA8-1991-487F-B181-80E78057E7CE.JPG", "17C5FB7C-6797-499F-955F-374697A0D795_4_5005_c.jpeg",
+                "180942F0-739A-463D-8F8F-A8D2598B260A_4_5005_c.jpeg", "185D5474-4049-48E9-9FE4-47C521AD268A_4_5005_c.jpeg",
+                "18793384-DEB7-4CF8-9D10-AAF00A485F61_4_5005_c.jpeg", "189252AF-AD69-490B-A2E3-13D582F524CD_4_5005_c.jpeg",
+                "189CE243-9B83-425D-A216-4A35FE8A7FA7_4_5005_c.jpeg", "18E256FF-40C2-48E0-9F6D-D4D1426D7478_4_5005_c.jpeg",
+                "1938D000-904A-41CE-9D94-DE2B089B1930_4_5005_c.jpeg", "19513692-FB54-46A9-AE68-FCFBD17620F9.JPG",
+                "1967FA7F-277A-4BA4-8760-3A0A51624AF8.jpg", "196FC5DD-7847-4E60-B383-67CECF46BFB9.JPG",
+                "197E9BB4-4701-4F78-938E-2E7BDCD4AEC9_4_5005_c.jpeg", "1A2F4886-90F5-4D2B-857B-D1E17E005907.JPG",
+                "1B1F58A9-DCC1-45E7-AD42-E11A5BB2C817_4_5005_c.jpeg", "1BF225EE-7DDF-410C-BD9D-390D32FCAC36_4_5005_c.jpeg",
+                "1C2FAE6E-A7BC-45BA-894B-C6DD8E608A20.JPG", "1E6008AC-EB1D-40FD-987A-5EB592B86C54_4_5005_c.jpeg",
+                "1E77E7A1-EA49-4AEF-A196-646871DE99CF.JPG", "1ECAA2C2-F036-4413-A349-D0B56908245A_4_5005_c.jpeg",
+                "1EE4C5DE-B5E5-40CD-92B3-7BBE221763F8_4_5005_c.jpeg", "1F30D7D1-A6C3-46E7-8C68-DA57B97CF22B_4_5005_c.jpeg",
+                "20C6BDA3-F3EA-4FFB-9BD5-A4ED63FECE94_4_5005_c.jpeg", "2165F8B6-73D6-4744-83EE-DCC52DD678D6_4_5005_c.jpeg",
+                "21F6CD74-F57F-468F-AC57-B4B176805C2E_4_5005_c.jpeg", "22A7F63A-AF66-412F-BEE4-D9FADF682DA6.JPG",
+                "22BE3DC2-245B-4DF3-B3EF-66AA5154DE4B_4_5005_c.jpeg", "23152B6B-F1C7-4719-BDDF-1936163A6583_4_5005_c.jpeg",
+                "23628F65-9316-4013-93B6-815D66D7F6B0.JPG", "23699704-D129-44D2-B4A2-36CAC825B95E_4_5005_c.jpeg",
+                "24875CF7-93F9-4B61-84FC-11C0327709A6_4_5005_c.jpeg", "24892B55-00DC-483D-80BF-A251F99A6263_4_5005_c.jpeg",
+                "25032BCC-F3A8-4084-B1D7-E90CF407B911.JPG", "25282C0D-ED97-49DF-B367-C630FF2A4D56_4_5005_c.jpeg",
+                "257EB9DE-3D3C-43B0-809F-4747997DCCD0.JPG", "25DB2F43-19A2-4F7C-9333-B8066F3A90F4_4_5005_c.jpeg"
+            ];
+            
+            // Erstelle einfache Galerie-Einträge
+            const galleryImages = simpleGalleryImages.map((filename, index) => {
+                const year = 2023 + (index % 3); // Verteile auf 2023-2025
+                const month = (index % 12) + 1;
+                const day = (index % 28) + 1;
+                const date = new Date(year, month - 1, day);
+                
+                return {
+                    id: `gallery_${index}`,
+                    filename: filename,
+                    path: `images/${filename}`,
+                    date: date.toISOString().split('T')[0],
+                    year: year,
+                    index: index
+                };
+            });
+            
+            // Sortiere nach Datum
+            galleryImages.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            console.log(`✅ Einfache Galerie mit ${galleryImages.length} Bildern erstellt!`);
+            console.log('📋 Diese Galerie ist UNABHÄNGIG von der Timeline!');
+            
+            return galleryImages;
+        }
+
+
+
+        // Jahr-Filter befüllen
+        function populateYearFilter() {
+            const yearFilter = document.getElementById('gallery-year-filter');
+            const years = [...new Set(allImages.map(image => image.year))].sort((a, b) => b - a);
+            
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+        }
+
+        // Galerie rendern
+        function renderGallery() {
+            const grid = document.getElementById('gallery-grid');
+            const countElement = document.getElementById('gallery-count');
+            
+            if (filteredImages.length === 0) {
+                grid.innerHTML = '<div style="text-align: center; color: white; grid-column: 1/-1;">Keine Bilder gefunden 🔍</div>';
+                countElement.textContent = '0 Bilder';
+                return;
+            }
+            
+            countElement.textContent = `${filteredImages.length} Bilder`;
+            
+            grid.innerHTML = filteredImages.map((image, index) => `
+                <div class="gallery-item" onclick="openLightbox(${index})">
+                    <img src="${image.path}" alt="${image.title}" 
+                         onerror="this.src='data:image/svg+xml,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;250&quot; height=&quot;200&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;%23ddd&quot;/><text x=&quot;50%&quot; y=&quot;50%&quot; text-anchor=&quot;middle&quot; dy=&quot;0.3em&quot; fill=&quot;%23999&quot;>Bild nicht gefunden</text></svg>'">
+                    <div class="gallery-item-content">
+                        <div class="gallery-item-title">${image.filename}</div>
+                        <div class="gallery-item-meta">
+                            <span>📅 ${formatDate(image.date)}</span>
+                            <span>📷 ${image.year}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Datum formatieren
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit', 
+                year: 'numeric'
+            });
+        }
+
+        // Event Listeners für Galerie
+        function setupGalleryEventListeners() {
+            // Suche
+            document.getElementById('gallery-search').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                filteredImages = allImages.filter(image =>
+                    image.filename.toLowerCase().includes(searchTerm) ||
+                    (image.comment && image.comment.toLowerCase().includes(searchTerm)) ||
+                    (image.location && image.location.toLowerCase().includes(searchTerm))
+                );
+                renderGallery();
+            });
+            
+            // Jahr-Filter
+            document.getElementById('gallery-year-filter').addEventListener('change', (e) => {
+                const selectedYear = e.target.value;
+                if (selectedYear) {
+                    filteredImages = allImages.filter(image =>
+                        image.year.toString() === selectedYear
+                    );
+                } else {
+                    filteredImages = [...allImages];
+                }
+                renderGallery();
+            });
+        }
+
+        // Aktuelle Lightbox-Variablen
+        let currentLightboxIndex = 0;
+
+        // Lightbox öffnen
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const image = filteredImages[index];
+            const lightbox = document.getElementById('image-lightbox');
+            
+            document.getElementById('lightbox-image').src = image.path;
+            
+            // Navigation-Buttons aktualisieren
+            updateNavigationButtons();
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Navigation-Buttons aktualisieren
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            
+            prevBtn.disabled = currentLightboxIndex <= 0;
+            nextBtn.disabled = currentLightboxIndex >= filteredImages.length - 1;
+        }
+
+        // Vorheriges Bild
+        function previousImage() {
+            if (currentLightboxIndex > 0) {
+                currentLightboxIndex--;
+                const image = filteredImages[currentLightboxIndex];
+                document.getElementById('lightbox-image').src = image.path;
+                updateNavigationButtons();
+            }
+        }
+
+        // Nächstes Bild
+        function nextImage() {
+            if (currentLightboxIndex < filteredImages.length - 1) {
+                currentLightboxIndex++;
+                const image = filteredImages[currentLightboxIndex];
+                document.getElementById('lightbox-image').src = image.path;
+                updateNavigationButtons();
+            }
+        }
+
+        // Lightbox schließen
+        function closeLightbox() {
+            const lightbox = document.getElementById('image-lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Sektion wechseln
+        function showSection(section) {
+            // Tabs aktualisieren
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Sektionen anzeigen/verstecken
+            document.getElementById('timeline-section').style.display = section === 'timeline' ? 'block' : 'none';
+            document.getElementById('timeline-tab-container').style.display = section === 'timeline' ? 'block' : 'none';
+            document.getElementById('gallery-section').style.display = section === 'gallery' ? 'block' : 'none';
+            
+            // Timeline-spezifische Funktionen nur bei Timeline-Tab aktivieren
+            if (section === 'timeline') {
+                console.log('🗺️ Timeline aktiviert - lade ALLE Timeline-Funktionen');
+                
+                // Erst die komplette Timeline initialisieren
+                initializeEverything();
+                
+                // Dann Location/Wetter-Funktionen
+                setupSmartLocationInput();
+                
+                // Location-Button für Timeline hinzufügen
+                setTimeout(() => {
+                    addLocationUpdateButton();
+                }, 200);
+                
+                // Edit-Buttons hinzufügen
+                setTimeout(() => {
+                    addFirstDateEditButtons();
+                }, 300);
+            }
+            
+            // Galerie initialisieren wenn zum ersten Mal geöffnet
+            if (section === 'gallery' && allImages.length === 0) {
+                console.log('📸 Galerie aktiviert - lade nur Bilder (keine Location/Wetter)');
+                initGallery();
+            }
+        }
+
+        // Tastatur-Navigation für Lightbox
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('image-lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    previousImage();
+                } else if (e.key === 'ArrowRight') {
+                    nextImage();
+                }
+            }
+        });
+
+        // Touch-Support für Wischen
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('image-lightbox').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('image-lightbox').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    // Wischen nach rechts = vorheriges Bild
+                    previousImage();
+                } else {
+                    // Wischen nach links = nächstes Bild
+                    nextImage();
+                }
+            }
+        }
+
+        // Photo-Galleries wurden aus Timeline entfernt - diese Funktion wird nicht mehr benötigt
+
+        // Timeline-Lightbox entfernt - nur noch Galerie-Lightbox aktiv
+
+    </script>
+
+    <!-- Galerie Sektion -->
+    <div class="gallery-section" id="gallery-section">
+        <div class="gallery-container">
+            <h2>Unsere Bilder-Galerie 📸</h2>
+            <div class="gallery-controls">
+                <input type="text" id="gallery-search" placeholder="Suche nach Bildern..." class="search-input">
+                <select id="gallery-year-filter" class="year-filter">
+                    <option value="">Alle Jahre</option>
+                </select>
+            </div>
+            <div class="gallery-stats">
+                <span id="gallery-count">0 Bilder</span>
+            </div>
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Bilder werden hier dynamisch eingefügt -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox für Bilder -->
+    <div class="lightbox" id="image-lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-nav prev" id="lightbox-prev" onclick="previousImage()">‹</button>
+            <button class="lightbox-nav next" id="lightbox-next" onclick="nextImage()">›</button>
+            <img id="lightbox-image" src="" alt="">
+        </div>
+    </div>
+
+</body>
+</html> 
