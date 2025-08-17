@@ -2950,6 +2950,12 @@
             const dateHeader = date1Card.querySelector('.date-header');
             if (!dateHeader) return;
             
+            // Check if edit buttons already exist to prevent duplicates
+            if (dateHeader.querySelector('.edit-container')) {
+                console.log('⚠️ Edit buttons already exist, skipping...');
+                return;
+            }
+            
             // Check if first date has title/date
             const currentTitle = dates.date1?.title;
             const currentDate = dates.date1?.date;
@@ -2957,6 +2963,7 @@
             if (!currentTitle || currentTitle === 'Unser erstes Date' || !currentDate || currentDate === '') {
                 // Add edit button for title and date
                 const editContainer = document.createElement('div');
+                editContainer.className = 'edit-container';
                 editContainer.style.cssText = `
                     margin-top: 15px;
                     display: flex;
@@ -3161,6 +3168,26 @@
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 DOM CONTENT LOADED - Initialisiere Foto-System');
+            
+            // Clean up old placeholder texts from localStorage
+            const storedDates = JSON.parse(localStorage.getItem('couplesDates') || '{}');
+            let needsUpdate = false;
+            
+            Object.keys(storedDates).forEach(dateId => {
+                if (storedDates[dateId] && storedDates[dateId].location === 'Ort eingeben') {
+                    storedDates[dateId].location = '📍 Noch kein Ort gesetzt';
+                    needsUpdate = true;
+                }
+                if (storedDates[dateId] && (storedDates[dateId].date === 'Datum eingeben' || storedDates[dateId].date === '')) {
+                    storedDates[dateId].date = '';
+                    needsUpdate = true;
+                }
+            });
+            
+            if (needsUpdate) {
+                localStorage.setItem('couplesDates', JSON.stringify(storedDates));
+                console.log('🧹 Cleaned up old placeholder texts from localStorage');
+            }
             
             // Photo placeholder interaction (EINMALIG beim Start)
             document.addEventListener('click', function(e) {
