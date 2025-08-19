@@ -128,13 +128,20 @@
       "location": "Merowingerstraße 23, Köln",
       "description": "Essen war mega Lecker und richtig AOT gucken mit dir, hat so spaß gemacht, der Dip war nicht so geil. ",
       "comments": [],
-      "photos": []
+      "photos": [],
+      "weather": {
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 25,
+        "humidity": 62,
+        "season": "summer"
+      }
     }
   },
   "metadata": {
-    "lastModified": 1755609209896,
+    "lastModified": 1755609210986,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T13:13:29.896Z",
+    "lastUpdate": "2025-08-19T13:13:30.986Z",
     "version": "1.0",
     "totalDates": 9,
     "syncMethod": "github-api"
