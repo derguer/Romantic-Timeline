@@ -10,34 +10,34 @@
       "photos": []
     },
     "date2": {
-      "title": "test date ",
-      "date": "2025-08-19",
-      "time": "12:00",
-      "location": "Dieselstraße 7, Leverkusen",
-      "description": "Test test ",
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 22,
-        "humidity": 52,
-        "season": "summer"
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 15,
+        "humidity": 61,
+        "season": "autumn"
       }
     },
     "date3": {
-      "title": "test test",
-      "date": "2025-08-21",
-      "time": "12:00",
-      "location": "Strandläuferweg 34, 50829 Köln",
-      "description": "hahassdh",
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Gewitter",
-        "icon": "⛈️",
-        "temperature": 22,
-        "humidity": 59,
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 21,
+        "humidity": 72,
         "season": "summer"
       }
     },
@@ -45,23 +45,7 @@
       "title": "penis dinner",
       "date": "2025-08-20",
       "time": "12:00",
-      "location": "kÃ¶ln",
-      "description": "",
-      "comments": [],
-      "photos": [],
-      "weather": {
-        "condition": "Heiß",
-        "icon": "🌞",
-        "temperature": 27,
-        "humidity": 57,
-        "season": "summer"
-      }
-    },
-    "date5": {
-      "title": "final test ",
-      "date": "2025-08-20",
-      "time": "",
-      "location": "KÃ¶ln",
+      "location": "köln",
       "description": "",
       "comments": [],
       "photos": [],
@@ -69,7 +53,23 @@
         "condition": "Heiß",
         "icon": "🌞",
         "temperature": 29,
-        "humidity": 40,
+        "humidity": 72,
+        "season": "summer"
+      }
+    },
+    "date5": {
+      "title": "final test ",
+      "date": "2025-08-20",
+      "time": "",
+      "location": "Köln",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 29,
+        "humidity": 77,
         "season": "summer"
       }
     },
@@ -77,15 +77,15 @@
       "title": "final test ",
       "date": "2025-08-20",
       "time": "",
-      "location": "KÃ¶ln",
+      "location": "Köln",
       "description": "",
       "comments": [],
       "photos": [],
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 30,
-        "humidity": 67,
+        "temperature": 29,
+        "humidity": 47,
         "season": "summer"
       }
     },
@@ -93,57 +93,25 @@
       "title": "Lebensmittelvergiftung Lea :(",
       "date": "2025-08-09",
       "time": "10:08",
-      "location": "Merowingerstraße 23, Köln",
+      "location": "MerowingerstraÃe 23, KÃ¶ln",
       "description": "Schlimmste Nacht in Lea's Leben, meine kleine arme Maus. ",
       "comments": [],
       "photos": [],
       "weather": {
         "condition": "Gewitter",
-        "icon": "⛈️",
+        "icon": "âï¸",
         "temperature": 22,
         "humidity": 49,
-        "season": "summer"
-      }
-    },
-    "date8": {
-      "title": "Frühstücken",
-      "date": "2025-08-03",
-      "time": "12:52",
-      "location": "Chlodwigpl. 12, Köln",
-      "description": "Lecker gefrühstückt mit O-Saft und Coffee ",
-      "comments": [],
-      "photos": [],
-      "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 24,
-        "humidity": 65,
-        "season": "summer"
-      }
-    },
-    "date9": {
-      "title": "Nachos und AOT ",
-      "date": "2025-08-04",
-      "time": "21:21",
-      "location": "Merowingerstraße 23, Köln",
-      "description": "Essen war mega Lecker und richtig AOT gucken mit dir, hat so spaß gemacht, der Dip war nicht so geil. ",
-      "comments": [],
-      "photos": [],
-      "weather": {
-        "condition": "Heiß",
-        "icon": "🌞",
-        "temperature": 25,
-        "humidity": 62,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755609227581,
-    "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T13:13:47.581Z",
+    "lastModified": 1755609228611,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T13:13:48.611Z",
     "version": "1.0",
-    "totalDates": 9,
+    "totalDates": 7,
     "syncMethod": "github-api"
   }
 }
