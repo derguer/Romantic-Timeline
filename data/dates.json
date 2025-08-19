@@ -68,8 +68,8 @@
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 28,
-        "humidity": 73,
+        "temperature": 26,
+        "humidity": 63,
         "season": "summer"
       }
     },
@@ -113,9 +113,9 @@
     }
   },
   "metadata": {
-    "lastModified": 1755610026866,
+    "lastModified": 1755610028783,
     "lastModifiedBy": "device_r8aczz19k_1755600703145",
-    "lastUpdate": "2025-08-19T13:27:06.866Z",
+    "lastUpdate": "2025-08-19T13:27:08.783Z",
     "version": "1.0",
     "totalDates": 7,
     "syncMethod": "github-api"
