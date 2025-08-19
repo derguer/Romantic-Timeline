@@ -20,8 +20,8 @@
       "weather": {
         "condition": "Sonnig",
         "icon": "☀️",
-        "temperature": 27,
-        "humidity": 65,
+        "temperature": 22,
+        "humidity": 57,
         "season": "summer"
       }
     },
@@ -52,8 +52,8 @@
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 26,
-        "humidity": 61,
+        "temperature": 28,
+        "humidity": 53,
         "season": "summer"
       }
     },
@@ -68,8 +68,8 @@
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 26,
-        "humidity": 62,
+        "temperature": 27,
+        "humidity": 66,
         "season": "summer"
       }
     },
@@ -84,16 +84,16 @@
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 28,
-        "humidity": 47,
+        "temperature": 29,
+        "humidity": 74,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755606223938,
+    "lastModified": 1755606225975,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:23:43.938Z",
+    "lastUpdate": "2025-08-19T12:23:45.975Z",
     "version": "1.0",
     "totalDates": 6,
     "syncMethod": "github-api"
