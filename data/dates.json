@@ -10,44 +10,60 @@
       "photos": []
     },
     "date2": {
-      "title": "test date ",
-      "date": "2025-08-19",
-      "time": "12:00",
-      "location": "Dieselstraße 7, Leverkusen",
-      "description": "Test test ",
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 22,
-        "humidity": 40,
-        "season": "summer"
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 13,
+        "humidity": 55,
+        "season": "autumn"
       }
     },
     "date3": {
-      "title": "test test",
-      "date": "2025-08-21",
-      "time": "12:00",
-      "location": "Strandläuferweg 34, 50829 Köln",
-      "description": "hahassdh",
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Gewitter",
-        "icon": "⛈️",
-        "temperature": 24,
-        "humidity": 62,
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 26,
+        "humidity": 65,
+        "season": "summer"
+      }
+    },
+    "date4": {
+      "title": "penis dinner",
+      "date": "2025-08-20",
+      "time": "12:00",
+      "location": "köln",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 26,
+        "humidity": 70,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755604260042,
-    "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T11:51:00.042Z",
+    "lastModified": 1755604445905,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T11:54:05.905Z",
     "version": "1.0",
-    "totalDates": 3,
+    "totalDates": 4,
     "syncMethod": "github-api"
   }
 }
