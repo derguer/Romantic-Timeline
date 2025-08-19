@@ -1,1 +1,53 @@
-{}
+{
+  "dates": {
+    "date1": {
+      "title": "Unser erstes Date",
+      "date": "",
+      "time": "",
+      "location": "📍 Noch kein Ort gesetzt",
+      "description": "",
+      "comments": [],
+      "photos": []
+    },
+    "date2": {
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 18,
+        "humidity": 51,
+        "season": "autumn"
+      }
+    },
+    "date3": {
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 21,
+        "humidity": 75,
+        "season": "summer"
+      }
+    }
+  },
+  "metadata": {
+    "lastModified": 1755603930367,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T11:45:30.367Z",
+    "version": "1.0",
+    "totalDates": 3,
+    "syncMethod": "github-api"
+  }
+}
