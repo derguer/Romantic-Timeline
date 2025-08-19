@@ -1520,7 +1520,7 @@
             }
         }
         
-        // Start automatic sync
+        // Start automatic sync with better error handling
         function startAutoSync() {
             if (syncInterval) {
                 clearInterval(syncInterval);
@@ -1531,18 +1531,20 @@
                 
                 try {
                     isCurrentlySyncing = true;
-                    updateSyncStatus('syncing', '🔄 Synchronisiere...');
+                    updateSyncStatus('syncing', '🔄 Prüfe Updates...');
                     
-                    // Check for remote changes
-                    const remoteData = await checkForRemoteChanges();
-                    if (remoteData) {
-                        await mergeRemoteChanges(remoteData);
-                    }
-                    
-                    // Save local changes to remote
+                    // Always save local changes first
                     await saveDates(false);
                     
-                    updateSyncStatus('synced', '✅ Synchronisiert');
+                    // Then check for remote changes
+                    const remoteData = await checkForRemoteChanges();
+                    if (remoteData) {
+                        console.log('🔄 Remote changes found, merging...');
+                        await mergeRemoteChanges(remoteData);
+                        updateSyncStatus('synced', '✅ Aktualisiert');
+                    } else {
+                        updateSyncStatus('synced', '✅ Synchronisiert');
+                    }
                 } catch (error) {
                     console.error('❌ Auto-sync error:', error);
                     updateSyncStatus('error', '❌ Sync-Fehler');
@@ -1554,28 +1556,33 @@
             console.log('🔄 Auto-sync started (every 30 seconds)');
         }
 
-        // Simplified GitHub Data Loading (Read-Only)
+        // Direct GitHub API Loading (no GitHub Pages dependency)
         async function loadFromGitHub() {
             try {
-                console.log('📡 Loading data from GitHub...');
+                console.log('📡 Loading data from GitHub API...');
                 
-                // Try GitHub Pages URL first (faster)
-                let response = await fetch(GITHUB_CONFIG.publicUrl + '?t=' + Date.now());
-                
-                if (!response.ok) {
-                    // Fallback to GitHub API
-                    response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`);
-                    if (response.ok) {
-                        const data = await response.json();
-                        const content = JSON.parse(atob(data.content));
-                        return processGitHubData(content);
-                    }
-                } else {
-                    const content = await response.json();
-                    return processGitHubData(content);
+                const token = getGitHubToken();
+                if (!token) {
+                    console.log('⚠️ No token available for loading');
+                    return false;
                 }
                 
-                throw new Error(`GitHub load failed: ${response.status}`);
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const content = JSON.parse(atob(data.content));
+                    return processGitHubData(content);
+                } else {
+                    console.log(`📡 GitHub API returned ${response.status} - file might not exist yet`);
+                    return false;
+                }
             } catch (error) {
                 console.warn('⚠️ Failed to load from GitHub:', error);
                 return false;
@@ -4119,10 +4126,9 @@
             // Initialize data (localStorage first to prevent data loss)
             await initializeData();
             
-            // Setup automatic sync every 30 seconds via GitHub Actions
-            // TEMPORARILY DISABLED - preventing data loss
-            // startAutoSync();
-            console.log('⚠️ Auto-sync temporarily disabled to prevent data loss');
+            // Setup automatic sync every 30 seconds
+            startAutoSync();
+            console.log('🔄 Auto-sync enabled - checking every 30 seconds');
             
             // Monitor online status
             window.addEventListener('online', () => {
