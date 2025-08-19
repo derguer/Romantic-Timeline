@@ -12,40 +12,38 @@
 8. Klicke **Generate token**
 9. **WICHTIG**: Kopiere den Token sofort! (Du siehst ihn nur einmal)
 
-## Schritt 2: Token in der Website eingeben
+## Schritt 2: Token beim ersten Speichern eingeben
 
 1. Gehe auf deine Website
 2. Erstelle ein neues Date oder bearbeite ein vorhandenes
 3. Klicke **Speichern**
-4. Es erscheint ein Dialog: "GitHub Personal Access Token eingeben"
+4. Es erscheint automatisch ein Dialog: "GitHub Personal Access Token eingeben"
 5. Füge deinen kopierten Token ein
 6. Der Token wird sicher in deinem Browser gespeichert
 
-## Schritt 3: Testen
+## Schritt 3: Fertig! 🎉
 
-1. Erstelle ein Date auf Gerät A
-2. Warte 30 Sekunden
-3. Aktualisiere die Seite auf Gerät B
-4. Das neue Date sollte erscheinen!
+- **Automatisches Sync**: Alle 30 Sekunden werden Daten synchronisiert
+- **Sofortige Speicherung**: Neue Dates werden sofort zu GitHub hochgeladen
+- **Multi-Device**: Dates erscheinen automatisch auf allen Geräten
 
 ## ✅ So erkennst du, dass es funktioniert:
 
 - Sync-Status zeigt "✅ Synchronisiert" (oben rechts)
 - In der Browser-Konsole: "✅ Successfully saved to GitHub"
-- Die `data/dates.json` Datei wird auf GitHub aktualisiert
-- Neue Dates erscheinen automatisch auf anderen Geräten
+- Die `data/dates.json` Datei wird automatisch auf GitHub aktualisiert
+- Neue Dates erscheinen binnen 30 Sekunden auf anderen Geräten
 
 ## 🔒 Sicherheit:
 
 - Token wird nur lokal in deinem Browser gespeichert
 - Kein Token im öffentlichen Code sichtbar
 - Du kannst den Token jederzeit in GitHub deaktivieren
-- Jeder Benutzer braucht seinen eigenen Token
 
 ## 🚨 Falls Probleme auftreten:
 
 1. Überprüfe ob der Token "repo" Berechtigung hat
 2. Schaue in die Browser-Konsole (F12) nach Fehlermeldungen
-3. Bei "Token invalid": Erstelle einen neuen Token
+3. Bei "Token invalid": Lösche den Token im Browser und erstelle einen neuen
 
-Das war's! Vollautomatisches Sync mit sicherem Token-System! 🚀
+**Das war's! Vollautomatisches Sync ohne manuelle Schritte! 🚀**
