@@ -176,9 +176,15 @@
         /* Sync Modal */
         .sync-options {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
             margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .sync-options {
+                grid-template-columns: 1fr;
+            }
         }
         
         .sync-option-btn {
@@ -1283,7 +1289,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeSyncModal()">&times;</span>
             <h2>🔄 Geräte-Synchronisation</h2>
-            <p>Da die automatische Sync noch nicht funktioniert, kannst du deine Daten manuell zwischen Geräten übertragen:</p>
+            <p>Wähle deine bevorzugte Sync-Methode:</p>
             
             <div class="sync-options">
                 <button class="sync-option-btn" onclick="exportData()">
@@ -1297,17 +1303,23 @@
                     <h3>Daten Importieren</h3>
                     <p>Lade Daten von einem anderen Gerät hoch</p>
                 </button>
+                
+                <button class="sync-option-btn" onclick="manageGitHubToken()">
+                    <i class="fas fa-key"></i>
+                    <h3>GitHub Token</h3>
+                    <p>Token für automatisches Sync verwalten</p>
+                </button>
             </div>
             
             <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
             
             <div class="sync-info">
-                <p><strong>So funktioniert's:</strong></p>
-                <ol>
-                    <li>Auf Gerät A: "Daten Exportieren" klicken</li>
-                    <li>Datei auf Gerät B übertragen (z.B. per WhatsApp/Email)</li>
-                    <li>Auf Gerät B: "Daten Importieren" klicken und Datei auswählen</li>
-                </ol>
+                <p><strong>💡 Sync-Optionen:</strong></p>
+                <ul>
+                    <li><strong>GitHub Token:</strong> Vollautomatisches Sync (empfohlen)</li>
+                    <li><strong>Export/Import:</strong> Manueller Transfer zwischen Geräten</li>
+                </ul>
+                <p><strong>📖 Anleitung:</strong> Siehe SETUP-GITHUB-ACTIONS.md für Details</p>
             </div>
         </div>
     </div>
@@ -1484,9 +1496,26 @@
             repo: 'Romantic-Timeline',
             path: 'data/dates.json',
             branch: 'main',
-            // Simplified sync via GitHub Pages (read-only)
-            publicUrl: 'https://derguer.github.io/Romantic-Timeline/data/dates.json'
+            // Public URL for reading data
+            publicUrl: 'https://raw.githubusercontent.com/derguer/Romantic-Timeline/main/data/dates.json'
         };
+        
+        // Get or request GitHub token for sync
+        function getGitHubToken() {
+            let token = localStorage.getItem('github_token');
+            if (!token) {
+                token = prompt('🔑 GitHub Personal Access Token eingeben:\n\n' +
+                    '1. Gehe zu GitHub.com → Settings → Developer settings → Personal access tokens\n' +
+                    '2. Erstelle einen neuen Token mit "repo" permissions\n' +
+                    '3. Gib den Token hier ein (wird sicher lokal gespeichert):\n\n' +
+                    'Token:');
+                if (token) {
+                    localStorage.setItem('github_token', token);
+                    console.log('🔑 GitHub token saved locally');
+                }
+            }
+            return token;
+        }
 
         // Data Storage - Hybrid approach (localStorage + GitHub)
         let dates = {};
@@ -1691,14 +1720,27 @@
             return true;
         }
 
+        // Save data using GitHub API with Personal Access Token
         async function saveToGitHub(datesData) {
             try {
                 console.log('💾 Saving data to GitHub...');
                 
-                // Get current file SHA
-                const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`);
-                let sha = null;
+                // Get GitHub token
+                const token = getGitHubToken();
+                if (!token) {
+                    console.warn('⚠️ No GitHub token provided, sync cancelled');
+                    return false;
+                }
                 
+                // Get current file SHA
+                const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                let sha = null;
                 if (getResponse.ok) {
                     const fileData = await getResponse.json();
                     sha = fileData.sha;
@@ -1712,14 +1754,15 @@
                         lastModifiedBy: deviceId,
                         lastUpdate: new Date().toISOString(),
                         version: "1.0",
-                        totalDates: Object.keys(datesData).length
+                        totalDates: Object.keys(datesData).length,
+                        syncMethod: "github-api"
                     }
                 };
                 
                 const content = btoa(JSON.stringify(dataWithMetadata, null, 2));
                 
                 const updateData = {
-                    message: `Update dates - ${new Date().toLocaleString('de-DE')}`,
+                    message: `🔄 Auto-sync timeline data - ${new Date().toLocaleString('de-DE')}`,
                     content: content,
                     branch: GITHUB_CONFIG.branch
                 };
@@ -1731,7 +1774,9 @@
                 const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
                     method: 'PUT',
                     headers: {
+                        'Authorization': `token ${token}`,
                         'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
                     },
                     body: JSON.stringify(updateData)
                 });
@@ -1740,8 +1785,13 @@
                     console.log('✅ Successfully saved to GitHub');
                     localStorage.setItem('lastSyncTime', Date.now().toString());
                     return true;
+                } else if (response.status === 401) {
+                    console.error('❌ GitHub token invalid or expired');
+                    localStorage.removeItem('github_token');
+                    alert('🔑 GitHub Token ist ungültig oder abgelaufen!\nBeim nächsten Speichern wirst du nach einem neuen Token gefragt.');
+                    return false;
                 } else {
-                    console.warn('⚠️ GitHub save failed (no auth token):', response.status);
+                    console.warn('⚠️ GitHub sync failed:', response.status, await response.text());
                     return false;
                 }
             } catch (error) {
@@ -1804,6 +1854,55 @@
             }, 500);
         }
         
+        // Manage GitHub Token
+        function manageGitHubToken() {
+            const currentToken = localStorage.getItem('github_token');
+            const hasToken = currentToken && currentToken.length > 10;
+            
+            let message = '🔑 GitHub Token Management\n\n';
+            
+            if (hasToken) {
+                message += `✅ Token ist gesetzt (${currentToken.substring(0, 8)}...)\n\n`;
+                message += 'Was möchtest du tun?\n\n';
+                message += '1️⃣ Neuen Token eingeben\n';
+                message += '2️⃣ Token löschen\n';
+                message += '3️⃣ Abbrechen\n\n';
+                message += 'Gib 1, 2 oder 3 ein:';
+                
+                const choice = prompt(message);
+                
+                if (choice === '1') {
+                    // New token
+                    const newToken = prompt('🔑 Neuen GitHub Token eingeben:');
+                    if (newToken && newToken.trim().length > 10) {
+                        localStorage.setItem('github_token', newToken.trim());
+                        alert('✅ Neuer Token gespeichert!');
+                    }
+                } else if (choice === '2') {
+                    // Delete token
+                    if (confirm('🗑️ Token wirklich löschen?\n\nAutomatisches Sync wird deaktiviert.')) {
+                        localStorage.removeItem('github_token');
+                        alert('🗑️ Token gelöscht!');
+                    }
+                }
+            } else {
+                message += '❌ Kein Token gesetzt\n\n';
+                message += 'Für automatisches Sync brauchst du einen GitHub Personal Access Token.\n\n';
+                message += 'Siehe SETUP-GITHUB-ACTIONS.md für Anleitung.\n\n';
+                message += 'Token jetzt eingeben?';
+                
+                if (confirm(message)) {
+                    const token = prompt('🔑 GitHub Personal Access Token eingeben:');
+                    if (token && token.trim().length > 10) {
+                        localStorage.setItem('github_token', token.trim());
+                        alert('✅ Token gespeichert!\n\nAutomatisches Sync ist jetzt aktiviert.');
+                    }
+                }
+            }
+            
+            closeSyncModal();
+        }
+
         // Import data from file
         function importData(event) {
             const file = event.target.files[0];
@@ -1980,24 +2079,35 @@
             }
         }
 
-        // Central save function (localStorage + GitHub)
+        // Central save function (localStorage + GitHub Actions)
         async function saveDates(showSuccess = false) {
             try {
                 // Always save to localStorage first (instant)
                 localStorage.setItem('couplesDates', JSON.stringify(dates));
+                updateSyncStatus('syncing', '💾 Speichere lokal...');
                 
-                // Try to save to GitHub (online sync)
+                // Try to save via GitHub Actions (online sync)
                 if (isOnline) {
+                    updateSyncStatus('syncing', '🔄 Synchronisiere...');
                     const success = await saveToGitHub(dates);
-                    if (success && showSuccess) {
-                        createHeartEffect();
-                        console.log('💕 Data synchronized across all devices!');
+                    
+                    if (success) {
+                        updateSyncStatus('synced', '✅ Synchronisiert');
+                        if (showSuccess) {
+                            createHeartEffect();
+                            console.log('💕 Data synchronized across all devices via GitHub Actions!');
+                        }
+                    } else {
+                        updateSyncStatus('error', '⚠️ Sync-Fehler');
+                        console.log('⚠️ GitHub Actions sync failed, but data saved locally');
                     }
                 } else {
+                    updateSyncStatus('offline', '📱 Offline - lokal gespeichert');
                     console.log('📱 Saved locally, will sync when online');
                 }
             } catch (error) {
                 console.error('❌ Save error:', error);
+                updateSyncStatus('error', '❌ Speicher-Fehler');
             }
         }
 
@@ -4261,9 +4371,9 @@
             // Initialize data from GitHub
             await initializeData();
             
-            // Setup automatic sync every 30 seconds (disabled until GitHub token is configured)
-            // startAutoSync();
-            console.log('ℹ️ Auto-sync disabled - use manual sync instead');
+            // Setup automatic sync every 30 seconds via GitHub Actions
+            startAutoSync();
+            console.log('🔄 Auto-sync enabled via GitHub Actions');
             
             // Monitor online status
             window.addEventListener('online', () => {
