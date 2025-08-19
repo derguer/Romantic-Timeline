@@ -1447,20 +1447,39 @@
             return statusElement;
         }
         
-        // Check for remote changes
+        // Check for remote changes using direct GitHub API
         async function checkForRemoteChanges() {
             try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`);
+                const token = getGitHubToken();
+                if (!token) {
+                    console.log('⚠️ No token available for checking remote changes');
+                    return null;
+                }
+                
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
+                    }
+                });
+                
                 if (response.ok) {
                     const data = await response.json();
                     const remoteContent = JSON.parse(atob(data.content));
                     const remoteTimestamp = remoteContent.metadata?.lastModified || 0;
                     const localTimestamp = parseInt(lastSyncTime) || 0;
                     
+                    console.log(`📡 Remote: ${remoteTimestamp}, Local: ${localTimestamp}`);
+                    
                     if (remoteTimestamp > localTimestamp) {
                         console.log('🔄 Remote changes detected');
                         return remoteContent;
+                    } else {
+                        console.log('📡 No new remote changes');
                     }
+                } else {
+                    console.log(`📡 No remote file found (${response.status})`);
                 }
                 return null;
             } catch (error) {
