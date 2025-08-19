@@ -144,13 +144,20 @@
       "location": "Butzweilerstr. 51,  50829 Köln",
       "description": "Diese Kafferep, hätte ich gerne probiert, ich weiß ja das du die unbedingt probieren möchtest, mein Softeis war geil, auch wenn wir solange warten mussten, tut mir leid das wir so spät in die Therme sind, ich weiß das dich sowas aufregt.  ",
       "comments": [],
-      "photos": []
+      "photos": [],
+      "weather": {
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 23,
+        "humidity": 79,
+        "season": "summer"
+      }
     }
   },
   "metadata": {
-    "lastModified": 1755609364168,
+    "lastModified": 1755609365096,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T13:16:04.168Z",
+    "lastUpdate": "2025-08-19T13:16:05.096Z",
     "version": "1.0",
     "totalDates": 10,
     "syncMethod": "github-api"
