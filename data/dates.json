@@ -10,34 +10,34 @@
       "photos": []
     },
     "date2": {
-      "title": "test date ",
-      "date": "2025-08-19",
-      "time": "12:00",
-      "location": "Dieselstraße 7, Leverkusen",
-      "description": "Test test ",
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 22,
-        "humidity": 57,
-        "season": "summer"
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 15,
+        "humidity": 61,
+        "season": "autumn"
       }
     },
     "date3": {
-      "title": "test test",
-      "date": "2025-08-21",
-      "time": "12:00",
-      "location": "Strandläuferweg 34, 50829 Köln",
-      "description": "hahassdh",
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Gewitter",
-        "icon": "⛈️",
+        "condition": "Warm",
+        "icon": "🌤️",
         "temperature": 21,
-        "humidity": 45,
+        "humidity": 72,
         "season": "summer"
       }
     },
@@ -45,39 +45,7 @@
       "title": "penis dinner",
       "date": "2025-08-20",
       "time": "12:00",
-      "location": "kÃ¶ln",
-      "description": "",
-      "comments": [],
-      "photos": [],
-      "weather": {
-        "condition": "Heiß",
-        "icon": "🌞",
-        "temperature": 28,
-        "humidity": 40,
-        "season": "summer"
-      }
-    },
-    "date5": {
-      "title": "final test ",
-      "date": "2025-08-20",
-      "time": "",
-      "location": "KÃ¶ln",
-      "description": "",
-      "comments": [],
-      "photos": [],
-      "weather": {
-        "condition": "Heiß",
-        "icon": "🌞",
-        "temperature": 27,
-        "humidity": 66,
-        "season": "summer"
-      }
-    },
-    "date6": {
-      "title": "final test ",
-      "date": "2025-08-20",
-      "time": "",
-      "location": "KÃ¶ln",
+      "location": "köln",
       "description": "",
       "comments": [],
       "photos": [],
@@ -85,15 +53,47 @@
         "condition": "Heiß",
         "icon": "🌞",
         "temperature": 29,
-        "humidity": 40,
+        "humidity": 72,
+        "season": "summer"
+      }
+    },
+    "date5": {
+      "title": "final test ",
+      "date": "2025-08-20",
+      "time": "",
+      "location": "Köln",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 29,
+        "humidity": 77,
+        "season": "summer"
+      }
+    },
+    "date6": {
+      "title": "final test ",
+      "date": "2025-08-20",
+      "time": "",
+      "location": "Köln",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 29,
+        "humidity": 47,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755607031484,
-    "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:37:11.484Z",
+    "lastModified": 1755607039911,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T12:37:19.911Z",
     "version": "1.0",
     "totalDates": 6,
     "syncMethod": "github-api"
