@@ -68,8 +68,8 @@
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 26,
-        "humidity": 62,
+        "temperature": 29,
+        "humidity": 65,
         "season": "summer"
       }
     },
@@ -100,16 +100,16 @@
       "weather": {
         "condition": "Gewitter",
         "icon": "⛈️",
-        "temperature": 23,
-        "humidity": 44,
+        "temperature": 20,
+        "humidity": 50,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755609425855,
+    "lastModified": 1755609426757,
     "lastModifiedBy": "device_r8aczz19k_1755600703145",
-    "lastUpdate": "2025-08-19T13:17:05.855Z",
+    "lastUpdate": "2025-08-19T13:17:06.757Z",
     "version": "1.0",
     "totalDates": 7,
     "syncMethod": "github-api"
