@@ -10,44 +10,60 @@
       "photos": []
     },
     "date2": {
-      "title": "test date ",
-      "date": "2025-08-19",
-      "time": "12:00",
-      "location": "Dieselstraße 7, Leverkusen",
-      "description": "Test test ",
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 25,
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 18,
+        "humidity": 63,
+        "season": "autumn"
+      }
+    },
+    "date3": {
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
+      "comments": [],
+      "photos": [],
+      "weather": {
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 26,
         "humidity": 46,
         "season": "summer"
       }
     },
-    "date3": {
-      "title": "test test",
-      "date": "2025-08-21",
+    "date4": {
+      "title": "penis dinner",
+      "date": "2025-08-20",
       "time": "12:00",
-      "location": "Strandläuferweg 34, 50829 Köln",
-      "description": "hahassdh",
+      "location": "köln",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Gewitter",
-        "icon": "⛈️",
-        "temperature": 23,
-        "humidity": 62,
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 29,
+        "humidity": 59,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755604830324,
-    "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:00:30.324Z",
+    "lastModified": 1755604832109,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T12:00:32.109Z",
     "version": "1.0",
-    "totalDates": 3,
+    "totalDates": 4,
     "syncMethod": "github-api"
   }
 }
