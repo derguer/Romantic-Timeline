@@ -1622,11 +1622,15 @@
                     return false;
                 }
                 
+                console.log(`🔑 Using token: ${token.substring(0, 8)}...`);
+                
                 // Get current file SHA
+                console.log('📡 Getting current file SHA...');
                 const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
                     headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
                     }
                 });
                 
@@ -1634,6 +1638,9 @@
                 if (getResponse.ok) {
                     const fileData = await getResponse.json();
                     sha = fileData.sha;
+                    console.log(`📄 Found existing file with SHA: ${sha.substring(0, 8)}...`);
+                } else {
+                    console.log('📄 File does not exist yet, creating new file');
                 }
                 
                 // Prepare data with metadata
@@ -1661,27 +1668,37 @@
                     updateData.sha = sha;
                 }
                 
+                console.log('📤 Uploading to GitHub...');
                 const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github+json',
+                        'X-GitHub-Api-Version': '2022-11-28'
                     },
                     body: JSON.stringify(updateData)
                 });
                 
                 if (response.ok) {
-                    console.log('✅ Successfully saved to GitHub');
+                    const result = await response.json();
+                    console.log('✅ Successfully saved to GitHub:', result.commit.sha);
                     localStorage.setItem('lastSyncTime', Date.now().toString());
                     return true;
-                } else if (response.status === 401) {
-                    console.error('❌ GitHub token invalid or expired');
-                    localStorage.removeItem('github_token');
-                    alert('🔑 GitHub Token ist ungültig oder abgelaufen!\nBeim nächsten Speichern wirst du nach einem neuen Token gefragt.');
-                    return false;
                 } else {
-                    console.warn('⚠️ GitHub sync failed:', response.status, await response.text());
+                    const errorText = await response.text();
+                    console.error(`❌ GitHub API Error ${response.status}:`, errorText);
+                    
+                    if (response.status === 401) {
+                        console.error('❌ GitHub token invalid or expired');
+                        localStorage.removeItem('github_token');
+                        alert('🔑 GitHub Token ist ungültig oder abgelaufen!\nBeim nächsten Speichern wirst du nach einem neuen Token gefragt.');
+                    } else if (response.status === 403) {
+                        console.error('❌ GitHub token has insufficient permissions');
+                        alert('🔑 GitHub Token hat nicht genügend Berechtigungen!\nStelle sicher, dass der Token "repo" Berechtigung hat.');
+                    } else {
+                        console.error(`❌ GitHub API Error: ${response.status} - ${errorText}`);
+                    }
                     return false;
                 }
             } catch (error) {
