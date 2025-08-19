@@ -1656,7 +1656,14 @@
                     }
                 };
                 
-                const content = btoa(JSON.stringify(dataWithMetadata, null, 2));
+                // COMPLETELY SAFE base64 encoding using modern approach
+                const jsonString = JSON.stringify(dataWithMetadata, null, 2);
+                
+                // Convert to Uint8Array first, then to base64 - this handles ALL characters
+                const encoder = new TextEncoder();
+                const uint8Array = encoder.encode(jsonString);
+                const binaryString = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
+                const content = btoa(binaryString);
                 
                 const updateData = {
                     message: `🔄 Auto-sync timeline data - ${new Date().toLocaleString('de-DE')}`,
@@ -3416,6 +3423,23 @@
                 console.log(`✅ Weather loaded for ${dateId}:`, weather);
             } catch (error) {
                 console.error(`❌ Failed to load weather for ${dateId}:`, error);
+            }
+        }
+
+        // Load photos for timeline date
+        function loadTimelinePhotos(dateId) {
+            if (!dates[dateId] || !dates[dateId].photos) {
+                console.log(`📸 No photos found for date: ${dateId}`);
+                return;
+            }
+            
+            console.log(`📸 Loading ${dates[dateId].photos.length} photos for date: ${dateId}`);
+            
+            // Photos are already loaded in the dates object
+            // This function is mainly for consistency and future enhancements
+            const photoCount = dates[dateId].photos.length;
+            if (photoCount > 0) {
+                console.log(`✅ ${photoCount} photos ready for ${dateId}`);
             }
         }
 
