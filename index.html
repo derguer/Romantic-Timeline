@@ -1701,36 +1701,20 @@
             const lastSave = localStorage.getItem('lastSyncTime') || 0;
             const timeSinceLastSave = Date.now() - parseInt(lastSave);
             
-            // If we have recent local data (less than 5 minutes old), use it
-            if (Object.keys(localData).length > 0 && timeSinceLastSave < 300000) {
-                console.log('📱 Using recent localStorage data');
+            // ALWAYS prioritize localStorage to prevent data loss
+            if (Object.keys(localData).length > 0) {
+                console.log('✅ Using localStorage data to prevent data loss');
                 dates = localData;
             } else {
-                // Try to load from GitHub
-                console.log('📡 Trying to load from GitHub...');
+                // Only try GitHub if no local data exists
+                console.log('📡 No local data found, trying GitHub...');
                 const gitHubSuccess = await loadFromGitHub();
                 
                 if (!gitHubSuccess) {
-                    // Fallback to localStorage
-                    console.log('📱 GitHub failed, falling back to localStorage...');
-                    
-                    if (Object.keys(localData).length === 0) {
-                        // Initialize with first date if nothing exists
-                        dates = {
-                            'date1': {
-                                title: 'Unser erstes Date',
-                                date: '',
-                                time: '',
-                                location: '📍 Noch kein Ort gesetzt',
-                                description: '',
-                                comments: [],
-                                photos: []
-                            }
-                        };
-                        localStorage.setItem('couplesDates', JSON.stringify(dates));
-                    } else {
-                        dates = localData;
-                    }
+                    // Initialize empty
+                    console.log('📱 No data found anywhere, starting fresh');
+                    dates = {};
+                    dateCounter = 0;
                 }
             }
             
@@ -1794,27 +1778,35 @@
             }
         }
 
-        // Central save function (localStorage + GitHub Actions)
+        // Central save function (localStorage + GitHub)
         async function saveDates(showSuccess = false) {
             try {
                 // Always save to localStorage first (instant)
                 localStorage.setItem('couplesDates', JSON.stringify(dates));
+                localStorage.setItem('lastSyncTime', Date.now().toString());
                 updateSyncStatus('syncing', '💾 Speichere lokal...');
                 
-                // Try to save via GitHub Actions (online sync)
+                console.log(`💾 Saved ${Object.keys(dates).length} dates to localStorage`);
+                
+                // Try to save to GitHub (online sync)
                 if (isOnline) {
-                    updateSyncStatus('syncing', '🔄 Synchronisiere...');
+                    updateSyncStatus('syncing', '🔄 Synchronisiere zu GitHub...');
                     const success = await saveToGitHub(dates);
                     
                     if (success) {
-                        updateSyncStatus('synced', '✅ Synchronisiert');
+                        updateSyncStatus('synced', '✅ GitHub synchronisiert');
+                        console.log('✅ Successfully synced to GitHub');
                         if (showSuccess) {
                             createHeartEffect();
-                            console.log('💕 Data synchronized across all devices via GitHub Actions!');
+                            console.log('💕 Data synchronized across all devices!');
                         }
                     } else {
-                        updateSyncStatus('error', '⚠️ Sync-Fehler');
-                        console.log('⚠️ GitHub Actions sync failed, but data saved locally');
+                        updateSyncStatus('error', '⚠️ GitHub-Sync fehlgeschlagen');
+                        console.log('⚠️ GitHub sync failed, but data is safely saved locally');
+                        // Show token prompt if sync fails
+                        if (!localStorage.getItem('github_token')) {
+                            console.log('🔑 No GitHub token found - prompting user');
+                        }
                     }
                 } else {
                     updateSyncStatus('offline', '📱 Offline - lokal gespeichert');
@@ -4083,12 +4075,13 @@
         document.addEventListener('DOMContentLoaded', async function() {
             console.log('📄 DOM CONTENT LOADED - Initialisiere GitHub Database System');
             
-            // Initialize data from GitHub
+            // Initialize data (localStorage first to prevent data loss)
             await initializeData();
             
             // Setup automatic sync every 30 seconds via GitHub Actions
-            startAutoSync();
-            console.log('🔄 Auto-sync enabled via GitHub Actions');
+            // TEMPORARILY DISABLED - preventing data loss
+            // startAutoSync();
+            console.log('⚠️ Auto-sync temporarily disabled to prevent data loss');
             
             // Monitor online status
             window.addEventListener('online', () => {
