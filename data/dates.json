@@ -36,16 +36,16 @@
       "weather": {
         "condition": "Gewitter",
         "icon": "⛈️",
-        "temperature": 22,
-        "humidity": 60,
+        "temperature": 21,
+        "humidity": 69,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755604248961,
+    "lastModified": 1755604254819,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T11:50:48.961Z",
+    "lastUpdate": "2025-08-19T11:50:54.819Z",
     "version": "1.0",
     "totalDates": 3,
     "syncMethod": "github-api"
