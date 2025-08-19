@@ -20,8 +20,8 @@
       "weather": {
         "condition": "Sonnig",
         "icon": "☀️",
-        "temperature": 24,
-        "humidity": 74,
+        "temperature": 27,
+        "humidity": 40,
         "season": "summer"
       }
     },
@@ -50,10 +50,10 @@
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "HeiÃ",
-        "icon": "ð",
-        "temperature": 29,
-        "humidity": 44,
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 30,
+        "humidity": 77,
         "season": "summer"
       }
     },
@@ -66,10 +66,10 @@
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "HeiÃ",
-        "icon": "ð",
-        "temperature": 30,
-        "humidity": 44,
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 29,
+        "humidity": 50,
         "season": "summer"
       }
     },
@@ -82,18 +82,18 @@
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "HeiÃ",
-        "icon": "ð",
-        "temperature": 28,
-        "humidity": 75,
+        "condition": "Heiß",
+        "icon": "🌞",
+        "temperature": 26,
+        "humidity": 66,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755605362177,
+    "lastModified": 1755605381456,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:09:22.177Z",
+    "lastUpdate": "2025-08-19T12:09:41.456Z",
     "version": "1.0",
     "totalDates": 6,
     "syncMethod": "github-api"
