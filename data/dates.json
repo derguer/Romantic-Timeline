@@ -10,34 +10,34 @@
       "photos": []
     },
     "date2": {
-      "title": "test date ",
-      "date": "2025-08-19",
-      "time": "12:00",
-      "location": "Dieselstraße 7, Leverkusen",
-      "description": "Test test ",
+      "title": "test ",
+      "date": "2025-09-19",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Sonnig",
-        "icon": "☀️",
-        "temperature": 24,
-        "humidity": 77,
-        "season": "summer"
+        "condition": "Mild",
+        "icon": "🍂",
+        "temperature": 15,
+        "humidity": 61,
+        "season": "autumn"
       }
     },
     "date3": {
-      "title": "test test",
-      "date": "2025-08-21",
-      "time": "12:00",
-      "location": "Strandläuferweg 34, 50829 Köln",
-      "description": "hahassdh",
+      "title": "test testtd d",
+      "date": "2025-08-14",
+      "time": "",
+      "location": "",
+      "description": "",
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Gewitter",
-        "icon": "⛈️",
-        "temperature": 20,
-        "humidity": 75,
+        "condition": "Warm",
+        "icon": "🌤️",
+        "temperature": 21,
+        "humidity": 72,
         "season": "summer"
       }
     },
@@ -45,15 +45,15 @@
       "title": "penis dinner",
       "date": "2025-08-20",
       "time": "12:00",
-      "location": "kÃ¶ln",
+      "location": "köln",
       "description": "",
       "comments": [],
       "photos": [],
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 26,
-        "humidity": 61,
+        "temperature": 29,
+        "humidity": 72,
         "season": "summer"
       }
     },
@@ -61,15 +61,15 @@
       "title": "final test ",
       "date": "2025-08-20",
       "time": "",
-      "location": "KÃ¶ln",
+      "location": "Köln",
       "description": "",
       "comments": [],
       "photos": [],
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 26,
-        "humidity": 62,
+        "temperature": 29,
+        "humidity": 77,
         "season": "summer"
       }
     },
@@ -77,23 +77,23 @@
       "title": "final test ",
       "date": "2025-08-20",
       "time": "",
-      "location": "KÃ¶ln",
+      "location": "Köln",
       "description": "",
       "comments": [],
       "photos": [],
       "weather": {
         "condition": "Heiß",
         "icon": "🌞",
-        "temperature": 28,
+        "temperature": 29,
         "humidity": 47,
         "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755605641312,
-    "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:14:01.312Z",
+    "lastModified": 1755605663295,
+    "lastModifiedBy": "device_r8aczz19k_1755600703145",
+    "lastUpdate": "2025-08-19T12:14:23.295Z",
     "version": "1.0",
     "totalDates": 6,
     "syncMethod": "github-api"
