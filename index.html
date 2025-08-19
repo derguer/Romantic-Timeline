@@ -162,6 +162,70 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+        
+        /* Sync Button */
+        .sync-btn {
+            background: linear-gradient(135deg, #17a2b8, #138496) !important;
+            color: white !important;
+        }
+        
+        .sync-btn:hover {
+            background: linear-gradient(135deg, #138496, #117a8b) !important;
+        }
+        
+        /* Sync Modal */
+        .sync-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .sync-option-btn {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px solid #dee2e6;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .sync-option-btn:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .sync-option-btn i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #17a2b8;
+        }
+        
+        .sync-option-btn h3 {
+            margin: 10px 0 5px 0;
+            color: #333;
+        }
+        
+        .sync-option-btn p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sync-info {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .sync-info ol {
+            margin: 10px 0 0 20px;
+            color: #666;
+        }
 
         .timeline-container {
             max-width: 1200px;
@@ -1209,6 +1273,43 @@
     <div class="main-navigation">
         <button class="nav-tab" onclick="showSection('timeline')">Timeline</button>
         <button class="nav-tab active" onclick="showSection('gallery')">Galerie</button>
+        <button class="nav-tab sync-btn" onclick="showSyncOptions()" title="Daten zwischen Geräten synchronisieren">
+            <i class="fas fa-sync-alt"></i> Sync
+        </button>
+    </div>
+    
+    <!-- Sync Modal -->
+    <div id="syncModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeSyncModal()">&times;</span>
+            <h2>🔄 Geräte-Synchronisation</h2>
+            <p>Da die automatische Sync noch nicht funktioniert, kannst du deine Daten manuell zwischen Geräten übertragen:</p>
+            
+            <div class="sync-options">
+                <button class="sync-option-btn" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    <h3>Daten Exportieren</h3>
+                    <p>Lade deine Timeline-Daten herunter</p>
+                </button>
+                
+                <button class="sync-option-btn" onclick="document.getElementById('importFile').click()">
+                    <i class="fas fa-upload"></i>
+                    <h3>Daten Importieren</h3>
+                    <p>Lade Daten von einem anderen Gerät hoch</p>
+                </button>
+            </div>
+            
+            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+            
+            <div class="sync-info">
+                <p><strong>So funktioniert's:</strong></p>
+                <ol>
+                    <li>Auf Gerät A: "Daten Exportieren" klicken</li>
+                    <li>Datei auf Gerät B übertragen (z.B. per WhatsApp/Email)</li>
+                    <li>Auf Gerät B: "Daten Importieren" klicken und Datei auswählen</li>
+                </ol>
+            </div>
+        </div>
     </div>
 
     <!-- Timeline -->
@@ -1382,7 +1483,9 @@
             owner: 'derguer',
             repo: 'Romantic-Timeline',
             path: 'data/dates.json',
-            branch: 'main'
+            branch: 'main',
+            // Simplified sync via GitHub Pages (read-only)
+            publicUrl: 'https://derguer.github.io/Romantic-Timeline/data/dates.json'
         };
 
         // Data Storage - Hybrid approach (localStorage + GitHub)
@@ -1532,48 +1635,60 @@
             console.log('🔄 Auto-sync started (every 30 seconds)');
         }
 
-        // GitHub API Functions
+        // Simplified GitHub Data Loading (Read-Only)
         async function loadFromGitHub() {
             try {
                 console.log('📡 Loading data from GitHub...');
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`);
                 
-                if (response.ok) {
-                    const data = await response.json();
-                    const content = JSON.parse(atob(data.content));
-                    
-                    // Extract dates from new structure
-                    if (content.dates) {
-                        dates = content.dates;
-                    } else {
-                        // Fallback for old structure
-                        const { metadata, ...datesData } = content;
-                        dates = datesData;
+                // Try GitHub Pages URL first (faster)
+                let response = await fetch(GITHUB_CONFIG.publicUrl + '?t=' + Date.now());
+                
+                if (!response.ok) {
+                    // Fallback to GitHub API
+                    response = await fetch(`https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/contents/${GITHUB_CONFIG.path}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const content = JSON.parse(atob(data.content));
+                        return processGitHubData(content);
                     }
-                    
-                    if (content.metadata) {
-                        if (content.metadata.dateCounter) {
-                            dateCounter = content.metadata.dateCounter;
-                        }
-                        // Update last sync time from remote
-                        if (content.metadata.lastModified) {
-                            lastSyncTime = content.metadata.lastModified.toString();
-                        }
-                    }
-                    
-                    // Update localStorage as backup
-                    localStorage.setItem('couplesDates', JSON.stringify(dates));
-                    localStorage.setItem('lastSyncTime', Date.now().toString());
-                    
-                    console.log('✅ Successfully loaded data from GitHub');
-                    return true;
                 } else {
-                    throw new Error(`GitHub API error: ${response.status}`);
+                    const content = await response.json();
+                    return processGitHubData(content);
                 }
+                
+                throw new Error(`GitHub load failed: ${response.status}`);
             } catch (error) {
                 console.warn('⚠️ Failed to load from GitHub:', error);
                 return false;
             }
+        }
+        
+        function processGitHubData(content) {
+            // Extract dates from new structure
+            if (content.dates) {
+                dates = content.dates;
+            } else {
+                // Fallback for old structure
+                const { metadata, ...datesData } = content;
+                dates = datesData;
+            }
+            
+            if (content.metadata) {
+                if (content.metadata.dateCounter) {
+                    dateCounter = content.metadata.dateCounter;
+                }
+                // Update last sync time from remote
+                if (content.metadata.lastModified) {
+                    lastSyncTime = content.metadata.lastModified.toString();
+                }
+            }
+            
+            // Update localStorage as backup
+            localStorage.setItem('couplesDates', JSON.stringify(dates));
+            localStorage.setItem('lastSyncTime', Date.now().toString());
+            
+            console.log('✅ Successfully loaded data from GitHub');
+            return true;
         }
 
         async function saveToGitHub(datesData) {
@@ -1626,12 +1741,141 @@
                     localStorage.setItem('lastSyncTime', Date.now().toString());
                     return true;
                 } else {
-                    throw new Error(`Save failed: ${response.status}`);
+                    console.warn('⚠️ GitHub save failed (no auth token):', response.status);
+                    return false;
                 }
             } catch (error) {
                 console.error('❌ Failed to save to GitHub:', error);
                 return false;
             }
+        }
+        
+        // Sync Modal Functions
+        function showSyncOptions() {
+            document.getElementById('syncModal').style.display = 'block';
+        }
+        
+        function closeSyncModal() {
+            document.getElementById('syncModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('syncModal');
+            if (event.target === modal) {
+                closeSyncModal();
+            }
+        }
+        
+        // Export data for manual sync
+        function exportData() {
+            const dataWithMetadata = {
+                dates: dates,
+                metadata: {
+                    lastModified: Date.now(),
+                    lastModifiedBy: deviceId,
+                    lastUpdate: new Date().toISOString(),
+                    version: "1.0",
+                    totalDates: Object.keys(dates).length,
+                    exportedAt: new Date().toLocaleString('de-DE'),
+                    deviceInfo: navigator.userAgent.substring(0, 100)
+                }
+            };
+            
+            const dataStr = JSON.stringify(dataWithMetadata, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'romantic-timeline-backup-' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateSyncStatus('synced', '📤 Daten exportiert');
+            console.log('📤 Data exported for manual sync');
+            
+            // Show success message
+            setTimeout(() => {
+                alert('✅ Daten erfolgreich exportiert!\n\nÜbertrage die Datei auf dein anderes Gerät und importiere sie dort.');
+                closeSyncModal();
+            }, 500);
+        }
+        
+        // Import data from file
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate data structure
+                    if (!importedData.dates || typeof importedData.dates !== 'object') {
+                        throw new Error('Invalid data format');
+                    }
+                    
+                    // Merge imported data with existing data
+                    let mergeCount = 0;
+                    for (const [dateId, importedDate] of Object.entries(importedData.dates)) {
+                        if (!dates[dateId]) {
+                            dates[dateId] = importedDate;
+                            mergeCount++;
+                            console.log(`➕ Imported new date: ${dateId}`);
+                        } else {
+                            // Merge comments and photos
+                            const existingDate = dates[dateId];
+                            
+                            // Merge comments
+                            if (importedDate.comments && Array.isArray(importedDate.comments)) {
+                                existingDate.comments = existingDate.comments || [];
+                                importedDate.comments.forEach(importedComment => {
+                                    if (!existingDate.comments.find(c => c.id === importedComment.id)) {
+                                        existingDate.comments.push(importedComment);
+                                    }
+                                });
+                            }
+                            
+                            // Merge photos
+                            if (importedDate.photos && Array.isArray(importedDate.photos)) {
+                                existingDate.photos = existingDate.photos || [];
+                                importedDate.photos.forEach(importedPhoto => {
+                                    if (!existingDate.photos.includes(importedPhoto)) {
+                                        existingDate.photos.push(importedPhoto);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    
+                    // Save merged data
+                    localStorage.setItem('couplesDates', JSON.stringify(dates));
+                    localStorage.setItem('lastSyncTime', Date.now().toString());
+                    
+                    // Refresh UI
+                    loadAllDates();
+                    
+                    updateSyncStatus('synced', '📥 Daten importiert');
+                    console.log(`✅ Successfully imported ${mergeCount} new dates`);
+                    
+                    // Show success message
+                    alert(`✅ Daten erfolgreich importiert!\n\n${mergeCount} neue Dates wurden hinzugefügt.`);
+                    closeSyncModal();
+                    
+                } catch (error) {
+                    console.error('❌ Import error:', error);
+                    updateSyncStatus('error', '❌ Import-Fehler');
+                    alert('❌ Fehler beim Importieren der Daten!\n\nBitte überprüfe, ob die Datei korrekt ist.');
+                }
+            };
+            
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
         }
 
         // Initialize data (prioritize localStorage, then GitHub)
@@ -4017,8 +4261,9 @@
             // Initialize data from GitHub
             await initializeData();
             
-            // Setup automatic sync every 30 seconds
-            startAutoSync();
+            // Setup automatic sync every 30 seconds (disabled until GitHub token is configured)
+            // startAutoSync();
+            console.log('ℹ️ Auto-sync disabled - use manual sync instead');
             
             // Monitor online status
             window.addEventListener('online', () => {
