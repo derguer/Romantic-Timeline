@@ -96,13 +96,20 @@
       "location": "Merowingerstraße 23, Köln",
       "description": "Schlimmste Nacht in Lea's Leben, meine kleine arme Maus. ",
       "comments": [],
-      "photos": []
+      "photos": [],
+      "weather": {
+        "condition": "Gewitter",
+        "icon": "⛈️",
+        "temperature": 22,
+        "humidity": 49,
+        "season": "summer"
+      }
     }
   },
   "metadata": {
-    "lastModified": 1755608604840,
+    "lastModified": 1755608606141,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T13:03:24.840Z",
+    "lastUpdate": "2025-08-19T13:03:26.141Z",
     "version": "1.0",
     "totalDates": 7,
     "syncMethod": "github-api"
