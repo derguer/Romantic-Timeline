@@ -34,18 +34,18 @@
       "comments": [],
       "photos": [],
       "weather": {
-        "condition": "Unbekannt",
-        "icon": "🌤️",
+        "condition": "Gewitter",
+        "icon": "⛈️",
         "temperature": 20,
-        "humidity": 60,
-        "season": "unknown"
+        "humidity": 56,
+        "season": "summer"
       }
     }
   },
   "metadata": {
-    "lastModified": 1755605027568,
+    "lastModified": 1755605028468,
     "lastModifiedBy": "device_h5e3w1odr_1755600001532",
-    "lastUpdate": "2025-08-19T12:03:47.568Z",
+    "lastUpdate": "2025-08-19T12:03:48.468Z",
     "version": "1.0",
     "totalDates": 3,
     "syncMethod": "github-api"
