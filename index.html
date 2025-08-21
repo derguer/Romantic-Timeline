@@ -1545,32 +1545,32 @@
                 clearInterval(syncInterval);
             }
             
-            syncInterval = setInterval(async () => {
-                if (!isOnline || isCurrentlySyncing) return;
+           // syncInterval = setInterval(async () => {
+           //     if (!isOnline || isCurrentlySyncing) return;
                 
-                try {
-                    isCurrentlySyncing = true;
-                    updateSyncStatus('syncing', '🔄 Prüfe Updates...');
+           //     try {
+           //         isCurrentlySyncing = true;
+           //         updateSyncStatus('syncing', '🔄 Prüfe Updates...');
+           //         
+           //         // Always save local changes first
+           //         await saveDates(false);
                     
-                    // Always save local changes first
-                    await saveDates(false);
-                    
-                    // Then check for remote changes
-                    const remoteData = await checkForRemoteChanges();
-                    if (remoteData) {
-                        console.log('🔄 Remote changes found, merging...');
-                        await mergeRemoteChanges(remoteData);
-                        updateSyncStatus('synced', '✅ Aktualisiert');
-                    } else {
-                        updateSyncStatus('synced', '✅ Synchronisiert');
-                    }
-                } catch (error) {
-                    console.error('❌ Auto-sync error:', error);
-                    updateSyncStatus('error', '❌ Sync-Fehler');
-                } finally {
-                    isCurrentlySyncing = false;
-                }
-            }, 30000); // Every 30 seconds
+           //         // Then check for remote changes
+           //         const remoteData = await checkForRemoteChanges();
+           //         if (remoteData) {
+           //             console.log('🔄 Remote changes found, merging...');
+           //             await mergeRemoteChanges(remoteData);
+           //             updateSyncStatus('synced', '✅ Aktualisiert');
+           //         } else {
+           //             updateSyncStatus('synced', '✅ Synchronisiert');
+           //         }
+           //     } catch (error) {
+           //         console.error('❌ Auto-sync error:', error);
+           //         updateSyncStatus('error', '❌ Sync-Fehler');
+           //     } finally {
+           //         isCurrentlySyncing = false;
+           //     }
+           // }, 30000); // Every 30 seconds
             
             console.log('🔄 Auto-sync started (every 30 seconds)');
         }
