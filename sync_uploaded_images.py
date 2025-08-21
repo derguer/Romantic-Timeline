@@ -61,30 +61,13 @@ def process_new_image(image_path, target_name=None):
 
 def sync_to_github():
     """
-    Synchronisiert neue Bilder zu GitHub
+    Synchronisiert neue Bilder zu GitHub - DISABLED
     """
-    try:
-        # Git Status prüfen
-        result = subprocess.run(['git', 'status', '--porcelain'], 
-                              capture_output=True, text=True)
-        
-        if result.stdout.strip():
-            print("📤 Neue Bilder gefunden, lade zu GitHub hoch...")
-            
-            # Add, Commit, Push
-            subprocess.run(['git', 'add', 'images/'], check=True)
-            
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
-            commit_msg = f"Add new uploaded images - {timestamp}"
-            subprocess.run(['git', 'commit', '-m', commit_msg], check=True)
-            subprocess.run(['git', 'push'], check=True)
-            
-            print("✅ Bilder erfolgreich zu GitHub hochgeladen!")
-        else:
-            print("ℹ️  Keine neuen Bilder zum Hochladen gefunden")
-            
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Git-Fehler: {e}")
+    print("🚫 GitHub sync DISABLED - Manual updates only")
+    print("ℹ️  Bilder werden nur lokal verarbeitet")
+    # subprocess.run(['git', 'add', 'images/'], check=True)
+    # subprocess.run(['git', 'commit', '-m', commit_msg], check=True)
+    # subprocess.run(['git', 'push'], check=True)
 
 def watch_upload_folder():
     """

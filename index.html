@@ -1828,39 +1828,22 @@
             }
         }
 
-        // Central save function (localStorage + GitHub)
+        // Central save function (localStorage ONLY - GitHub disabled)
         async function saveDates(showSuccess = false) {
             try {
                 // Always save to localStorage first (instant)
                 localStorage.setItem('couplesDates', JSON.stringify(dates));
                 localStorage.setItem('lastSyncTime', Date.now().toString());
-                updateSyncStatus('syncing', '💾 Speichere lokal...');
+                updateSyncStatus('synced', '💾 Lokal gespeichert');
                 
-                console.log(`💾 Saved ${Object.keys(dates).length} dates to localStorage`);
+                console.log(`💾 Saved ${Object.keys(dates).length} dates to localStorage ONLY`);
                 
-                // Try to save to GitHub (online sync)
-                if (isOnline) {
-                    updateSyncStatus('syncing', '🔄 Synchronisiere zu GitHub...');
-                    const success = await saveToGitHub(dates);
-                    
-                    if (success) {
-                        updateSyncStatus('synced', '✅ GitHub synchronisiert');
-                        console.log('✅ Successfully synced to GitHub');
-                        if (showSuccess) {
-                            createHeartEffect();
-                            console.log('💕 Data synchronized across all devices!');
-                        }
-                    } else {
-                        updateSyncStatus('error', '⚠️ GitHub-Sync fehlgeschlagen');
-                        console.log('⚠️ GitHub sync failed, but data is safely saved locally');
-                        // Show token prompt if sync fails
-                        if (!localStorage.getItem('github_token')) {
-                            console.log('🔑 No GitHub token found - prompting user');
-                        }
-                    }
-                } else {
-                    updateSyncStatus('offline', '📱 Offline - lokal gespeichert');
-                    console.log('📱 Saved locally, will sync when online');
+                // GitHub sync DISABLED - Manual updates only
+                console.log('🔄 GitHub sync DISABLED - Manual updates only');
+                
+                if (showSuccess) {
+                    createHeartEffect();
+                    console.log('💾 Data saved locally!');
                 }
             } catch (error) {
                 console.error('❌ Save error:', error);
@@ -4152,9 +4135,9 @@
             // Monitor online status
             window.addEventListener('online', () => {
                 isOnline = true;
-                console.log('🌐 Back online - syncing...');
-                updateSyncStatus('syncing', '🔄 Wieder online...');
-                saveDates();
+                console.log('🌐 Back online - sync DISABLED');
+                updateSyncStatus('synced', '✅ Online (Manual Only)');
+                // saveDates(); // DISABLED - Manual updates only
             });
             
             window.addEventListener('offline', () => {
