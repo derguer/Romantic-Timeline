@@ -4674,6 +4674,245 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
+        // ===== NEW CODE - INSERT HERE =====
+        // Global variable to track edit mode
+        let isEditMode = false;
+        let editingDateId = null;
+
+        // Add edit buttons to the first date after initialization
+        function addFirstDateEditButtons() {
+            const date1Card = document.getElementById('date1');
+            if (!date1Card) return;
+            
+            const dateHeader = date1Card.querySelector('.date-header');
+            if (!dateHeader) return;
+            
+            // Check if edit buttons already exist
+            if (dateHeader.querySelector('.date-actions')) return;
+            
+            // Create edit actions div
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'date-actions';
+            actionsDiv.innerHTML = `
+                <button class="edit-date-btn" onclick="editDate('date1')">
+                    <i class="fas fa-edit"></i> Ändern
+                </button>
+            `;
+            
+            dateHeader.appendChild(actionsDiv);
+        }
+
+        // Edit existing date function
+        function editDate(dateId) {
+            console.log(`🔧 Editing date: ${dateId}`);
+            
+            isEditMode = true;
+            editingDateId = dateId;
+            
+            // Get existing data
+            const existingData = dates[dateId] || {};
+            
+            // Show the new date form but populate it with existing data
+            showNewDateForm();
+            
+            // Switch to the new date tab
+            const newDateTab = document.querySelector('[onclick*="newdate"]');
+            if (newDateTab) {
+                showTab({ target: newDateTab }, 'newdate');
+            }
+            
+            // Populate form with existing data
+            setTimeout(() => {
+                populateFormWithExistingData(dateId, existingData);
+                
+                // Change the form title and button text
+                const formTitle = document.querySelector('#newdate .date-info h2');
+                if (formTitle) {
+                    formTitle.textContent = 'Date bearbeiten';
+                }
+                
+                const createButton = document.getElementById('createDateButton');
+                if (createButton) {
+                    createButton.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
+                    createButton.onclick = () => saveEditedDate(dateId);
+                }
+            }, 100);
+        }
+
+        // Populate form with existing data
+        function populateFormWithExistingData(dateId, data) {
+            // Fill form fields
+            if (data.title) document.getElementById('dateTitle').value = data.title;
+            if (data.date) document.getElementById('dateDate').value = data.date;
+            if (data.time) document.getElementById('dateTime').value = data.time;
+            if (data.location) document.getElementById('dateLocation').value = data.location;
+            if (data.description) document.getElementById('dateDescription').value = data.description;
+            
+            // Load existing photos into form
+            if (data.photos && Array.isArray(data.photos)) {
+                const formGallery = document.getElementById('formPhotoGallery');
+                const placeholders = formGallery.querySelectorAll('.form-photo-placeholder');
+                
+                data.photos.forEach((photo, index) => {
+                    if (placeholders[index] && photo) {
+                        placeholders[index].classList.add('has-image');
+                        placeholders[index].innerHTML = `<img src="${photo}" alt="Existing Photo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 13px;">`;
+                        
+                        // Store in formPhotos for saving
+                        formPhotos[index + 1] = photo;
+                    }
+                });
+            }
+            
+            console.log(`✅ Form populated with data for ${dateId}:`, data);
+        }
+
+        // Save edited date
+        function saveEditedDate(dateId) {
+            console.log(`💾 Saving edited date: ${dateId}`);
+            
+            // Get form data
+            const title = document.getElementById('dateTitle').value.trim();
+            const date = document.getElementById('dateDate').value;
+            const time = document.getElementById('dateTime').value;
+            const location = document.getElementById('dateLocation').value.trim();
+            const description = document.getElementById('dateDescription').value.trim();
+            
+            if (!title || !date) {
+                alert('❌ Bitte mindestens Titel und Datum eingeben!');
+                return;
+            }
+            
+            // Update existing date data
+            dates[dateId] = {
+                ...dates[dateId], // Keep existing data like comments
+                title: title,
+                date: date,
+                time: time,
+                location: location || 'Noch kein Ort gesetzt',
+                description: description,
+                photos: []
+            };
+            
+            // Add photos from form
+            Object.keys(formPhotos).forEach(key => {
+                const photoIndex = parseInt(key) - 1;
+                if (formPhotos[key]) {
+                    dates[dateId].photos[photoIndex] = formPhotos[key];
+                }
+            });
+            
+            // Save to localStorage
+            saveDates(true);
+            
+            // Update the UI of the original date card
+            updateDateCard(dateId, dates[dateId]);
+            
+            // Reset edit mode
+            isEditMode = false;
+            editingDateId = null;
+            
+            // Clear form and photos
+            clearNewDateForm();
+            formPhotos = {};
+            
+            // Show success message
+            alert('✅ Date erfolgreich geändert!');
+            
+            // Switch back to the edited date tab
+            const editedTab = document.querySelector(`[onclick*="${dateId}"]`);
+            if (editedTab) {
+                showTab({ target: editedTab }, dateId);
+            }
+            
+            console.log(`✅ Date ${dateId} successfully updated`);
+        }
+
+        // Update date card with new data
+        function updateDateCard(dateId, data) {
+            const dateCard = document.getElementById(dateId);
+            if (!dateCard) return;
+            
+            // Update title
+            const titleElement = dateCard.querySelector('.date-info h2');
+            if (titleElement) {
+                titleElement.textContent = data.title;
+            }
+            
+            // Update date and time
+            const dateTimeElement = dateCard.querySelector('.date-time');
+            if (dateTimeElement) {
+                const displayDate = data.date ? new Date(data.date).toLocaleDateString('de-DE') : 'Noch kein Datum gesetzt';
+                const displayTime = data.time ? ` um ${data.time}` : '';
+                dateTimeElement.innerHTML = `📅 ${displayDate}${displayTime}`;
+            }
+            
+            // Update location
+            const locationElement = dateCard.querySelector('.location');
+            if (locationElement) {
+                locationElement.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${data.location || 'Noch kein Ort gesetzt'}`;
+            }
+            
+            // Update photos in timeline
+            const photoGallery = dateCard.querySelector('.photo-gallery');
+            if (photoGallery && data.photos) {
+                const placeholders = photoGallery.querySelectorAll('.photo-placeholder');
+                
+                // Clear existing photos and reset to empty state
+                placeholders.forEach((placeholder, index) => {
+                    placeholder.classList.remove('has-image');
+                    placeholder.innerHTML = `
+                        <div class="upload-text">
+                            <i class="fas fa-plus"></i>
+                            <div>Foto hinzufügen</div>
+                        </div>
+                    `;
+                    
+                    // Add new photo if exists
+                    if (data.photos[index]) {
+                        placeholder.classList.add('has-image');
+                        placeholder.innerHTML = `<img src="${data.photos[index]}" alt="Date Photo" onclick="openTimelineImageLightbox('${data.photos[index]}')" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">`;
+                    }
+                });
+            }
+            
+            console.log(`🔄 Date card ${dateId} updated in UI`);
+        }
+
+        // Clear the new date form
+        function clearNewDateForm() {
+            document.getElementById('dateTitle').value = '';
+            document.getElementById('dateDate').value = '';
+            document.getElementById('dateTime').value = '';
+            document.getElementById('dateLocation').value = '';
+            document.getElementById('dateDescription').value = '';
+            
+            // Reset form photos
+            const formGallery = document.getElementById('formPhotoGallery');
+            const placeholders = formGallery.querySelectorAll('.form-photo-placeholder');
+            placeholders.forEach((placeholder, index) => {
+                placeholder.classList.remove('has-image');
+                placeholder.innerHTML = `
+                    <i class="fas fa-camera"></i>
+                    <span>Foto ${index + 1}</span>
+                `;
+            });
+            
+            // Reset create button
+            const createButton = document.getElementById('createDateButton');
+            if (createButton) {
+                createButton.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
+                createButton.onclick = createNewDate;
+            }
+            
+            // Reset form title
+            const formTitle = document.querySelector('#newdate .date-info h2');
+            if (formTitle) {
+                formTitle.textContent = 'Neues Date hinzufügen';
+            }
+        }
+        // ===== END OF NEW CODE =====
+
         // Initialize touch events when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             const lightboxElement = document.getElementById('image-lightbox');
