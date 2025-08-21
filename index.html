@@ -1245,9 +1245,9 @@
             <button class="tab-btn active available" onclick="showTab(event, 'date1')">
                 <i class="fas fa-heart"></i> Erstes Date
                 </button>
-            <button class="tab-btn available" onclick="showTab(event, 'newdate')">
-                <i class="fas fa-plus"></i> Neues Date
-                </button>
+                                <button class="tab-btn available" onclick="showNewDateForm(); showTab(event, 'newdate')">
+                        <i class="fas fa-plus"></i> Neues Date
+                    </button>
             </nav>
 
         <!-- Tab Contents -->
@@ -1375,7 +1375,7 @@
     </div>
 
     <!-- Add Date Button -->
-    <button class="add-date-btn" onclick="showTab(event, 'newdate')" title="Neues Date hinzufügen">
+    <button class="add-date-btn" onclick="showNewDateForm(); showTab(event, 'newdate')" title="Neues Date hinzufügen">
         <i class="fas fa-plus"></i>
     </button>
 
@@ -2989,20 +2989,17 @@
             // Hide new date form when switching tabs
             if (tabId !== 'newdate') {
                 hideNewDateForm();
-            } else {
-                // Reset form to "new date" mode when opening (with delay for DOM)
-                setTimeout(() => {
-                    if (typeof resetNewDateForm === 'function') {
-                        resetNewDateForm();
-                    }
-                }, 100);
             }
+            // Note: Don't auto-reset form when opening newdate tab
+            // This allows editDate() to set up the form properly
         }
 
         // Show new date form
         function showNewDateForm() {
             document.getElementById('newDatePrompt').style.display = 'none';
             document.getElementById('newDateForm').classList.add('active');
+            // Reset form to "new date" mode
+            resetNewDateForm();
         }
 
         // Hide new date form
