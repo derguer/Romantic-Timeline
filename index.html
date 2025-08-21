@@ -3010,8 +3010,13 @@
 
         // Edit existing date
         function editDate(dateId) {
+            console.log('Edit button clicked for dateId:', dateId);
             const dateData = dates[dateId];
-            if (!dateData) return;
+            if (!dateData) {
+                console.error('No date data found for:', dateId);
+                return;
+            }
+            console.log('Date data found:', dateData);
 
             // Pre-fill form with existing data
             document.getElementById('dateTitle').value = dateData.title || '';
@@ -3024,12 +3029,24 @@
             const formTitle = document.querySelector('#newdate h2');
             if (formTitle) {
                 formTitle.textContent = `"${dateData.title}" bearbeiten`;
+                console.log('Form title updated to:', formTitle.textContent);
             }
 
             const submitBtn = document.querySelector('#newdate .comment-btn');
+            const createDateBtn = document.getElementById('createDateButton');
+            
             if (submitBtn) {
                 submitBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
                 submitBtn.onclick = () => updateExistingDate(dateId);
+                console.log('Submit button updated for editing');
+            } else {
+                console.error('Submit button not found');
+            }
+            
+            if (createDateBtn) {
+                createDateBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
+                createDateBtn.onclick = () => updateExistingDate(dateId);
+                console.log('Create date button updated for editing');
             }
 
             // Show form
@@ -3107,9 +3124,16 @@
                 }
 
                 const submitBtn = document.querySelector('#newdate .comment-btn');
+                const createDateBtn = document.getElementById('createDateButton');
+                
                 if (submitBtn) {
                     submitBtn.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
                     submitBtn.onclick = function() { createNewDate(); };
+                }
+                
+                if (createDateBtn) {
+                    createDateBtn.innerHTML = '<i class="fas fa-heart"></i> Date erstellen';
+                    createDateBtn.onclick = function() { createNewDate(); };
                 }
 
                 // Clear form photos safely
