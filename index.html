@@ -1357,7 +1357,7 @@
                         <input type="file" id="formPhotoUpload" accept="image/*" style="display: none;" onchange="handleFormPhotoUpload()">
                     </div>
                     
-                    <button class="comment-btn" onclick="createNewDate()" id="createDateButton">
+                    <button class="comment-btn" id="createDateButton">
                         <i class="fas fa-heart"></i> Date erstellen
                     </button>
                 </div>
@@ -4232,6 +4232,9 @@
             
             // Initialisiere die Galerie sofort (da sie standardmäßig sichtbar ist)
             initGallery();
+            
+            // Initialize form buttons
+            resetNewDateForm();
         });
         
 
